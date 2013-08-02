@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.0//EN"
+  "http://google-web-toolkit.googlecode.com/svn/tags/2.5.0/distro-source/core/src/gwt-module.dtd">
+<module rename-to='canna'>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.google.gwt.activity.Activity' />
+	<inherits name='com.google.gwt.place.Place' />
+	<inherits name="com.google.gwt.inject.Inject" />
+	<!-- <inherits name="com.sencha.gwt.uibinder.UiBinder" /> -->
+	<!-- <inherits name="com.google.gwt.logging.Logging"/> -->
+	<inherits name="com.google.gwt.editor.Editor" />
+
+
+	<inherits name="org.hibernate.validator.HibernateValidator" />
+
+	<inherits name='com.sencha.gxt.ui.GXT' />
+	<!--<inherits name='com.sencha.gxt.theme.gray.Gray'/> -->
+	<inherits name='com.sencha.gxt.theme.blue.Blue' />
+
+	<generate-with class="com.voole.gxt.rebind.MenuViewFinderGenerator">
+		<when-type-assignable class="com.voole.gxt.client.app.MenuViewFinder" />
+	</generate-with>
+
+	<generate-with class="com.voole.gxt.rebind.ClientServiceFinderGenerator">
+		<when-type-assignable
+			class="com.voole.gxt.client.service.ClientServiceFinder" />
+	</generate-with>
+
+	<replace-with class="com.voole.gxt.client.canna.CannaValidatorFactory">
+		<when-type-is class="javax.validation.ValidatorFactory" />
+	</replace-with>
+
+
+
+	<entry-point class='com.voole.gxt.client.Canna' />
+	<source path='client' />
+	<source path='shared' />
+
+
+
+</module>

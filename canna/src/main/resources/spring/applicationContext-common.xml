@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd ">
+
+
+	<bean id="cannaSessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="hibernateProperties">
+			<value>
+				hibernate.connection.driver_class = com.mysql.jdbc.Driver
+				hibernate.connection.url = jdbc:mysql://localhost:3306/canna
+				hibernate.connection.username = root
+				hibernate.connection.password =test
+				hibernate.c3p0.min_size=5
+				hibernate.c3p0.max_size=20
+				hibernate.c3p0.timeout=1800
+				hibernate.c3p0.max_statements=50
+
+				hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+				hibernate.show_sql = true
+				hibernate.default_schema = canna
+				hibernate.max_fetch_depth = 3
+				hibernate.default_batch_fetch_size = 8
+				hibernate.id.new_generator_mappings = true
+				hibernate.current_session_context_class = thread
+
+				hibernate.hbm2ddl.auto = update
+
+				<!--hibernate.current_session_context_class = thread hibernate.transaction.factory_class 
+					= org.hibernate.transaction.JDBCTransactionFactory hibernate.hbm2ddl.import_files 
+					= -->
+			</value>
+		</property>
+		<property name="packagesToScan">
+			<list>
+				<value>com.voole.gxt.shared.entity</value>
+			</list>
+		</property>
+
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="cannaSessionFactory" />
+	</bean>
+
+	<aop:config>
+		<aop:pointcut id="serviceMethods"
+			expression="execution(* com.voole.gxt.server.service..*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+	</aop:config>
+
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="mod*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+	<aop:aspectj-autoproxy />
+	<context:annotation-config />
+	<context:component-scan base-package="com.voole" />
+
+</beans>
