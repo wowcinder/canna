@@ -112,7 +112,6 @@
 					hibernate.c3p0.max_statements=50
 					hibernate.dialect = org.hibernate.dialect.HSQLDialect
 					hibernate.show_sql = true
-					hibernate.default_schema = etl
 					hibernate.max_fetch_depth = 3
 					hibernate.default_batch_fetch_size = 8
 					hibernate.id.new_generator_mappings = true
