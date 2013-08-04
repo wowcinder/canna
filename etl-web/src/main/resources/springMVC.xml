@@ -79,4 +79,11 @@
 	<context:annotation-config />
 	<context:component-scan base-package="xdata.etl.web" />
 
+	<beans profile="junit">
+		<bean class="xdata.etl.web.server.util.SpringMVCGwtRpcProxyTestUtil" />
+	</beans>
+	<beans profile="default">
+		<bean class="xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtil" />
+	</beans>
+
 </beans>
