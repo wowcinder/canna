@@ -16,11 +16,6 @@ import xdata.etl.web.shared.entity.authority.Authority;
 public class AuthorityDaoImpl extends RpcDao<String, Authority> implements
 		AuthorityDao {
 
-	/**
-	 * @param clazz
-	 */
 	public AuthorityDaoImpl() {
-		super(Authority.class);
 	}
-
 }
