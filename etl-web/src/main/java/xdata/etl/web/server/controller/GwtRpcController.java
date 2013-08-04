@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import xdata.etl.web.client.service.TestService;
+import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtil;
 
 import com.google.gwt.user.client.rpc.SerializationException;
@@ -27,6 +27,6 @@ public class GwtRpcController {
 	@RequestMapping("test")
 	public void test(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SerializationException {
-		proxyUtil.getService(TestService.class).processPost(request, response);
+		proxyUtil.getService(AuthorityService.class).processPost(request, response);
 	}
 }

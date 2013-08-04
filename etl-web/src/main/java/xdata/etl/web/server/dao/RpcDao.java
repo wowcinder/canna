@@ -16,7 +16,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
 
@@ -82,11 +81,10 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 	}
 
 	@Override
-	public void delete(Provider<K> k) throws SharedException {
+	public void delete(K k) throws SharedException {
 		Session s = getSession();
 		@SuppressWarnings("unchecked")
-		V lt = (V) s.load(clazz, k.get());
-		System.out.println(k.get());
+		V lt = (V) s.load(clazz, k);
 		s.delete(lt);
 	}
 

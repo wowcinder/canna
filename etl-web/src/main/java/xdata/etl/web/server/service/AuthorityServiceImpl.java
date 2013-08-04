@@ -6,8 +6,9 @@ package xdata.etl.web.server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import xdata.etl.web.client.service.TestService;
+import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.dao.authority.AuthorityDao;
+import xdata.etl.web.shared.annotations.AuthenticationService;
 import xdata.etl.web.shared.entity.authority.Authority;
 
 /**
@@ -15,13 +16,14 @@ import xdata.etl.web.shared.entity.authority.Authority;
  * @date 2013年8月2日
  */
 @Service
-public class TestServiceImpl extends RpcServiceImpl<String, Authority>
-		implements TestService {
-	public TestServiceImpl() {
+@AuthenticationService("权限")
+public class AuthorityServiceImpl extends RpcServiceImpl<String, Authority>
+		implements AuthorityService {
+	public AuthorityServiceImpl() {
 	}
 
 	@Autowired
-	public TestServiceImpl(AuthorityDao rpcDao) {
+	public AuthorityServiceImpl(AuthorityDao rpcDao) {
 		super(rpcDao);
 	}
 }

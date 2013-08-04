@@ -1,8 +1,8 @@
 package xdata.etl.web.client.app;
 
 import xdata.etl.web.client.service.RpcAsyncCallback;
-import xdata.etl.web.client.service.TestService;
-import xdata.etl.web.client.service.TestServiceAsync;
+import xdata.etl.web.client.service.authority.AuthorityService;
+import xdata.etl.web.client.service.authority.AuthorityServiceAsync;
 import xdata.etl.web.shared.Provider;
 
 import com.google.gwt.core.shared.GWT;
@@ -25,7 +25,7 @@ public class EtlApp {
 		});
 		eventBus.fireEvent(new TestEvent("kkkkkkkkkkkkkk"));
 
-		TestServiceAsync service = GWT.create(TestService.class);
+		AuthorityServiceAsync service = GWT.create(AuthorityService.class);
 		service.delete(new Provider<String>("sdfs"),
 				new RpcAsyncCallback<Void>() {
 

@@ -1,12 +1,13 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.client.service;
+package xdata.etl.web.client.service.authority;
 
 import java.util.List;
 
 import org.hibernate.validator.engine.ValidationSupport;
 
+import xdata.etl.web.client.service.RpcService;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.authority.Authority;
 
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author XuehuiHe
  * @date 2013年8月2日
  */
-public interface TestServiceAsync {
+public interface AuthorityServiceAsync {
 
 	/**
 	 * 

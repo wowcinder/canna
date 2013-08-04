@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
-import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
 
@@ -26,7 +25,7 @@ public interface IRpcDao<K extends Serializable, V extends RpcEntity<K>> {
 
 	void delete(List<K> ids) throws SharedException;
 
-	void delete(Provider<K> k) throws SharedException;
+	void delete(K k) throws SharedException;
 
 	List<V> get() throws SharedException;
 
