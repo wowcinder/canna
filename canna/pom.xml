@@ -34,6 +34,12 @@
 			<name>SpringSource Repository</name>
 			<url>http://repo.springsource.org/release</url>
 		</repository>
+
+		<repository>
+			<id>beanlib</id>
+			<name>beanlib</name>
+			<url>http://mvn.sonner.com.br/~maven2</url>
+		</repository>
 	</repositories>
 
 
@@ -242,10 +248,10 @@
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-	<groupId>javax.persistence</groupId>
-	<artifactId>persistence-api</artifactId>
-	<version>1.0.2</version>
-</dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>

@@ -38,6 +38,12 @@
 			<name>kafka</name>
 			<url>https://metamx.artifactoryonline.com/metamx/pub-libs-releases-local</url>
 		</repository>
+
+		<repository>
+			<id>beanlib</id>
+			<name>beanlib</name>
+			<url>http://mvn.sonner.com.br/~maven2</url>
+		</repository>
 	</repositories>
 	<dependencyManagement>
 		<dependencies>
