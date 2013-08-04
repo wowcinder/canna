@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtilInterface;
 
@@ -24,9 +25,19 @@ public class GwtRpcController {
 	public GwtRpcController() {
 	}
 
-	@RequestMapping("test")
-	public void test(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, SerializationException {
-		proxyUtil.getService(AuthorityService.class).processPost(request, response);
+	@RequestMapping("authority")
+	public void authority(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException,
+			SerializationException {
+		proxyUtil.getService(AuthorityService.class).processPost(request,
+				response);
+	}
+
+	@RequestMapping("authority_group")
+	public void authorityGroup(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException,
+			SerializationException {
+		proxyUtil.getService(AuthorityGroupService.class).processPost(request,
+				response);
 	}
 }
