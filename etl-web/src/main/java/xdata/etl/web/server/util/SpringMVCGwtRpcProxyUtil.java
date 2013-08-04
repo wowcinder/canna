@@ -5,12 +5,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
-@Service
-public class SpringMVCGwtRpcProxyUtil {
+public class SpringMVCGwtRpcProxyUtil implements
+		SpringMVCGwtRpcProxyUtilInterface {
 	@Autowired
 	private ServletContext context;
 
@@ -20,6 +19,7 @@ public class SpringMVCGwtRpcProxyUtil {
 		serviceMap = new ConcurrentHashMap<Class<? extends RemoteService>, SpringMVCGwtRpcProxy>();
 	}
 
+	@Override
 	public SpringMVCGwtRpcProxy getService(Class<? extends RemoteService> clazz) {
 		if (!serviceMap.contains(clazz)) {
 			createServiceProxy(clazz);

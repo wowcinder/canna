@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import xdata.etl.web.client.service.authority.AuthorityService;
-import xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtil;
+import xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtilInterface;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 
@@ -19,7 +19,7 @@ import com.google.gwt.user.client.rpc.SerializationException;
 @RequestMapping("etl/rpc")
 public class GwtRpcController {
 	@Autowired
-	private SpringMVCGwtRpcProxyUtil proxyUtil;
+	private SpringMVCGwtRpcProxyUtilInterface proxyUtil;
 
 	public GwtRpcController() {
 	}
