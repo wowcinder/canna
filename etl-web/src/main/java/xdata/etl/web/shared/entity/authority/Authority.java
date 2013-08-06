@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
 import xdata.etl.web.shared.entity.RpcEntity;
@@ -33,6 +35,7 @@ public class Authority implements RpcEntity<String> {
 	private Integer displayOrder;
 	@ManyToOne
 	@JoinColumn(name = "gid")
+	@Fetch(FetchMode.SELECT)
 	private AuthorityGroup group;
 
 	@Override

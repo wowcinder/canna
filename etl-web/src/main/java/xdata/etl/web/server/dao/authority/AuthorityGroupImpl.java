@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import xdata.etl.web.server.dao.RpcDao;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
-import xdata.etl.web.shared.exception.SharedException;
 
 /**
  * @author XuehuiHe
@@ -17,10 +16,5 @@ import xdata.etl.web.shared.exception.SharedException;
 @Repository
 public class AuthorityGroupImpl extends RpcDao<Integer, AuthorityGroup>
 		implements AuthorityGroupDao {
-	
-	@Override
-	public Integer save(AuthorityGroup v) throws SharedException {
-		return super.save(v);
-	}
 
 }
