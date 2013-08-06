@@ -16,5 +16,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpc/authority.rpc")
 public interface AuthorityService extends RpcService<Integer, Authority>,
 		RemoteService {
-	Integer queryByName(Integer agId,String name);
+	Authority queryByName(Integer agId,String name);
 }

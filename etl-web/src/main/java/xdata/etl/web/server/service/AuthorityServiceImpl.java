@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.dao.authority.AuthorityDao;
+import xdata.etl.web.shared.annotations.AuthenticationMethod;
 import xdata.etl.web.shared.annotations.AuthenticationService;
 import xdata.etl.web.shared.entity.authority.Authority;
 
@@ -28,7 +29,8 @@ public class AuthorityServiceImpl extends RpcServiceImpl<Integer, Authority>
 	}
 
 	@Override
-	public Integer queryByName(Integer agId, String name) {
+	@AuthenticationMethod(value = "检查权限名", isOpen = true)
+	public Authority queryByName(Integer agId, String name) {
 		return getRpcDao().queryByName(agId, name);
 	}
 

@@ -53,13 +53,13 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 	}
 
 	@Override
-	public Integer queryByName(Integer agId, String name) {
+	public Authority queryByName(Integer agId, String name) {
 		Session s = getSession();
 		Authority a = (Authority) s.createCriteria(Authority.class)
 				.add(Restrictions.eq("name", name)).createAlias("group", "ag")
 				.add(Restrictions.eq("ag.id", agId)).uniqueResult();
 		if (a != null) {
-			return a.getId();
+			return a;
 		}
 		return null;
 	}

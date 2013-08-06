@@ -108,10 +108,11 @@ public class RefreshAuthority implements InitializingBean {
 			for (Authority authority : authorities) {
 				authority.setDisplayOrder(j);
 				authority.setGroup(ag);
-				Integer aId = aService.queryByName(ag.getId(),
+				Authority old = aService.queryByName(ag.getId(),
 						authority.getName());
-				if (aId != null) {
-					authority.setId(aId);
+				if (old != null) {
+					authority.setId(old.getId());
+					authority.setToken(old.getToken());
 					aService.update(authority);
 				} else {
 					aService.save(authority);

@@ -16,6 +16,7 @@ import xdata.etl.web.shared.entity.authority.Authority;
 public interface AuthorityServiceAsync extends
 		RpcServiceAsync<Integer, Authority> {
 
-	void queryByName(Integer agId, String name, AsyncCallback<Integer> callback);
+	void queryByName(Integer agId, String name,
+			AsyncCallback<Authority> callback);
 
 }
