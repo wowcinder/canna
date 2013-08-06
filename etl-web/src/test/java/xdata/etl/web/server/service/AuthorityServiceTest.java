@@ -3,11 +3,10 @@
  */
 package xdata.etl.web.server.service;
 
-import java.util.List;
-
 import junit.framework.Assert;
 
-import org.hibernate.Hibernate;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,40 +30,79 @@ public class AuthorityServiceTest extends EtlSpringTestCase {
 	@Autowired
 	private AuthorityGroupService agService;
 
-	@Test
-	public void test() {
-		AuthorityGroup ag = new AuthorityGroup();
+	private AuthorityGroup ag;
+	private Authority a;
+
+	@Before
+	public void before() {
+		ag = new AuthorityGroup();
 		ag.setDisplayOrder(1);
-		ag.setName("测试");
+		ag.setName("test");
+		agService.save(ag);
 
-		Integer agId = agService.save(ag);
-
-		Authority a = new Authority();
+		a = new Authority();
 		a.setDisplayOrder(1);
 		a.setGroup(ag);
-		a.setName("ksldjflsjd");
-
+		a.setName("ppppppp");
 		service.save(a);
+	}
 
-		a = service.get(new Provider<Integer>(1));
-		Assert.assertNotNull(a);
-		Assert.assertEquals(a.getName(), "ksldjflsjd");
-		Assert.assertNotNull(a.getGroup());
-		Assert.assertEquals(agId, a.getGroup().getId());
-		Assert.assertEquals(AuthorityUtil.getToken(ag.getName(), a.getName()),
-				a.getToken());
+	@After
+	public void after() {
+		if (ag != null) {
+			agService.delete(new Provider<Integer>(ag.getId()));
+		}
+		if (a != null) {
+			service.delete(new Provider<Integer>(a.getId()));
+		}
 
-		ag = agService.get(new Provider<Integer>(agId));
-		Assert.assertFalse(Hibernate.isInitialized(ag.getAuthorities()));
+	}
 
-		a.setGroup(null);
+	@Test
+	public void testSave() {
+		AuthorityGroup agNew = agService.get(new Provider<Integer>(ag.getId()));
+		Assert.assertEquals(ag.getId(), agNew.getId());
+		Assert.assertEquals(ag.getName(), agNew.getName());
+		Assert.assertEquals(ag.getDisplayOrder(), agNew.getDisplayOrder());
 
+		Authority aNew = service.get(new Provider<Integer>(a.getId()));
+		Assert.assertEquals(a.getId(), aNew.getId());
+		Assert.assertEquals(a.getDisplayOrder(), aNew.getDisplayOrder());
+		Assert.assertEquals(a.getName(), aNew.getName());
+		Assert.assertEquals(a.getToken(), aNew.getToken());
+		Assert.assertEquals(a.getToken(),
+				AuthorityUtil.getToken(a.getGroup().getName(), a.getName()));
+	}
+
+	@Test
+	public void changeName() {
+		ag.setName("name2");
+		agService.update(ag);
+		a = service.get(new Provider<Integer>(a.getId()));
+		Assert.assertEquals(a.getToken(),
+				AuthorityUtil.getToken(a.getGroup().getName(), a.getName()));
+
+		a.setName("name2");
 		service.update(a);
+		a = service.get(new Provider<Integer>(a.getId()));
+		Assert.assertEquals(a.getToken(),
+				AuthorityUtil.getToken(a.getGroup().getName(), a.getName()));
 
+	}
+
+	@Test
+	public void testDelete() {
+		service.delete(new Provider<Integer>(a.getId()));
+		a = service.get(new Provider<Integer>(a.getId()));
+		Assert.assertNull(a);
+	}
+
+	@Test
+	public void testDelete2() {
 		agService.delete(new Provider<Integer>(ag.getId()));
-
-		List<Authority> list = service.get();
-		Assert.assertEquals(1, list.size());
-
+		ag = agService.get(new Provider<Integer>(ag.getId()));
+		Assert.assertNull(ag);
+		a = service.get(new Provider<Integer>(a.getId()));
+		Assert.assertNull(a);
 	}
 }

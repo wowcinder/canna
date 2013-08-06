@@ -5,6 +5,7 @@ package xdata.etl.web.shared.entity.authority;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -32,7 +33,7 @@ public class AuthorityGroup extends IdentityRpcEntity<Integer> {
 	@Column(name = "display_order")
 	private Integer displayOrder;
 
-	@OneToMany(mappedBy = "group")
+	@OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
 	private List<Authority> authorities;
 
 	public String getName() {

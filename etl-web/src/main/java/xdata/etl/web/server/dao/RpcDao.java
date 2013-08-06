@@ -12,6 +12,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.hibernate.Criteria;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -66,7 +67,7 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 	public void update(V v) throws SharedException {
 		validateBean(v);
 		Session s = getSession();
-		s.update(v);
+		s.merge(v);
 	}
 
 	@Override
@@ -84,8 +85,11 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 	public void delete(K k) throws SharedException {
 		Session s = getSession();
 		@SuppressWarnings("unchecked")
-		V lt = (V) s.load(clazz, k);
-		s.delete(lt);
+		V v = (V) s.load(clazz, k);
+		try {
+			s.delete(v);
+		} catch (ObjectNotFoundException e) {
+		}
 	}
 
 	@SuppressWarnings("unchecked")
