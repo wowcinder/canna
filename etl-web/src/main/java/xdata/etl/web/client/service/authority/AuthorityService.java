@@ -14,6 +14,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * @date 2013年8月2日
  */
 @RemoteServiceRelativePath("rpc/authority.rpc")
-public interface AuthorityService extends RpcService<String, Authority>,
+public interface AuthorityService extends RpcService<Integer, Authority>,
 		RemoteService {
 }

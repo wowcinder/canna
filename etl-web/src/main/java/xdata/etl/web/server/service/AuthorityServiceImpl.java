@@ -17,7 +17,7 @@ import xdata.etl.web.shared.entity.authority.Authority;
  */
 @Service
 @AuthenticationService("权限")
-public class AuthorityServiceImpl extends RpcServiceImpl<String, Authority>
+public class AuthorityServiceImpl extends RpcServiceImpl<Integer, Authority>
 		implements AuthorityService {
 	public AuthorityServiceImpl() {
 	}

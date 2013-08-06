@@ -12,6 +12,6 @@ import xdata.etl.web.shared.entity.authority.Authority;
  *
  */
 public interface AuthorityServiceAsync extends
-		RpcServiceAsync<String, Authority> {
+		RpcServiceAsync<Integer, Authority> {
 
 }

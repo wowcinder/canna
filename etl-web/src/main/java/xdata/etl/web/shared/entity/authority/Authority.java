@@ -5,17 +5,14 @@ package xdata.etl.web.shared.entity.authority;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
-import xdata.etl.web.shared.entity.RpcEntity;
+import xdata.etl.web.shared.entity.IdentityRpcEntity;
 
 /**
  * @author XuehuiHe
@@ -23,11 +20,10 @@ import xdata.etl.web.shared.entity.RpcEntity;
  */
 @Entity
 @Table(name = "authority")
-public class Authority implements RpcEntity<String> {
+public class Authority extends IdentityRpcEntity<Integer> {
 	private static final long serialVersionUID = -7252452619145327784L;
-	@Id
-	@Column(name = "token")
-	private String id;
+	@Column(unique = true, nullable = false)
+	private String token;
 	@Column(length = 20, nullable = false)
 	@Length(min = 1, max = 20)
 	@NotNull
@@ -35,18 +31,7 @@ public class Authority implements RpcEntity<String> {
 	private Integer displayOrder;
 	@ManyToOne
 	@JoinColumn(name = "gid")
-	@Fetch(FetchMode.SELECT)
 	private AuthorityGroup group;
-
-	@Override
-	public void setId(String k) {
-		this.id = k;
-	}
-
-	@Override
-	public String getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;
@@ -70,6 +55,14 @@ public class Authority implements RpcEntity<String> {
 
 	public void setGroup(AuthorityGroup group) {
 		this.group = group;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

@@ -37,7 +37,6 @@ public class AuthorityGroupServiceTest extends EtlSpringTestCase {
 		Authority a = new Authority();
 		a.setDisplayOrder(1);
 		a.setName("kkkkk");
-		a.setId("pppppp");
 		a.setGroup(ag);
 		list.add(a);
 

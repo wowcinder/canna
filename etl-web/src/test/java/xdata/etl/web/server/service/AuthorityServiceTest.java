@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.EtlSpringTestCase;
+import xdata.etl.web.server.util.AuthorityUtil;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
@@ -41,17 +42,17 @@ public class AuthorityServiceTest extends EtlSpringTestCase {
 		Authority a = new Authority();
 		a.setDisplayOrder(1);
 		a.setGroup(ag);
-		a.setId("ksldjflsjdlf");
 		a.setName("ksldjflsjd");
 
 		service.save(a);
 
-		a = service.get(new Provider<String>("ksldjflsjdlf"));
+		a = service.get(new Provider<Integer>(1));
 		Assert.assertNotNull(a);
 		Assert.assertEquals(a.getName(), "ksldjflsjd");
 		Assert.assertNotNull(a.getGroup());
-		Hibernate.initialize(a.getGroup());
 		Assert.assertEquals(agId, a.getGroup().getId());
+		Assert.assertEquals(AuthorityUtil.getToken(ag.getName(), a.getName()),
+				a.getToken());
 
 		ag = agService.get(new Provider<Integer>(agId));
 		Assert.assertFalse(Hibernate.isInitialized(ag.getAuthorities()));

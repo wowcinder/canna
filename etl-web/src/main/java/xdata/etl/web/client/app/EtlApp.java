@@ -1,11 +1,5 @@
 package xdata.etl.web.client.app;
 
-import xdata.etl.web.client.service.RpcAsyncCallback;
-import xdata.etl.web.client.service.authority.AuthorityService;
-import xdata.etl.web.client.service.authority.AuthorityServiceAsync;
-import xdata.etl.web.shared.Provider;
-
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.inject.Inject;
@@ -24,16 +18,6 @@ public class EtlApp {
 			}
 		});
 		eventBus.fireEvent(new TestEvent("kkkkkkkkkkkkkk"));
-
-		AuthorityServiceAsync service = GWT.create(AuthorityService.class);
-		service.delete(new Provider<String>("sdfs"),
-				new RpcAsyncCallback<Void>() {
-
-					@Override
-					public void _onSuccess(Void t) {
-
-					}
-				});
 
 	}
 
