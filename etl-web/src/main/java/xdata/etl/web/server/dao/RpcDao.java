@@ -67,7 +67,7 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 	public void update(V v) throws SharedException {
 		validateBean(v);
 		Session s = getSession();
-		s.merge(v);
+		s.update(v);
 	}
 
 	@Override

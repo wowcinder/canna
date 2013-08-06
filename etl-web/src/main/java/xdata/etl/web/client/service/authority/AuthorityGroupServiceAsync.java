@@ -3,6 +3,8 @@
  */
 package xdata.etl.web.client.service.authority;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import xdata.etl.web.client.service.RpcServiceAsync;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 
@@ -13,5 +15,7 @@ import xdata.etl.web.shared.entity.authority.AuthorityGroup;
  */
 public interface AuthorityGroupServiceAsync extends
 		RpcServiceAsync<Integer, AuthorityGroup> {
+
+	void queryByName(String name, AsyncCallback<Integer> callback);
 
 }

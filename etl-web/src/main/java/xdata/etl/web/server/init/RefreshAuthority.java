@@ -12,12 +12,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import xdata.etl.web.client.service.authority.AuthorityGroupService;
+import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.util.ClassScaner;
 import xdata.etl.web.server.util.ClassScaner.ClassFilter;
 import xdata.etl.web.shared.annotations.AuthenticationMethod;
 import xdata.etl.web.shared.annotations.AuthenticationService;
+import xdata.etl.web.shared.entity.authority.Authority;
+import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 
 /**
  * @author XuehuiHe
@@ -26,6 +31,10 @@ import xdata.etl.web.shared.annotations.AuthenticationService;
 @Component
 public class RefreshAuthority implements InitializingBean {
 	private ClassScaner scanner;
+	@Autowired
+	private AuthorityService aService;
+	@Autowired
+	private AuthorityGroupService agService;
 
 	private static ClassFilter<Class<?>> filter = new ClassFilter<Class<?>>() {
 
@@ -55,7 +64,7 @@ public class RefreshAuthority implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		List<Class<?>> list = filter.filte(this.scanner);
 		Set<String> agNames = new HashSet<String>();
-		Map<String, HashSet<String>> map = new HashMap<String, HashSet<String>>();
+		Map<String, HashSet<Authority>> map = new HashMap<String, HashSet<Authority>>();
 
 		for (Class<?> clazz : list) {
 			AuthenticationService s = clazz
@@ -66,18 +75,49 @@ public class RefreshAuthority implements InitializingBean {
 			}
 			agNames.add(agName);
 			if (!map.containsKey(agName)) {
-				map.put(agName, new HashSet<String>());
+				map.put(agName, new HashSet<Authority>());
 			}
 			Method[] methods = clazz.getMethods();
 			for (Method method : methods) {
 				AuthenticationMethod m = method
 						.getAnnotation(AuthenticationMethod.class);
 				if (m != null) {
-					map.get(agName).add(m.value());
+					Authority a = new Authority();
+					a.setName(m.value());
+					a.setOpen(m.isOpen());
+					map.get(agName).add(a);
 				}
 			}
 		}
-		System.out.println(agNames);
-		System.out.println(map);
+		int i = 1;
+		for (String agName : agNames) {
+			AuthorityGroup ag = new AuthorityGroup();
+			ag.setName(agName);
+			ag.setDisplayOrder(i);
+			Integer agId = agService.queryByName(agName);
+			if (agId == null) {
+				agService.save(ag);
+			} else {
+				ag.setId(agId);
+				agService.update(ag);
+			}
+			i++;
+
+			HashSet<Authority> authorities = map.get(agName);
+			int j = 1;
+			for (Authority authority : authorities) {
+				authority.setDisplayOrder(j);
+				authority.setGroup(ag);
+				Integer aId = aService.queryByName(ag.getId(),
+						authority.getName());
+				if (aId != null) {
+					authority.setId(aId);
+					aService.update(authority);
+				} else {
+					aService.save(authority);
+				}
+				j++;
+			}
+		}
 	}
 }

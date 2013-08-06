@@ -26,4 +26,14 @@ public class AuthorityServiceImpl extends RpcServiceImpl<Integer, Authority>
 	public AuthorityServiceImpl(AuthorityDao rpcDao) {
 		super(rpcDao);
 	}
+
+	@Override
+	public Integer queryByName(Integer agId, String name) {
+		return getRpcDao().queryByName(agId, name);
+	}
+
+	@Override
+	public AuthorityDao getRpcDao() {
+		return (AuthorityDao) super.getRpcDao();
+	}
 }

@@ -11,5 +11,5 @@ import xdata.etl.web.shared.entity.authority.Authority;
  * @date 2013年8月2日
  */
 public interface AuthorityDao extends IRpcDao<Integer, Authority> {
-
+	Integer queryByName(Integer agId,String name);
 }

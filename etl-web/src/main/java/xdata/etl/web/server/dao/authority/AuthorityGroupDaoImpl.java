@@ -4,6 +4,7 @@
 package xdata.etl.web.server.dao.authority;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import xdata.etl.web.server.dao.RpcDao;
@@ -35,6 +36,18 @@ public class AuthorityGroupDaoImpl extends RpcDao<Integer, AuthorityGroup>
 				session.update(authority);
 			}
 		}
-		super.update(v);
+		session.merge(v);
+	}
+
+	@Override
+	public Integer queryByName(String name) {
+		Session s = getSession();
+		AuthorityGroup ag = (AuthorityGroup) s
+				.createCriteria(AuthorityGroup.class)
+				.add(Restrictions.eq("name", name)).uniqueResult();
+		if (ag != null) {
+			return ag.getId();
+		}
+		return null;
 	}
 }

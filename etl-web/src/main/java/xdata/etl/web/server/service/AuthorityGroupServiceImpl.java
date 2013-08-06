@@ -11,7 +11,6 @@ import xdata.etl.web.server.dao.authority.AuthorityGroupDao;
 import xdata.etl.web.shared.annotations.AuthenticationService;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 
-
 /**
  * @author XuehuiHe
  * @date 2013年8月4日
@@ -24,9 +23,20 @@ public class AuthorityGroupServiceImpl extends
 		AuthorityGroupService {
 	public AuthorityGroupServiceImpl() {
 	}
+
 	@Autowired
 	public AuthorityGroupServiceImpl(AuthorityGroupDao rpcDao) {
 		super(rpcDao);
+	}
+
+	@Override
+	public Integer queryByName(String name) {
+		return getRpcDao().queryByName(name);
+	}
+
+	@Override
+	public AuthorityGroupDao getRpcDao() {
+		return (AuthorityGroupDao) super.getRpcDao();
 	}
 
 }

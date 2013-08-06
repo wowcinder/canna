@@ -4,6 +4,7 @@
 package xdata.etl.web.server.dao.authority;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import xdata.etl.web.server.dao.RpcDao;
@@ -31,12 +32,12 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 
 	@Override
 	public void update(Authority v) throws SharedException {
-		Session sesion = getSession();
-		Authority old = (Authority) sesion.load(Authority.class, v.getId());
+		Session s = getSession();
+		Authority old = (Authority) s.load(Authority.class, v.getId());
 		if (!old.getName().equals(v.getName())) {
 			refreshToken(v);
 		}
-		super.update(v);
+		s.merge(v);
 	}
 
 	private void refreshToken(Authority v) {
@@ -49,5 +50,17 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 					.getGroup().getId()));
 		}
 		v.setToken(AuthorityUtil.getToken(v.getGroup().getName(), v.getName()));
+	}
+
+	@Override
+	public Integer queryByName(Integer agId, String name) {
+		Session s = getSession();
+		Authority a = (Authority) s.createCriteria(Authority.class)
+				.add(Restrictions.eq("name", name)).createAlias("group", "ag")
+				.add(Restrictions.eq("ag.id", agId)).uniqueResult();
+		if (a != null) {
+			return a.getId();
+		}
+		return null;
 	}
 }

@@ -35,6 +35,7 @@ public class AuthorityAspect implements Ordered {
 			throw (SharedException) ex;
 		}
 		System.out.println("--------------Exception------------");
+		ex.printStackTrace();
 		throw new SharedException(ExceptionUtils.getRootCauseMessage(ex));
 	}
 

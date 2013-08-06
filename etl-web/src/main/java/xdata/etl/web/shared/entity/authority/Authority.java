@@ -33,6 +33,9 @@ public class Authority extends IdentityRpcEntity<Integer> {
 	@JoinColumn(name = "gid")
 	private AuthorityGroup group;
 
+	@Column(columnDefinition = "boolean")
+	private Boolean isOpen = false;
+
 	public String getName() {
 		return name;
 	}
@@ -65,4 +68,38 @@ public class Authority extends IdentityRpcEntity<Integer> {
 		this.token = token;
 	}
 
+	/**
+	 * @return the isOpen
+	 */
+	public Boolean isOpen() {
+		return isOpen;
+	}
+
+	/**
+	 * @param isOpen
+	 *            the isOpen to set
+	 */
+	public void setOpen(Boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof Authority) {
+			Authority that = (Authority) obj;
+			return this.getName().equals(that.getName());
+		}
+		return false;
+	}
 }
