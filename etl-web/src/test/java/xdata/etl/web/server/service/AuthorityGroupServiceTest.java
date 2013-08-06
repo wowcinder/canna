@@ -45,6 +45,9 @@ public class AuthorityGroupServiceTest extends EtlSpringTestCase {
 
 		Integer agId = null;
 		agId = service.save(ag);
+		
+		ag = service.get(new Provider<Integer>(agId));
+		Assert.assertEquals(agId, ag.getId());
 
 		List<AuthorityGroup> agList = service.get();
 		Assert.assertNotNull(agId);

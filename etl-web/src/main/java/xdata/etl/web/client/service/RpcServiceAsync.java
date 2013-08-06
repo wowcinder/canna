@@ -27,6 +27,8 @@ public interface RpcServiceAsync<K extends Serializable, V extends RpcEntity<K>>
 
 	void get(AsyncCallback<List<V>> callback);
 
+	void get(Provider<K> k, AsyncCallback<V> callback);
+
 	void save(V v, AsyncCallback<K> callback);
 
 	void saveAndReturn(V v, AsyncCallback<V> callback);

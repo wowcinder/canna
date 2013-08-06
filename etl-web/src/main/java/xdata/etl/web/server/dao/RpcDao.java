@@ -104,4 +104,12 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 		super.setSessionFactory(sf);
 	}
 
+	@Override
+	public V get(K k) throws SharedException {
+		Session s = getSession();
+		@SuppressWarnings("unchecked")
+		V lt = (V) s.get(clazz, k);
+		return lt;
+	}
+
 }

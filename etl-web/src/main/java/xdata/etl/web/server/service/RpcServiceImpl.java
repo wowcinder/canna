@@ -78,4 +78,10 @@ public class RpcServiceImpl<K extends Serializable, V extends RpcEntity<K>>
 	public IRpcDao<K, V> getRpcDao() {
 		return rpcDao;
 	}
+
+	@Override
+	@AuthenticationMethod("查询")
+	public V get(Provider<K> k) throws SharedException {
+		return getRpcDao().get(k.get());
+	}
 }

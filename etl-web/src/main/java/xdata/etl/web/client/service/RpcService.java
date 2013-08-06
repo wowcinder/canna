@@ -24,6 +24,8 @@ public interface RpcService<K extends Serializable, V extends RpcEntity<K>> {
 	void delete(Provider<K> k) throws SharedException;
 
 	List<V> get() throws SharedException;
+	
+	V get(Provider<K> k) throws SharedException;
 
 	ValidationSupport dummy();
 }

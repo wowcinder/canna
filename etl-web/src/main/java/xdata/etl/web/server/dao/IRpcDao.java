@@ -28,5 +28,7 @@ public interface IRpcDao<K extends Serializable, V extends RpcEntity<K>> {
 	void delete(K k) throws SharedException;
 
 	List<V> get() throws SharedException;
+	
+	V get(K k) throws SharedException;
 
 }
