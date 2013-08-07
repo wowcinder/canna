@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="xdate.etl.test.entity">
+
+	<class name="Event" table="EVENTS">
+		<id name="id" column="EVENT_ID">
+			<generator class="native" />
+		</id>
+	</class>
+	<!-- 
+	<class name="Person">
+		<id name="id" column="personId">
+			<generator class="native" />
+		</id>
+		<many-to-one name="address" column="addressId" not-null="true" />
+	</class>
+
+	<class name="Address">
+		<id name="id" column="addressId">
+			<generator class="native" />
+		</id>
+	</class> -->
+	
+	<class name="Person">
+    <id name="id" column="personId">
+        <generator class="native"/>
+    </id>
+</class>
+
+<class name="Address">
+    <id name="id" column="personId">
+        <generator class="foreign">
+            <param name="property">person</param>
+        </generator>
+    </id>
+    <one-to-one name="person" constrained="true"/>
+</class>
+
+</hibernate-mapping>
