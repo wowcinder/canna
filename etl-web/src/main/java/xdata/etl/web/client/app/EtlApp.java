@@ -1,5 +1,11 @@
 package xdata.etl.web.client.app;
 
+import xdata.etl.web.client.service.RpcAsyncCallback;
+import xdata.etl.web.client.service.user.UserService;
+import xdata.etl.web.client.service.user.UserServiceAsync;
+import xdata.etl.web.shared.entity.user.User;
+
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.inject.Inject;
@@ -18,6 +24,19 @@ public class EtlApp {
 			}
 		});
 		eventBus.fireEvent(new TestEvent("kkkkkkkkkkkkkk"));
+
+		UserServiceAsync service = GWT.create(UserService.class);
+
+		User user = new User();
+		user.setEmail("kk@kk.com");
+		user.setPassword("kkk");
+		service.saveAndReturn(user, new RpcAsyncCallback<User>() {
+
+			@Override
+			public void _onSuccess(User t) {
+				Info.display("ID", t.getId() + "");
+			}
+		});
 
 	}
 
