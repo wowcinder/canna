@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
+import org.hibernate.SessionFactory;
+
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
 
@@ -28,7 +30,8 @@ public interface IRpcDao<K extends Serializable, V extends RpcEntity<K>> {
 	void delete(K k) throws SharedException;
 
 	List<V> get() throws SharedException;
-	
+
 	V get(K k) throws SharedException;
 
+	public SessionFactory getSessionFactory();
 }

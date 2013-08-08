@@ -4,6 +4,7 @@
 package xdata.etl.web.server.dao.user;
 
 import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 
 import xdata.etl.web.server.dao.RpcDao;
 import xdata.etl.web.server.util.PasswordUtil;
@@ -14,6 +15,7 @@ import xdata.etl.web.shared.exception.SharedException;
  * @author XuehuiHe
  * @date 2013年8月8日
  */
+@Repository
 public class UserDaoImpl extends RpcDao<Integer, User> implements UserDao {
 	@Override
 	public User saveAndReturn(User v) throws SharedException {

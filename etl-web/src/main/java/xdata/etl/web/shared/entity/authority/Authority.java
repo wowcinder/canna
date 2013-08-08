@@ -49,9 +49,7 @@ public class Authority extends IdentityRpcEntity<Integer> {
 	@OneToMany(mappedBy = "requireAuthority", cascade = { CascadeType.REMOVE,
 			CascadeType.DETACH })
 	private Set<Menu> menus;
-	@ManyToMany
-	(mappedBy = "extraAuthorities", cascade = { CascadeType.REMOVE,
-			CascadeType.DETACH })
+	@ManyToMany(mappedBy = "extraAuthorities", cascade = { CascadeType.MERGE })
 	private Set<User> users;
 	@ManyToMany(mappedBy = "authorities", cascade = { CascadeType.REMOVE,
 			CascadeType.DETACH })

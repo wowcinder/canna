@@ -3,6 +3,9 @@
  */
 package xdata.etl.web.server.dao.authority;
 
+import java.util.List;
+
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,9 @@ import xdata.etl.web.server.dao.RpcDao;
 import xdata.etl.web.server.util.AuthorityUtil;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
+import xdata.etl.web.shared.entity.menu.Menu;
+import xdata.etl.web.shared.entity.user.User;
+import xdata.etl.web.shared.entity.user.UserGroup;
 import xdata.etl.web.shared.exception.SharedException;
 
 /**
@@ -22,6 +28,33 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 		AuthorityDao {
 
 	public AuthorityDaoImpl() {
+	}
+
+	@Override
+	public void delete(Integer k) throws SharedException {
+		Session s = getSession();
+		Authority a = (Authority) s.load(Authority.class, k);
+		try {
+			for (User u : a.getUsers()) {
+				u.getExtraAuthorities().remove(a);
+			}
+			for (UserGroup userGroup : a.getUserGroups()) {
+				userGroup.getAuthorities().remove(a);
+			}
+			for (Menu menu : a.getMenus()) {
+				menu.setRequireAuthority(null);
+			}
+			s.delete(a);
+		} catch (ObjectNotFoundException e) {
+		}
+
+	}
+
+	@Override
+	public void delete(List<Integer> ids) throws SharedException {
+		for (Integer k : ids) {
+			this.delete(k);
+		}
 	}
 
 	@Override
@@ -62,5 +95,11 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 			return a;
 		}
 		return null;
+	}
+
+	@Override
+	public void merge(Authority authority) {
+		Session s = getSession();
+		s.merge(authority);
 	}
 }
