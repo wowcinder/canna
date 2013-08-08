@@ -5,6 +5,7 @@ package xdata.etl.web.server.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -34,9 +35,11 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 
 	@SuppressWarnings("unchecked")
 	public RpcDao() {
-		ParameterizedType pt = (ParameterizedType) this.getClass()
-				.getGenericSuperclass();
-		this.clazz = (Class<V>) pt.getActualTypeArguments()[1];
+		Type type = this.getClass().getGenericSuperclass();
+		if (type instanceof ParameterizedType) {
+			ParameterizedType pt = (ParameterizedType) type;
+			this.clazz = (Class<V>) pt.getActualTypeArguments()[1];
+		}
 	}
 
 	public void validateBean(V t) {

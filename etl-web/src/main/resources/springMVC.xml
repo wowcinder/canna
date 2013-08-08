@@ -20,12 +20,6 @@
 		<property name="sessionFactory" ref="etlSessionFactory" />
 	</bean>
 
-	<aop:config>
-		<aop:pointcut id="serviceMethods"
-			expression="execution(* xdata.etl.web.server.service..*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
-	</aop:config>
-
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="add*" propagation="REQUIRED" />
@@ -48,6 +42,12 @@
 
 	<beans profile="default">
 		<bean class="xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtil" />
+
+		<aop:config>
+			<aop:pointcut id="serviceMethods"
+				expression="execution(* xdata.etl.web.server.service..*(..))" />
+			<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+		</aop:config>
 
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -94,6 +94,13 @@
 
 	<beans profile="junit">
 		<bean class="xdata.etl.web.server.util.SpringMVCGwtRpcProxyTestUtil" />
+
+		<aop:config>
+			<aop:pointcut id="serviceMethods"
+				expression="execution(* xdata.etl.web.server.dao..*Dao.*(..))" />
+			<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+		</aop:config>
+
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 			<property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver" />
 			<property name="url" value="jdbc:hsqldb:mem:etl" />
@@ -136,6 +143,13 @@
 
 	<beans profile="create_schema">
 		<bean class="xdata.etl.web.server.util.SpringMVCGwtRpcProxyTestUtil" />
+
+		<aop:config>
+			<aop:pointcut id="serviceMethods"
+				expression="execution(* xdata.etl.web.server.dao..*Dao.*(..))" />
+			<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+		</aop:config>
+
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 			<property name="url"
