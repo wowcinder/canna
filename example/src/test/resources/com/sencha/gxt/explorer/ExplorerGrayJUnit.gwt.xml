@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <!-- Inherit our applications main module.                      -->
+  <inherits name='com.sencha.gxt.explorer.ExplorerGray' />
+
+  <!-- Specify the path to any remote services.                   -->
+  <servlet path="/ExplorerGray/greet" class="com.sencha.gxt.explorer.server.GreetingServiceImpl" />
+
+</module>
