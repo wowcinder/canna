@@ -16,6 +16,7 @@ import org.hibernate.Criteria;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
@@ -24,7 +25,7 @@ import xdata.etl.web.shared.exception.SharedException;
  * @author XuehuiHe
  * @date 2013年8月2日
  */
-public class RpcDao<K extends Serializable, V extends RpcEntity<K>> implements
+public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends HibernateDaoSupport implements
 		IRpcDao<K, V> {
 
 	public final static Validator validator = Validation
@@ -41,12 +42,6 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> implements
 		}
 	}
 
-	@Resource
-	private SessionFactory sessionFactory;
-
-	protected Session getSession() {
-		return this.sessionFactory.getCurrentSession();
-	}
 
 	public void validateBean(V t) {
 		return;
@@ -115,10 +110,10 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> implements
 		return getSession().createCriteria(clazz);
 	}
 
-	// @Resource
-	// public void setSessionFactory2(SessionFactory sf) {
-	// super.setSessionFactory(sf);
-	// }
+	@Resource
+	public void setSessionFactory2(SessionFactory sf) {
+		super.setSessionFactory(sf);
+	}
 
 	@Override
 	public V get(K k) throws SharedException {
@@ -126,11 +121,6 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> implements
 		@SuppressWarnings("unchecked")
 		V lt = (V) s.get(clazz, k);
 		return lt;
-	}
-
-	@Override
-	public SessionFactory getSessionFactory() {
-		return this.sessionFactory;
 	}
 
 

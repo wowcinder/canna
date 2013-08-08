@@ -16,6 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:springMVC.xml"})
 @ActiveProfiles("junit")
-public class EtlSpringTestCase {
+public abstract class EtlSpringTestCase {
 
 }
