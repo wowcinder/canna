@@ -1,8 +1,11 @@
 package xdata.etl.web.client.app;
 
 import xdata.etl.web.client.service.RpcAsyncCallback;
+import xdata.etl.web.client.service.menu.MenuService;
+import xdata.etl.web.client.service.menu.MenuServiceAsync;
 import xdata.etl.web.client.service.user.UserService;
 import xdata.etl.web.client.service.user.UserServiceAsync;
+import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.entity.user.User;
 
 import com.google.gwt.core.shared.GWT;
@@ -35,6 +38,20 @@ public class EtlApp {
 			@Override
 			public void _onSuccess(User t) {
 				Info.display("ID", t.getId() + "");
+			}
+		});
+
+		MenuServiceAsync s = GWT.create(MenuService.class);
+		Menu menu = new Menu();
+		menu.setName("测试");
+		menu.setPos(1);
+		menu.setToken("kkkk");
+
+		s.save(menu, new RpcAsyncCallback<Integer>() {
+
+			@Override
+			public void _onSuccess(Integer t) {
+				Info.display("ID", t + "");
 			}
 		});
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 
 import xdata.etl.web.server.dao.RpcDao;
 import xdata.etl.web.shared.entity.menu.Menu;
@@ -17,6 +18,7 @@ import xdata.etl.web.shared.exception.SharedException;
  * @author XuehuiHe
  * @date 2013年8月8日
  */
+@Repository
 public class MenuGroupDaoImpl extends RpcDao<Integer, MenuGroup> implements
 		MenuGroupDao {
 	@Override

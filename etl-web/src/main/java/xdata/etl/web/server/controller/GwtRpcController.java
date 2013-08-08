@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.client.service.authority.AuthorityService;
+import xdata.etl.web.client.service.menu.MenuGroupService;
+import xdata.etl.web.client.service.menu.MenuService;
 import xdata.etl.web.client.service.user.UserGroupService;
 import xdata.etl.web.client.service.user.UserService;
 import xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtilInterface;
@@ -54,6 +56,20 @@ public class GwtRpcController {
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
 		proxyUtil.getService(UserGroupService.class).processPost(request,
+				response);
+	}
+
+	@RequestMapping("menu")
+	public void menu(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException, SerializationException {
+		proxyUtil.getService(MenuService.class).processPost(request, response);
+	}
+
+	@RequestMapping("menu_group")
+	public void menuGroup(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException,
+			SerializationException {
+		proxyUtil.getService(MenuGroupService.class).processPost(request,
 				response);
 	}
 }
