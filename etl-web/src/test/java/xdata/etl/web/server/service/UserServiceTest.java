@@ -9,6 +9,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import xdata.etl.web.server.dao.authority.AuthorityDao;
 import xdata.etl.web.server.dao.authority.AuthorityGroupDao;
 import xdata.etl.web.server.dao.user.UserDao;
 import xdata.etl.web.server.dao.user.UserGroupDao;
-import xdata.etl.web.server.dao.user.UserGroupDaoImpl;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.user.User;
 
@@ -35,6 +35,8 @@ public class UserServiceTest extends EtlSpringTestCase {
 	public UserDao userDao;
 	@Autowired
 	public UserGroupDao userGroupDao;
+	@Autowired
+	public SessionFactory sf;
 
 	@Test
 	public void test() {
@@ -51,8 +53,7 @@ public class UserServiceTest extends EtlSpringTestCase {
 		Assert.assertEquals(1, u.getExtraAuthorities().size());
 		authDao.delete(auth.getId());
 
-		UserGroupDaoImpl impl = (UserGroupDaoImpl) userGroupDao;
-		Session s = impl.getSessionFactory().openSession();
+		Session s = sf.openSession();
 		s.beginTransaction();
 		u = (User) s.createCriteria(User.class)
 				.setFetchMode("extraAuthorities", org.hibernate.FetchMode.JOIN)

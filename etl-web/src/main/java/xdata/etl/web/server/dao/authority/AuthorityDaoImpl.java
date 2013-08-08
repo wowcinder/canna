@@ -96,10 +96,4 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 		}
 		return null;
 	}
-
-	@Override
-	public void merge(Authority authority) {
-		Session s = getSession();
-		s.merge(authority);
-	}
 }

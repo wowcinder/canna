@@ -12,6 +12,4 @@ import xdata.etl.web.shared.entity.authority.Authority;
  */
 public interface AuthorityDao extends IRpcDao<Integer, Authority> {
 	Authority queryByName(Integer agId,String name);
-	
-	void merge(Authority authority);
 }
