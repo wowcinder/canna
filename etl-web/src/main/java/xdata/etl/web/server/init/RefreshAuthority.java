@@ -84,7 +84,7 @@ public class RefreshAuthority implements InitializingBean {
 				if (m != null) {
 					Authority a = new Authority();
 					a.setName(m.value());
-					a.setOpen(m.isOpen());
+					a.setIsOpen(m.isOpen());
 					map.get(agName).add(a);
 				}
 			}

@@ -3,16 +3,24 @@
  */
 package xdata.etl.web.shared.entity.authority;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 import xdata.etl.web.shared.entity.IdentityRpcEntity;
+import xdata.etl.web.shared.entity.menu.Menu;
+import xdata.etl.web.shared.entity.user.User;
+import xdata.etl.web.shared.entity.user.UserGroup;
 
 /**
  * @author XuehuiHe
@@ -22,7 +30,9 @@ import xdata.etl.web.shared.entity.IdentityRpcEntity;
 @Table(name = "authority")
 public class Authority extends IdentityRpcEntity<Integer> {
 	private static final long serialVersionUID = -7252452619145327784L;
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, length = 32)
+	@NotNull
+	@Length(min = 32, max = 32)
 	private String token;
 	@Column(length = 20, nullable = false)
 	@Length(min = 1, max = 20)
@@ -35,6 +45,17 @@ public class Authority extends IdentityRpcEntity<Integer> {
 
 	@Column(columnDefinition = "boolean")
 	private Boolean isOpen = false;
+
+	@OneToMany(mappedBy = "requireAuthority", cascade = { CascadeType.REMOVE,
+			CascadeType.DETACH })
+	private Set<Menu> menus;
+	@ManyToMany
+	(mappedBy = "extraAuthorities", cascade = { CascadeType.REMOVE,
+			CascadeType.DETACH })
+	private Set<User> users;
+	@ManyToMany(mappedBy = "authorities", cascade = { CascadeType.REMOVE,
+			CascadeType.DETACH })
+	private Set<UserGroup> userGroups;
 
 	public String getName() {
 		return name;
@@ -68,24 +89,25 @@ public class Authority extends IdentityRpcEntity<Integer> {
 		this.token = token;
 	}
 
-	/**
-	 * @return the isOpen
-	 */
-	public Boolean isOpen() {
+	public Boolean getIsOpen() {
 		return isOpen;
 	}
 
-	/**
-	 * @param isOpen
-	 *            the isOpen to set
-	 */
-	public void setOpen(Boolean isOpen) {
+	public void setIsOpen(Boolean isOpen) {
 		this.isOpen = isOpen;
 	}
 
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+
+	public Set<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(Set<Menu> menus) {
+		this.menus = menus;
 	}
 
 	@Override
@@ -101,5 +123,21 @@ public class Authority extends IdentityRpcEntity<Integer> {
 			return this.getName().equals(that.getName());
 		}
 		return false;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public Set<UserGroup> getUserGroups() {
+		return userGroups;
+	}
+
+	public void setUserGroups(Set<UserGroup> userGroups) {
+		this.userGroups = userGroups;
 	}
 }
