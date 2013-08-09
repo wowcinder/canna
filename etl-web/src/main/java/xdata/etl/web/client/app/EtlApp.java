@@ -1,84 +1,99 @@
 package xdata.etl.web.client.app;
 
-import xdata.etl.web.client.service.RpcAsyncCallback;
-import xdata.etl.web.client.service.menu.MenuService;
-import xdata.etl.web.client.service.menu.MenuServiceAsync;
-import xdata.etl.web.client.service.user.UserService;
-import xdata.etl.web.client.service.user.UserServiceAsync;
-import xdata.etl.web.shared.entity.menu.Menu;
-import xdata.etl.web.shared.entity.user.User;
+import xdata.etl.web.client.event.CenterVievChangeEvent;
+import xdata.etl.web.client.ui.CenterContainer;
+import xdata.etl.web.client.ui.MenuView;
 
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.sencha.gxt.widget.core.client.info.Info;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.state.client.BorderLayoutStateHandler;
+import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HtmlLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.MarginData;
+import com.sencha.gxt.widget.core.client.container.SimpleContainer;
 
-public class EtlApp {
+public class EtlApp extends BorderLayoutContainer {
 	@Inject
 	private EventBus eventBus;
+	@Inject
+	private CenterContainer centerContainer;
+	@Inject
+	private MenuView menuView;
 
-	public void run() {
-		eventBus.addHandler(TestEvent.TYPE, new TestEvent.Handler() {
-			@Override
-			public void showMsg(String msg) {
-				Info.display("test event", msg);
-			}
-		});
-		eventBus.fireEvent(new TestEvent("kkkkkkkkkkkkkk"));
+	private ContentPanel west;
+	private SimpleContainer center;
 
-		UserServiceAsync service = GWT.create(UserService.class);
+	public EtlApp() {
+		monitorWindowResize = true;
+		Window.enableScrolling(false);
+		setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 
-		User user = new User();
-		user.setEmail("kk@kk.com");
-		user.setPassword("kkk");
-		service.saveAndReturn(user, new RpcAsyncCallback<User>() {
+		setStateful(true);
+		setStateId("explorerLayout");
 
-			@Override
-			public void _onSuccess(User t) {
-				Info.display("ID", t.getId() + "");
-			}
-		});
-
-		MenuServiceAsync s = GWT.create(MenuService.class);
-		Menu menu = new Menu();
-		menu.setName("测试");
-		menu.setPos(1);
-		menu.setToken("kkkk");
-
-		s.save(menu, new RpcAsyncCallback<Integer>() {
-
-			@Override
-			public void _onSuccess(Integer t) {
-				Info.display("ID", t + "");
-			}
-		});
+		BorderLayoutStateHandler state = new BorderLayoutStateHandler(this);
+		state.loadState();
 
 	}
 
-	public static class TestEvent extends GwtEvent<TestEvent.Handler> {
-		public static final Type<Handler> TYPE = new Type<Handler>();
+	public void run() {
 
-		public interface Handler extends EventHandler {
-			void showMsg(String msg);
-		}
+		eventBus.addHandler(CenterVievChangeEvent.TYPE,
+				new CenterVievChangeEvent.Hanlder() {
+					@Override
+					public void dispatch(CenterVievChangeEvent event) {
+						if (event.getFrom().equals(
+								CenterVievChangeEvent.From.LEFT)) {
+							centerContainer.showCenter(event.getToken());
+						} else {
+							menuView.showMenu(event.getToken());
+						}
+					}
+				});
+		StringBuffer sb = new StringBuffer();
+		sb.append("<div id='demo-theme'></div><div id=demo-title>ETL管理系统</div>");
 
-		private String msg;
+		HtmlLayoutContainer northPanel = new HtmlLayoutContainer(sb.toString());
+		northPanel.setStateful(false);
+		northPanel.setId("demo-header");
+		northPanel.addStyleName("x-small-editor");
 
-		public TestEvent(String msg) {
-			this.msg = msg;
-		}
+		BorderLayoutData northData = new BorderLayoutData(35);
+		setNorthWidget(northPanel, northData);
 
-		@Override
-		public com.google.gwt.event.shared.GwtEvent.Type<Handler> getAssociatedType() {
-			return TYPE;
-		}
+		BorderLayoutData westData = new BorderLayoutData(200);
+		westData.setMargins(new Margins(5, 0, 5, 5));
+		westData.setSplit(true);
+		westData.setCollapsible(true);
+		westData.setCollapseHidden(true);
+		westData.setCollapseMini(true);
 
-		@Override
-		protected void dispatch(Handler handler) {
-			handler.showMsg(msg);
-		}
+		west = new ContentPanel();
+		west.setHeadingText("菜单");
+		west.setBodyBorder(true);
+		west.add(menuView.asWidget());
+
+		setWestWidget(west, westData);
+
+		MarginData centerData = new MarginData();
+		centerData.setMargins(new Margins(5));
+
+		center = new SimpleContainer();
+		center.add(centerContainer.asWidget());
+
+		setCenterWidget(center, centerData);
+		RootPanel.get().add(this);
+		menuView.init();
+
+	}
+
+	@Override
+	protected void onWindowResize(int width, int height) {
+		setPixelSize(width, height);
 	}
 
 }

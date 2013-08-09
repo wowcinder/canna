@@ -6,21 +6,21 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
 public class CenterVievChangeEvent extends GwtEvent<Hanlder> {
-	public static final Type<Hanlder> HANLDER_TYPE = new Type<Hanlder>();
+	public static final Type<Hanlder> TYPE = new Type<Hanlder>();
 
-	public static enum EventType {
-		CLICK, CLOSE
+	public static enum From {
+		LEFT, RIGHT
 	}
 
-	private EventType type;
+	private From from;
 	private String token;
 
 	public CenterVievChangeEvent(String token) {
-		this(EventType.CLICK, token);
+		this(From.LEFT, token);
 	}
 
-	public CenterVievChangeEvent(EventType type, String token) {
-		this.type = type;
+	public CenterVievChangeEvent(From from, String token) {
+		this.from = from;
 		this.token = token;
 	}
 
@@ -30,7 +30,7 @@ public class CenterVievChangeEvent extends GwtEvent<Hanlder> {
 
 	@Override
 	public com.google.gwt.event.shared.GwtEvent.Type<Hanlder> getAssociatedType() {
-		return HANLDER_TYPE;
+		return TYPE;
 	}
 
 	@Override
@@ -38,12 +38,12 @@ public class CenterVievChangeEvent extends GwtEvent<Hanlder> {
 		handler.dispatch(this);
 	}
 
-	public EventType getType() {
-		return type;
+	public From getFrom() {
+		return from;
 	}
 
-	public void setType(EventType type) {
-		this.type = type;
+	public void setFrom(From type) {
+		this.from = type;
 	}
 
 	public String getToken() {
