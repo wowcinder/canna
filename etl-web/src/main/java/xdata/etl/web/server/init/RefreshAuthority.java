@@ -11,14 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.client.service.authority.AuthorityService;
+import xdata.etl.web.server.dao.menu.MenuDao;
 import xdata.etl.web.server.util.ClassScaner;
 import xdata.etl.web.server.util.ClassScaner.ClassFilter;
 import xdata.etl.web.shared.annotations.AuthenticationMethod;
@@ -26,7 +25,6 @@ import xdata.etl.web.shared.annotations.AuthenticationService;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
-import xdata.etl.web.shared.entity.menu.Menu;
 
 /**
  * @author XuehuiHe
@@ -40,7 +38,7 @@ public class RefreshAuthority implements InitializingBean {
 	@Autowired
 	private AuthorityGroupService agService;
 	@Autowired
-	private SessionFactory sf;
+	private MenuDao menuDao;
 
 	private static ClassFilter<Class<?>> filter = new ClassFilter<Class<?>>() {
 
@@ -143,26 +141,15 @@ public class RefreshAuthority implements InitializingBean {
 	}
 
 	protected void initMenuConfig() {
+
 		List<Class<?>> list = menuFilter.filte(this.scanner);
-		sf.getCurrentSession().beginTransaction();
+		List<MenuToken> tokens = new ArrayList<MenuToken>();
 		for (Class<?> clazz : list) {
 			MenuToken mt = clazz.getAnnotation(MenuToken.class);
-			Menu menu = (Menu) sf.getCurrentSession()
-					.createCriteria(Menu.class)
-					.add(Restrictions.eq("token", mt.token())).uniqueResult();
-			if (menu == null) {
-				menu = new Menu();
-				menu.setToken(mt.token());
-				menu.setName(mt.name());
-				sf.getCurrentSession().saveOrUpdate(menu);
-				menu.setPos(menu.getId());
-			}else{
-				menu.setName(mt.name());
-				sf.getCurrentSession().saveOrUpdate(menu);
-			}
-			
+			tokens.add(mt);
+
 		}
-		sf.getCurrentSession().getTransaction().commit();
+		menuDao.initMenuConfig(tokens);
 
 	}
 

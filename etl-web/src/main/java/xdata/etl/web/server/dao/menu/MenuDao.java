@@ -3,7 +3,10 @@
  */
 package xdata.etl.web.server.dao.menu;
 
+import java.util.List;
+
 import xdata.etl.web.server.dao.IRpcDao;
+import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.menu.Menu;
 
 /**
@@ -11,5 +14,5 @@ import xdata.etl.web.shared.entity.menu.Menu;
  * @date 2013年8月8日
  */
 public interface MenuDao extends IRpcDao<Integer, Menu> {
-
+	void initMenuConfig(List<MenuToken> tokens);
 }

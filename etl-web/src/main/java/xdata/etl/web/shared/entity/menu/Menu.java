@@ -36,6 +36,21 @@ public class Menu extends IdentityRpcEntity<Integer> {
 	private Authority requireAuthority;
 	private Integer pos;
 
+	/**
+	 * 
+	 */
+	public Menu() {
+	}
+
+	public Menu(String name, String token, String mgName) {
+		this.name = name;
+		this.token = token;
+		if (mgName != null) {
+			this.menuGroup = new MenuGroup();
+			this.menuGroup.setName(mgName);
+		}
+	}
+
 	public String getName() {
 		return name;
 	}

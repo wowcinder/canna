@@ -41,6 +41,7 @@
 
 
 	<beans profile="default">
+	
 		<bean class="xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtil" />
 
 		<aop:config>
