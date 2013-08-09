@@ -3,9 +3,19 @@
  */
 package xdata.etl.web.client.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import xdata.etl.web.client.event.CenterVievChangeEvent;
+import xdata.etl.web.client.service.RpcAsyncCallback;
+import xdata.etl.web.client.service.menu.MenuService;
+import xdata.etl.web.client.service.menu.MenuServiceAsync;
+import xdata.etl.web.shared.entity.menu.Menu;
 
 import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -28,6 +38,8 @@ import com.sencha.gxt.widget.core.client.tree.Tree;
  * @date 2013年8月9日
  */
 public class MenuViewImpl extends Composite implements MenuView {
+	private static MenuServiceAsync service = GWT.create(MenuService.class);
+
 	@Inject
 	private EventBus eventBus;
 
@@ -49,21 +61,8 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	@Override
 	public void init() {
-		MenuNode data = getData();
 		TreeStore<MenuNode> store = new TreeStore<MenuViewImpl.MenuNode>(
 				new KeyProvider());
-		store.add(data);
-		MenuNode mn = new MenuNode();
-		mn.setName("测试1");
-		mn.setToken("token1");
-
-		store.add(data, mn);
-
-		mn = new MenuNode();
-		mn.setName("测试2");
-		mn.setToken("token2");
-
-		store.add(data, mn);
 		tree = new Tree<MenuViewImpl.MenuNode, MenuNode>(store,
 				new ValueProvider<MenuNode, MenuNode>() {
 
@@ -116,6 +115,8 @@ public class MenuViewImpl extends Composite implements MenuView {
 		tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		c.setWidget(tree);
 
+		getData();
+
 	}
 
 	@Override
@@ -133,12 +134,55 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	}
 
-	private MenuNode getData() {
-		MenuNode folder = new MenuNode();
-		folder.setName("测试组");
-		folder.setToken("jsdldjfl");
-		folder.setFolder(true);
-		return folder;
+	private void setToStore(List<Menu> list) {
+		Map<String, List<Menu>> map = new HashMap<String, List<Menu>>();
+		for (Menu menu : list) {
+			String mgName = null;
+			if (menu.getMenuGroup() != null) {
+				mgName = menu.getMenuGroup().getName();
+			} else {
+				mgName = "none";
+			}
+			if (!map.containsKey(mgName)) {
+				map.put(mgName, new ArrayList<Menu>());
+			}
+			map.get(mgName).add(menu);
+		}
+
+		TreeStore<MenuNode> store = tree.getStore();
+		for (String mgName : map.keySet()) {
+			if (mgName.equals("none")) {
+				continue;
+			}
+			MenuNode group = new MenuNode();
+			group.setName(mgName);
+			group.setToken(mgName + "_group");
+			group.setFolder(true);
+			store.add(group);
+			for (Menu menu : map.get(mgName)) {
+				MenuNode mn = new MenuNode();
+				mn.setName(menu.getName());
+				mn.setToken(menu.getToken());
+				store.add(group, mn);
+			}
+		}
+		if (map.get("none") != null) {
+			for (Menu menu : map.get("none")) {
+				MenuNode mn = new MenuNode();
+				mn.setName(menu.getName());
+				mn.setToken(menu.getToken());
+				store.add(mn);
+			}
+		}
+	}
+
+	private void getData() {
+		service.get(new RpcAsyncCallback<List<Menu>>() {
+			@Override
+			public void _onSuccess(List<Menu> t) {
+				setToStore(t);
+			}
+		});
 	}
 
 	public static class MenuNode {
