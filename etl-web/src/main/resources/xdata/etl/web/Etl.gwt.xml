@@ -15,6 +15,12 @@
 	<!--<inherits name='com.sencha.gxt.theme.gray.Gray'/> -->
 	<inherits name='com.sencha.gxt.theme.blue.Blue' />
 	<entry-point class='xdata.etl.web.client.Etl' />
+
+	<generate-with class="xdata.etl.web.rebind.CenterViewFinderGenerator">
+		<when-type-assignable class="xdata.etl.web.client.app.CenterViewFinder" />
+	</generate-with>
+
+
 	<source path='client' />
 	<source path='shared' />
 

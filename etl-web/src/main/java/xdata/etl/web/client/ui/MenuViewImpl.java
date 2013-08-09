@@ -124,7 +124,8 @@ public class MenuViewImpl extends Composite implements MenuView {
 		if (mn != null) {
 			MenuNode parent = tree.getStore().getParent(mn);
 			tree.setExpanded(parent, true);
-			tree.scrollIntoView(mn);
+			// tree.scrollIntoView(mn);
+			// TODO
 			tree.getSelectionModel().select(mn, true);
 		} else {
 			tree.getSelectionModel().deselectAll();

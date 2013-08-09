@@ -3,6 +3,7 @@
  */
 package xdata.etl.web.client.ui;
 
+import xdata.etl.web.client.app.CenterViewFinder;
 import xdata.etl.web.client.event.CenterVievChangeEvent;
 
 import com.google.gwt.dom.client.Style.TextAlign;
@@ -24,15 +25,23 @@ public class CenterContainerImpl extends Composite implements CenterContainer {
 	@Inject
 	private EventBus eventBus;
 
+	@Inject
+	private CenterViewFinder viewFinder;
+
 	public CenterContainerImpl() {
-		tabPanel = new TabPanel();
+		tabPanel = new TabPanel() {
+			@Override
+			protected void close(Widget item) {
+				super.close(item);
+				afterClosedSubPanel();
+			}
+		};
 		tabPanel.setBodyBorder(true);
 		tabPanel.setTabScroll(true);
 		tabPanel.setResizeTabs(true);
 		tabPanel.setMinTabWidth(130);
 		tabPanel.setCloseContextMenu(true);
 		tabPanel.getElement().getStyle().setTextAlign(TextAlign.CENTER);
-		// showCenterView(new OverView());
 	}
 
 	@Override
@@ -59,15 +68,20 @@ public class CenterContainerImpl extends Composite implements CenterContainer {
 	}
 
 	protected CenterView create(String token) {
-		// TODO
-		return null;
+		return viewFinder.findCenterView(token);
 	}
 
 	@Override
 	public void afterClosedSubPanel() {
 		CenterView active = (CenterView) tabPanel.getActiveWidget();
-		eventBus.fireEvent(new CenterVievChangeEvent(
-				CenterVievChangeEvent.From.RIGHT, active.getToken()));
+		if (active != null) {
+			eventBus.fireEvent(new CenterVievChangeEvent(
+					CenterVievChangeEvent.From.RIGHT, active.getToken()));
+		} else {
+			eventBus.fireEvent(new CenterVievChangeEvent(
+					CenterVievChangeEvent.From.RIGHT, null));
+		}
+
 	}
 
 	protected CenterView findExistsTabItem(String token) {

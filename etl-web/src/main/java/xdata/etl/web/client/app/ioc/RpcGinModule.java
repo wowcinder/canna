@@ -1,5 +1,6 @@
 package xdata.etl.web.client.app.ioc;
 
+import xdata.etl.web.client.app.CenterViewFinder;
 import xdata.etl.web.client.ui.CenterContainer;
 import xdata.etl.web.client.ui.CenterContainerImpl;
 import xdata.etl.web.client.ui.MenuView;
@@ -17,6 +18,7 @@ public class RpcGinModule extends AbstractGinModule {
 		bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
 		bind(MenuView.class).to(MenuViewImpl.class).in(Singleton.class);
 		bind(CenterContainer.class).to(CenterContainerImpl.class).in(Singleton.class);
+		bind(CenterViewFinder.class).in(Singleton.class);
 	}
 
 }
