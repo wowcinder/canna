@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,8 +23,10 @@ import xdata.etl.web.server.util.ClassScaner;
 import xdata.etl.web.server.util.ClassScaner.ClassFilter;
 import xdata.etl.web.shared.annotations.AuthenticationMethod;
 import xdata.etl.web.shared.annotations.AuthenticationService;
+import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
+import xdata.etl.web.shared.entity.menu.Menu;
 
 /**
  * @author XuehuiHe
@@ -35,6 +39,8 @@ public class RefreshAuthority implements InitializingBean {
 	private AuthorityService aService;
 	@Autowired
 	private AuthorityGroupService agService;
+	@Autowired
+	private SessionFactory sf;
 
 	private static ClassFilter<Class<?>> filter = new ClassFilter<Class<?>>() {
 
@@ -52,16 +58,30 @@ public class RefreshAuthority implements InitializingBean {
 		}
 	};
 
+	private static ClassFilter<Class<?>> menuFilter = new ClassFilter<Class<?>>() {
+		@Override
+		public List<Class<?>> filte(ClassScaner scaner) {
+			List<Class<?>> list = new ArrayList<Class<?>>();
+			for (Class<?> clazz : scaner.getClazzes()) {
+				MenuToken s = clazz.getAnnotation(MenuToken.class);
+				if (s != null) {
+					list.add(clazz);
+				}
+			}
+			return list;
+		}
+	};
+
 	public RefreshAuthority() {
 		try {
-			scanner = new ClassScaner("xdata.etl.web.server.service");
+			scanner = new ClassScaner("xdata.etl.web.server.service",
+					"xdata.etl.web.client.ui");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	protected void initAuthorityConfig() {
 		List<Class<?>> list = filter.filte(this.scanner);
 		Set<String> agNames = new HashSet<String>();
 		Map<String, HashSet<Authority>> map = new HashMap<String, HashSet<Authority>>();
@@ -120,5 +140,35 @@ public class RefreshAuthority implements InitializingBean {
 				j++;
 			}
 		}
+	}
+
+	protected void initMenuConfig() {
+		List<Class<?>> list = menuFilter.filte(this.scanner);
+		sf.getCurrentSession().beginTransaction();
+		for (Class<?> clazz : list) {
+			MenuToken mt = clazz.getAnnotation(MenuToken.class);
+			Menu menu = (Menu) sf.getCurrentSession()
+					.createCriteria(Menu.class)
+					.add(Restrictions.eq("token", mt.token())).uniqueResult();
+			if (menu == null) {
+				menu = new Menu();
+				menu.setToken(mt.token());
+				menu.setName(mt.name());
+				sf.getCurrentSession().saveOrUpdate(menu);
+				menu.setPos(menu.getId());
+			}else{
+				menu.setName(mt.name());
+				sf.getCurrentSession().saveOrUpdate(menu);
+			}
+			
+		}
+		sf.getCurrentSession().getTransaction().commit();
+
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		initAuthorityConfig();
+		initMenuConfig();
 	}
 }
