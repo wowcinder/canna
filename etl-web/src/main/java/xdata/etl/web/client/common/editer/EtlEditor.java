@@ -34,9 +34,13 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	@Ignore
 	private final TextButton cancelBt;
 	@Ignore
-	protected GwtCallBack<SelectEvent> cancelCallBack;
+	protected GwtCallBack<SelectEvent> addCancelCallBack;
 	@Ignore
-	protected GwtCallBack<V> saveOrUpdateCallBack;
+	protected GwtCallBack<SelectEvent> updateCancelCallBack;
+	@Ignore
+	protected GwtCallBack<V> addCallBack;
+	@Ignore
+	protected GwtCallBack<V> updateCallBack;
 	@Ignore
 	protected EtlGridContainer<K, V> parent;
 	@Ignore
@@ -65,8 +69,9 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 			@Override
 			public void onSelect(SelectEvent event) {
 				getCancelBt().disable();
-				if (getCancelCallBack() != null) {
-					getCancelCallBack().call(event);
+				final GwtCallBack<SelectEvent> cancelCallBack = getActionCancelCallBack();
+				if (cancelCallBack != null) {
+					cancelCallBack.call(event);
 				}
 				getCancelBt().enable();
 				getRoot().hide();
@@ -113,8 +118,9 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		return new GwtCallBack<V>() {
 			@Override
 			public void call(V t) {
-				if (getSaveOrUpdateCallBack() != null) {
-					getSaveOrUpdateCallBack().call(t);
+				final GwtCallBack<V> actionCallBack = getActionCallBack();
+				if (actionCallBack != null) {
+					actionCallBack.call(t);
 				}
 				getSaveOrUpdateBt().enable();
 				getRoot().hide();
@@ -122,7 +128,23 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		};
 	}
 
-	public void doEdit(V v) {
+	protected GwtCallBack<V> getActionCallBack() {
+		if (isAdd()) {
+			return getAddCallBack();
+		} else {
+			return getUpdateCallBack();
+		}
+	}
+
+	protected GwtCallBack<SelectEvent> getActionCancelCallBack() {
+		if (isAdd()) {
+			return getAddCancelCallBack();
+		} else {
+			return getUpdateCancelCallBack();
+		}
+	}
+
+	public void edit(V v) {
 		setAdd(false);
 		getRoot().setHeadingText(getHeadingText());
 		getSaveOrUpdateBt().setText("编辑");
@@ -145,66 +167,6 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 			return "添加" + getBaseHeadingText();
 		}
 		return "修改" + getBaseHeadingText();
-	}
-
-	public SimpleBeanEditorDriver<V, EtlEditor<K, V>> getDriver() {
-		return driver;
-	}
-
-	public void setDriver(SimpleBeanEditorDriver<V, EtlEditor<K, V>> driver) {
-		this.driver = driver;
-	}
-
-	public EtlGridContainer<K, V> getParent() {
-		return parent;
-	}
-
-	public void setParent(EtlGridContainer<K, V> parent) {
-		this.parent = parent;
-	}
-
-	public GwtCallBack<SelectEvent> getCancelCallBack() {
-		return cancelCallBack;
-	}
-
-	public void setCancelCallBack(GwtCallBack<SelectEvent> cancelCallBack) {
-		this.cancelCallBack = cancelCallBack;
-	}
-
-	public GwtCallBack<V> getSaveOrUpdateCallBack() {
-		return saveOrUpdateCallBack;
-	}
-
-	public void setSaveOrUpdateCallBack(GwtCallBack<V> saveOrUpdateCallBack) {
-		this.saveOrUpdateCallBack = saveOrUpdateCallBack;
-	}
-
-	public String getBaseHeadingText() {
-		return baseHeadingText;
-	}
-
-	public void setBaseHeadingText(String baseHeadingText) {
-		this.baseHeadingText = baseHeadingText;
-	}
-
-	public boolean isAdd() {
-		return isAdd;
-	}
-
-	public void setAdd(boolean isAdd) {
-		this.isAdd = isAdd;
-	}
-
-	public EditorWindow getRoot() {
-		return root;
-	}
-
-	public TextButton getSaveOrUpdateBt() {
-		return saveOrUpdateBt;
-	}
-
-	public TextButton getCancelBt() {
-		return cancelBt;
 	}
 
 	public RpcServiceAsync<K, V> getService() {
@@ -239,4 +201,80 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		}
 	}
 
+	public SimpleBeanEditorDriver<V, EtlEditor<K, V>> getDriver() {
+		return driver;
+	}
+
+	public void setDriver(SimpleBeanEditorDriver<V, EtlEditor<K, V>> driver) {
+		this.driver = driver;
+	}
+
+	public EtlGridContainer<K, V> getParent() {
+		return parent;
+	}
+
+	public void setParent(EtlGridContainer<K, V> parent) {
+		this.parent = parent;
+	}
+
+	public GwtCallBack<SelectEvent> getAddCancelCallBack() {
+		return addCancelCallBack;
+	}
+
+	public void setAddCancelCallBack(GwtCallBack<SelectEvent> addCancelCallBack) {
+		this.addCancelCallBack = addCancelCallBack;
+	}
+
+	public GwtCallBack<V> getAddCallBack() {
+		return addCallBack;
+	}
+
+	public void setAddCallBack(GwtCallBack<V> addCallBack) {
+		this.addCallBack = addCallBack;
+	}
+
+	public String getBaseHeadingText() {
+		return baseHeadingText;
+	}
+
+	public void setBaseHeadingText(String baseHeadingText) {
+		this.baseHeadingText = baseHeadingText;
+	}
+
+	public boolean isAdd() {
+		return isAdd;
+	}
+
+	public void setAdd(boolean isAdd) {
+		this.isAdd = isAdd;
+	}
+
+	public EditorWindow getRoot() {
+		return root;
+	}
+
+	public TextButton getSaveOrUpdateBt() {
+		return saveOrUpdateBt;
+	}
+
+	public TextButton getCancelBt() {
+		return cancelBt;
+	}
+
+	public GwtCallBack<SelectEvent> getUpdateCancelCallBack() {
+		return updateCancelCallBack;
+	}
+
+	public void setUpdateCancelCallBack(
+			GwtCallBack<SelectEvent> updateCancelCallBack) {
+		this.updateCancelCallBack = updateCancelCallBack;
+	}
+
+	public GwtCallBack<V> getUpdateCallBack() {
+		return updateCallBack;
+	}
+
+	public void setUpdateCallBack(GwtCallBack<V> updateCallBack) {
+		this.updateCallBack = updateCallBack;
+	}
 }
