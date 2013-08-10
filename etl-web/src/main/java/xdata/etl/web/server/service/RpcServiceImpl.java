@@ -47,9 +47,9 @@ public class RpcServiceImpl<K extends Serializable, V extends RpcEntity<K>>
 
 	@Override
 	@AuthenticationMethod("修改")
-	public void update(V v) throws SharedException,
+	public V update(V v) throws SharedException,
 			ConstraintViolationException {
-		getRpcDao().update(v);
+		return getRpcDao().update(v);
 	}
 
 	@Override

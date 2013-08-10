@@ -17,7 +17,7 @@ public interface RpcService<K extends Serializable, V extends RpcEntity<K>> {
 
 	K save(V v) throws SharedException, ConstraintViolationException;
 
-	void update(V v) throws SharedException, ConstraintViolationException;
+	V update(V v) throws SharedException, ConstraintViolationException;
 
 	void delete(List<K> ids) throws SharedException;
 

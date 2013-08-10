@@ -33,5 +33,5 @@ public interface RpcServiceAsync<K extends Serializable, V extends RpcEntity<K>>
 
 	void saveAndReturn(V v, AsyncCallback<V> callback);
 
-	void update(V v, AsyncCallback<Void> callback);
+	void update(V v, AsyncCallback<V> callback);
 }

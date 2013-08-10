@@ -25,7 +25,7 @@ public class AuthorityGroupDaoImpl extends RpcDao<Integer, AuthorityGroup>
 	}
 
 	@Override
-	public void update(AuthorityGroup v) throws SharedException {
+	public AuthorityGroup update(AuthorityGroup v) throws SharedException {
 		Session session = getSession();
 		AuthorityGroup old = (AuthorityGroup) session.load(
 				AuthorityGroup.class, v.getId());
@@ -37,6 +37,7 @@ public class AuthorityGroupDaoImpl extends RpcDao<Integer, AuthorityGroup>
 			}
 		}
 		session.merge(v);
+		return v;
 	}
 
 	@Override

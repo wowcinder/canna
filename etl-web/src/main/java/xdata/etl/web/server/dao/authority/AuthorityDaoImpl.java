@@ -64,13 +64,14 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 	}
 
 	@Override
-	public void update(Authority v) throws SharedException {
+	public Authority update(Authority v) throws SharedException {
 		Session s = getSession();
 		Authority old = (Authority) s.load(Authority.class, v.getId());
 		if (!old.getName().equals(v.getName())) {
 			refreshToken(v);
 		}
 		s.merge(v);
+		return v;
 	}
 
 	private void refreshToken(Authority v) {

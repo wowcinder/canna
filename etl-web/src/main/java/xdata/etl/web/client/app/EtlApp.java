@@ -1,9 +1,12 @@
 package xdata.etl.web.client.app;
 
 import xdata.etl.web.client.event.CenterVievChangeEvent;
+import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.ui.CenterContainer;
 import xdata.etl.web.client.ui.MenuView;
+import xdata.etl.web.shared.entity.menu.Menu;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
@@ -88,6 +91,9 @@ public class EtlApp extends BorderLayoutContainer {
 		setCenterWidget(center, centerData);
 		RootPanel.get().add(this);
 		menuView.init();
+		
+		
+		GWT.<EntityRpcCaller<Integer,Menu>>create(EntityRpcCaller.class);
 
 	}
 

@@ -20,7 +20,6 @@
 		<when-type-assignable class="xdata.etl.web.client.app.CenterViewFinder" />
 	</generate-with>
 
-
 	<source path='client' />
 	<source path='shared' />
 
