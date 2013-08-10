@@ -19,7 +19,7 @@ import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
  */
 public class EditorWindow extends Window {
 
-	private GwtCallBack<Void> cancelBack;
+	private GwtCallBack<SelectEvent> cancelBack;
 
 	private HandlerRegistration showHandlerHr;
 
@@ -34,7 +34,7 @@ public class EditorWindow extends Window {
 		});
 	}
 
-	public EditorWindow(GwtCallBack<Void> cancelBack) {
+	public EditorWindow(GwtCallBack<SelectEvent> cancelBack) {
 		this.cancelBack = cancelBack;
 	}
 
@@ -53,11 +53,11 @@ public class EditorWindow extends Window {
 		}
 	}
 
-	public GwtCallBack<Void> getCancelBack() {
+	public GwtCallBack<SelectEvent> getCancelBack() {
 		return cancelBack;
 	}
 
-	public void setCancelBack(GwtCallBack<Void> cancelBack) {
+	public void setCancelBack(GwtCallBack<SelectEvent> cancelBack) {
 		this.cancelBack = cancelBack;
 	}
 

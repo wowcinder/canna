@@ -26,12 +26,12 @@ public abstract class EtlSimpleEditor<K extends Serializable, V extends RpcEntit
 	@Ignore
 	protected VerticalLayoutContainer layoutContainer;
 
-	public EtlSimpleEditor() {
-		super();
+	public EtlSimpleEditor(Object driver) {
+		super(driver);
 	}
 
-	public EtlSimpleEditor(EtlGridContainer<K, V> parent) {
-		this();
+	public EtlSimpleEditor(Object driver, EtlGridContainer<K, V> parent) {
+		this(driver);
 		this.parent = parent;
 	}
 

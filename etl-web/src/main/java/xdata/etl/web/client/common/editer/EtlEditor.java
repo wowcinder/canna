@@ -54,10 +54,12 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	@Ignore
 	private HandlerRegistration saveOrUpdateBtHandlerHr;
 
-	public EtlEditor() {
+	@SuppressWarnings("unchecked")
+	public EtlEditor(Object driver) {
+		this.driver = (SimpleBeanEditorDriver<V, EtlEditor<K, V>>) driver;
 		root = new EditorWindow();
 		saveOrUpdateBt = new TextButton("Save");
-		cancelBt = new TextButton("Cancel");
+		cancelBt = new TextButton("取消");
 
 		root.setButtonAlign(BoxLayoutPack.END);
 		root.setModal(true);
@@ -91,8 +93,9 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		getDriver().initialize(this);
 	}
 
-	public EtlEditor(EtlGridContainer<K, V> parent) {
-		this();
+	public EtlEditor(SimpleBeanEditorDriver<V, EtlEditor<K, V>> driver,
+			EtlGridContainer<K, V> parent) {
+		this(driver);
 		this.parent = parent;
 	}
 
@@ -147,7 +150,7 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	public void edit(V v) {
 		setAdd(false);
 		getRoot().setHeadingText(getHeadingText());
-		getSaveOrUpdateBt().setText("编辑");
+		getSaveOrUpdateBt().setText("修改");
 		getDriver().edit(v);
 		getRoot().show();
 	}
@@ -223,6 +226,7 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 
 	public void setAddCancelCallBack(GwtCallBack<SelectEvent> addCancelCallBack) {
 		this.addCancelCallBack = addCancelCallBack;
+		root.setCancelBack(addCancelCallBack);
 	}
 
 	public GwtCallBack<V> getAddCallBack() {
@@ -252,11 +256,11 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	public EditorWindow getRoot() {
 		return root;
 	}
-
+	@Ignore
 	public TextButton getSaveOrUpdateBt() {
 		return saveOrUpdateBt;
 	}
-
+	@Ignore
 	public TextButton getCancelBt() {
 		return cancelBt;
 	}
