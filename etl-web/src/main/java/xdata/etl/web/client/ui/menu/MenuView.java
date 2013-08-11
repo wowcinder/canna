@@ -17,7 +17,7 @@ import com.google.gwt.core.shared.GWT;
  * @author XuehuiHe
  * @date 2013年8月9日
  */
-@MenuToken(name = "菜单管理", token = "token1")
+@MenuToken(name = "菜单管理", token = "menu_manager")
 public class MenuView extends CenterView {
 	public MenuView() {
 		super();

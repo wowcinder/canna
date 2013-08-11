@@ -27,7 +27,10 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResult;
  */
 public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 
-	private final RpcServiceAsync<K, V> service;
+	private RpcServiceAsync<K, V> service;
+
+	public EntityRpcCaller() {
+	}
 
 	public EntityRpcCaller(RpcServiceAsync<K, V> service) {
 		this.service = service;
