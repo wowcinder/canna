@@ -17,6 +17,7 @@ import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -141,7 +142,8 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 		pr.setOffset(config.getOffset());
 		pr.setTotalLength((int) rowCount);
 		addPagingConfig(config, criteria);
-		pr.setData(criteria.list());
+		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY); 
+		pr.setData((List<V>)criteria.list());
 		return pr;
 	}
 

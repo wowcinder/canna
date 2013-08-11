@@ -93,11 +93,10 @@ public class RpcServiceImpl<K extends Serializable, V extends RpcEntity<K>>
 	@AuthenticationMethod("查询")
 	public PagingLoadResult<V> get(EtlPagingLoadConfigBean config)
 			throws SharedException {
-		PagingLoadResultBean<V> result = (PagingLoadResultBean<V>) getRpcDao()
-				.get(config);
+		PagingLoadResultBean<V> pr = (PagingLoadResultBean<V>) getRpcDao().get(config);
 		// excludeCollectionCopy(result);
 		// TODO
-		return result;
+		return pr;
 	}
 
 	protected void excludeCollectionCopy(PagingLoadResultBean<V> pr) {
