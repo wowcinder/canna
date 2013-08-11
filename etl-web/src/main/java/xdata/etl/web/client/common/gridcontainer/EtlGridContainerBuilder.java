@@ -128,15 +128,15 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 			gridContainer.getDeleteBt().addSelectHandler(
 					getRealDeleteBtHandler());
 		}
-		gridContainer.initBtBar();
 		if (isUpdateEnabled()) {
 			updateEditor.setUpdateCallBack(getUpdateCallBack());
 			grid.addCellDoubleClickHandler(getUpdateHandler());
 		}
-		gridContainer.initGrid();
-		if(isPaging()){
+		if (isPaging()) {
 			gridContainer.initPaging(getPageItemCount());
 		}
+		gridContainer.initBtBar();
+		gridContainer.initView();
 		gridContainer.initData();
 		return gridContainer;
 	}

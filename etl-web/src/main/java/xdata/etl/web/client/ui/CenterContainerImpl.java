@@ -42,6 +42,12 @@ public class CenterContainerImpl extends Composite implements CenterContainer {
 		tabPanel.setMinTabWidth(130);
 		tabPanel.setCloseContextMenu(true);
 		tabPanel.getElement().getStyle().setTextAlign(TextAlign.CENTER);
+
+		CenterView view = new OverView();
+
+		TabItemConfig config = new TabItemConfig(view.getLabel(),
+				view.isCloseAble());
+		tabPanel.add(view, config);
 	}
 
 	@Override

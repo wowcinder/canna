@@ -66,13 +66,18 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		if (deleteBt != null) {
 			bar.add(deleteBt);
 		}
-		this.add(bar, new VerticalLayoutData(1, -1));
 	}
 
-	public void initGrid() {
+	public void initView() {
 		this.getElement().setHeight("100%");
 		this.setBorders(true);
+		if (bar != null) {
+			this.add(bar, new VerticalLayoutData(1, -1));
+		}
 		this.add(grid, new VerticalLayoutData(1, 1));
+		if (this.pagingBar != null) {
+			this.add(pagingBar, new VerticalLayoutData(1, -1));
+		}
 	}
 
 	public void initData() {
@@ -94,12 +99,13 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 
 		setLoader(getRpcCaller().getPagingLoader(getGrid().getStore()));
 
+		getGrid().setLoader(getLoader());
+		
 		setPagingBar(new PagingToolBar(getPageItemCount()));
 		getPagingBar().getElement().getStyle()
 				.setProperty("borderBottom", "none");
+//		getPagingBar().setHeight(40);
 		getPagingBar().bind(getLoader());
-
-		this.add(getPagingBar(), new VerticalLayoutData(1, -1));
 
 	}
 

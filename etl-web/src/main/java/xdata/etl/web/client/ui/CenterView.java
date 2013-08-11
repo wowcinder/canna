@@ -21,7 +21,10 @@ public abstract class CenterView extends Composite implements IsWidget {
 	public CenterView() {
 		createContainer();
 		initWidget(con);
+		doAddAttachHandler();
+	}
 
+	protected void doAddAttachHandler() {
 		this.addAttachHandler(new Handler() {
 			@Override
 			public void onAttachOrDetach(AttachEvent event) {
@@ -33,7 +36,6 @@ public abstract class CenterView extends Composite implements IsWidget {
 				}
 			}
 		});
-
 	}
 
 	public void createContainer() {
