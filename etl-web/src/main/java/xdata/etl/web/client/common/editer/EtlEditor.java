@@ -53,6 +53,8 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	private HandlerRegistration cancelBtHandlerHr;
 	@Ignore
 	private HandlerRegistration saveOrUpdateBtHandlerHr;
+	@Ignore
+	private EntityRpcCaller<K, V> rpcCaller;
 
 	public EtlEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
 		this.driver = driver;
@@ -90,13 +92,6 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 
 		initView();
 		getDriver().initialize(this);
-	}
-
-	public EtlEditor(
-			SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver,
-			EtlGridContainer<K, V> parent) {
-		this(driver);
-		this.parent = parent;
 	}
 
 	protected abstract void initView();
@@ -173,11 +168,11 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	}
 
 	public RpcServiceAsync<K, V> getService() {
-		return getParent().getService();
+		return getRpcCaller().getService();
 	}
 
 	public EntityRpcCaller<K, V> getRpcCaller() {
-		return getParent().getRpcCaller();
+		return this.rpcCaller;
 	}
 
 	public void setCancelBtHandler(SelectHandler cancelBtHandler) {
@@ -220,6 +215,7 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 
 	public void setParent(EtlGridContainer<K, V> parent) {
 		this.parent = parent;
+		this.rpcCaller = parent.getRpcCaller();
 	}
 
 	public GwtCallBack<SelectEvent> getAddCancelCallBack() {
@@ -284,5 +280,8 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 
 	public void setUpdateCallBack(GwtCallBack<V> updateCallBack) {
 		this.updateCallBack = updateCallBack;
+	}
+	public void setRpcCaller(EntityRpcCaller<K, V> rpcCaller) {
+		this.rpcCaller = rpcCaller;
 	}
 }

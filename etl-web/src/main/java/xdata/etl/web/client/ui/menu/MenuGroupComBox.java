@@ -27,8 +27,9 @@ public class MenuGroupComBox extends EtlComBox<Integer, MenuGroup> {
 						return item.getName();
 					}
 				});
-
-		setAddEditor(new MenuGroupEditor(), new AddItem<MenuGroup>() {
+		MenuGroupEditor addEditor = new MenuGroupEditor();
+		addEditor.setRpcCaller(rpcCaller);
+		setAddEditor(addEditor, new AddItem<MenuGroup>() {
 			@Override
 			public MenuGroup getAddItem() {
 				MenuGroup mg = new MenuGroup();
@@ -49,8 +50,8 @@ public class MenuGroupComBox extends EtlComBox<Integer, MenuGroup> {
 				rpcCaller.get(getInitCallBack());
 			}
 		});
-		
-//		init();
+
+		// init();
 	}
 
 }
