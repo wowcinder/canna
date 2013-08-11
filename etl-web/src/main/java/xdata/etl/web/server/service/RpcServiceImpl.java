@@ -10,12 +10,17 @@ import javax.validation.ConstraintViolationException;
 
 import org.hibernate.validator.engine.ValidationSupport;
 
+import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.client.service.RpcService;
 import xdata.etl.web.server.dao.IRpcDao;
+import xdata.etl.web.server.util.HibernateBeanReplicatorUtil;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.annotations.AuthenticationMethod;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
+
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 
 /**
  * @author XuehuiHe
@@ -47,8 +52,7 @@ public class RpcServiceImpl<K extends Serializable, V extends RpcEntity<K>>
 
 	@Override
 	@AuthenticationMethod("修改")
-	public V update(V v) throws SharedException,
-			ConstraintViolationException {
+	public V update(V v) throws SharedException, ConstraintViolationException {
 		return getRpcDao().update(v);
 	}
 
@@ -83,5 +87,21 @@ public class RpcServiceImpl<K extends Serializable, V extends RpcEntity<K>>
 	@AuthenticationMethod("查询")
 	public V get(Provider<K> k) throws SharedException {
 		return getRpcDao().get(k.get());
+	}
+
+	@Override
+	@AuthenticationMethod("查询")
+	public PagingLoadResult<V> get(EtlPagingLoadConfigBean config)
+			throws SharedException {
+		PagingLoadResultBean<V> result = (PagingLoadResultBean<V>) getRpcDao()
+				.get(config);
+		// excludeCollectionCopy(result);
+		// TODO
+		return result;
+	}
+
+	protected void excludeCollectionCopy(PagingLoadResultBean<V> pr) {
+		pr.setData(HibernateBeanReplicatorUtil.excludeCollectionCopy(pr
+				.getData()));
 	}
 }

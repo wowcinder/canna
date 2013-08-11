@@ -8,10 +8,12 @@ import java.util.List;
 
 import org.hibernate.validator.engine.ValidationSupport;
 
+import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.RpcEntity;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 /**
  * @author XuehuiHe
@@ -34,4 +36,8 @@ public interface RpcServiceAsync<K extends Serializable, V extends RpcEntity<K>>
 	void saveAndReturn(V v, AsyncCallback<V> callback);
 
 	void update(V v, AsyncCallback<V> callback);
+
+	void get(EtlPagingLoadConfigBean config,
+			AsyncCallback<PagingLoadResult<V>> callback);
+
 }

@@ -10,8 +10,11 @@ import javax.validation.ConstraintViolationException;
 
 import org.hibernate.SessionFactory;
 
+import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
+
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 /**
  * @author XuehuiHe
@@ -34,4 +37,7 @@ public interface IRpcDao<K extends Serializable, V extends RpcEntity<K>> {
 	V get(K k) throws SharedException;
 
 	public SessionFactory getSessionFactory();
+
+	public PagingLoadResult<V> get(EtlPagingLoadConfigBean config)
+			throws SharedException;
 }

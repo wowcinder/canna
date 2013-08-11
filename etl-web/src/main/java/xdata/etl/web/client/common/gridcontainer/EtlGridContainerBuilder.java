@@ -133,7 +133,11 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 			updateEditor.setUpdateCallBack(getUpdateCallBack());
 			grid.addCellDoubleClickHandler(getUpdateHandler());
 		}
-		gridContainer.initView();
+		gridContainer.initGrid();
+		if(isPaging()){
+			gridContainer.initPaging(getPageItemCount());
+		}
+		gridContainer.initData();
 		return gridContainer;
 	}
 

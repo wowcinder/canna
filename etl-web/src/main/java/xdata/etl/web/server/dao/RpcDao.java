@@ -14,19 +14,25 @@ import javax.validation.Validator;
 
 import org.hibernate.Criteria;
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
+
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月2日
  */
-public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends HibernateDaoSupport implements
-		IRpcDao<K, V> {
+public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
+		HibernateDaoSupport implements IRpcDao<K, V> {
 
 	public final static Validator validator = Validation
 			.buildDefaultValidatorFactory().getValidator();
@@ -41,7 +47,6 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends Hibe
 			this.clazz = (Class<V>) pt.getActualTypeArguments()[1];
 		}
 	}
-
 
 	public void validateBean(V t) {
 		return;
@@ -124,5 +129,32 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends Hibe
 		return lt;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public PagingLoadResult<V> get(EtlPagingLoadConfigBean config)
+			throws SharedException {
+		Session s = getSession();
+		PagingLoadResultBean<V> pr = new PagingLoadResultBean<V>();
+		Criteria criteria = s.createCriteria(clazz);
+		long rowCount = (Long) criteria.setProjection(Projections.rowCount())
+				.uniqueResult();
+		pr.setOffset(config.getOffset());
+		pr.setTotalLength((int) rowCount);
+		addPagingConfig(config, criteria);
+		pr.setData(criteria.list());
+		return pr;
+	}
+
+	public void addPagingConfig(EtlPagingLoadConfigBean config,
+			Criteria criteria) {
+		criteria.setProjection(null);
+		criteria.setFirstResult(config.getOffset());
+		criteria.setMaxResults(config.getLimit());
+	}
+
+	public void addPagingConfig(EtlPagingLoadConfigBean config, Query query) {
+		query.setFirstResult(config.getOffset());
+		query.setMaxResults(config.getLimit());
+	}
 
 }

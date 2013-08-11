@@ -7,9 +7,12 @@ import javax.validation.ConstraintViolationException;
 
 import org.hibernate.validator.engine.ValidationSupport;
 
+import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
+
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 public interface RpcService<K extends Serializable, V extends RpcEntity<K>> {
 
@@ -24,8 +27,11 @@ public interface RpcService<K extends Serializable, V extends RpcEntity<K>> {
 	void delete(Provider<K> k) throws SharedException;
 
 	List<V> get() throws SharedException;
-	
+
 	V get(Provider<K> k) throws SharedException;
+
+	PagingLoadResult<V> get(EtlPagingLoadConfigBean config)
+			throws SharedException;
 
 	ValidationSupport dummy();
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xdata.etl.web.client.common.grid.EtlGrid;
+import xdata.etl.web.client.common.paging.EtlPagingLoader;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.service.RpcServiceAsync;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.Window;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 /**
@@ -34,6 +36,10 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 	private TextButton addBt;
 	private TextButton deleteBt;
 	protected ToolBar bar;
+
+	protected EtlPagingLoader<V> loader;
+	protected PagingToolBar pagingBar;
+	private int pageItemCount = 50;
 
 	public EtlGridContainer(EtlGrid<K, V> grid, RpcServiceAsync<K, V> service) {
 		this.grid = grid;
@@ -63,17 +69,38 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		this.add(bar, new VerticalLayoutData(1, -1));
 	}
 
-	public void initView() {
+	public void initGrid() {
 		this.getElement().setHeight("100%");
 		this.setBorders(true);
 		this.add(grid, new VerticalLayoutData(1, 1));
-		this.rpcCaller.get(new GwtCallBack<List<V>>() {
-			@Override
-			public void call(List<V> t) {
-				grid.getStore().clear();
-				grid.getStore().addAll(t);
-			}
-		});
+	}
+
+	public void initData() {
+		if (getLoader() == null) {
+			this.rpcCaller.get(new GwtCallBack<List<V>>() {
+				@Override
+				public void call(List<V> t) {
+					grid.getStore().clear();
+					grid.getStore().addAll(t);
+				}
+			});
+		} else {
+			getLoader().load();
+		}
+	}
+
+	public void initPaging(int pageItemCount) {
+		setPageItemCount(pageItemCount);
+
+		setLoader(getRpcCaller().getPagingLoader(getGrid().getStore()));
+
+		setPagingBar(new PagingToolBar(getPageItemCount()));
+		getPagingBar().getElement().getStyle()
+				.setProperty("borderBottom", "none");
+		getPagingBar().bind(getLoader());
+
+		this.add(getPagingBar(), new VerticalLayoutData(1, -1));
+
 	}
 
 	public void delete(final List<V> list) {
@@ -124,6 +151,66 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 
 	public void setDeleteBt(TextButton deleteBt) {
 		this.deleteBt = deleteBt;
+	}
+
+	/**
+	 * @return the bar
+	 */
+	public ToolBar getBar() {
+		return bar;
+	}
+
+	/**
+	 * @param bar
+	 *            the bar to set
+	 */
+	public void setBar(ToolBar bar) {
+		this.bar = bar;
+	}
+
+	/**
+	 * @return the loader
+	 */
+	public EtlPagingLoader<V> getLoader() {
+		return loader;
+	}
+
+	/**
+	 * @param loader
+	 *            the loader to set
+	 */
+	public void setLoader(EtlPagingLoader<V> loader) {
+		this.loader = loader;
+	}
+
+	/**
+	 * @return the pagingBar
+	 */
+	public PagingToolBar getPagingBar() {
+		return pagingBar;
+	}
+
+	/**
+	 * @param pagingBar
+	 *            the pagingBar to set
+	 */
+	public void setPagingBar(PagingToolBar pagingBar) {
+		this.pagingBar = pagingBar;
+	}
+
+	/**
+	 * @return the pageItemCount
+	 */
+	public int getPageItemCount() {
+		return pageItemCount;
+	}
+
+	/**
+	 * @param pageItemCount
+	 *            the pageItemCount to set
+	 */
+	public void setPageItemCount(int pageItemCount) {
+		this.pageItemCount = pageItemCount;
 	}
 
 }
