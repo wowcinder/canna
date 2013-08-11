@@ -19,6 +19,12 @@ public abstract class EtlComBox<T> extends SimpleComboBox<T> {
 
 	public EtlComBox(LabelProvider<? super T> labelProvider) {
 		this(true, true, labelProvider);
+		LabelProvider<T> labelProvider2 =  new LabelProvider<T>() {
+			@Override
+			public String getLabel(T item) {
+				return null;
+			}
+		};
 	}
 
 	public EtlComBox(boolean isAuto, boolean isAddabled,

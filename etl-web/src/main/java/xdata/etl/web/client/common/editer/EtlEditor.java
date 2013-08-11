@@ -44,7 +44,7 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	@Ignore
 	protected EtlGridContainer<K, V> parent;
 	@Ignore
-	private SimpleBeanEditorDriver<V, EtlEditor<K, V>> driver;
+	private SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver;
 	@Ignore
 	private String baseHeadingText = "";
 	@Ignore
@@ -54,9 +54,8 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	@Ignore
 	private HandlerRegistration saveOrUpdateBtHandlerHr;
 
-	@SuppressWarnings("unchecked")
-	public EtlEditor(Object driver) {
-		this.driver = (SimpleBeanEditorDriver<V, EtlEditor<K, V>>) driver;
+	public EtlEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
+		this.driver = driver;
 		root = new EditorWindow();
 		saveOrUpdateBt = new TextButton("Save");
 		cancelBt = new TextButton("取消");
@@ -93,7 +92,8 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		getDriver().initialize(this);
 	}
 
-	public EtlEditor(SimpleBeanEditorDriver<V, EtlEditor<K, V>> driver,
+	public EtlEditor(
+			SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver,
 			EtlGridContainer<K, V> parent) {
 		this(driver);
 		this.parent = parent;
@@ -204,11 +204,13 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public SimpleBeanEditorDriver<V, EtlEditor<K, V>> getDriver() {
-		return driver;
+		return (SimpleBeanEditorDriver<V, EtlEditor<K, V>>) driver;
 	}
 
-	public void setDriver(SimpleBeanEditorDriver<V, EtlEditor<K, V>> driver) {
+	public void setDriver(
+			SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
 		this.driver = driver;
 	}
 
@@ -256,10 +258,12 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	public EditorWindow getRoot() {
 		return root;
 	}
+
 	@Ignore
 	public TextButton getSaveOrUpdateBt() {
 		return saveOrUpdateBt;
 	}
+
 	@Ignore
 	public TextButton getCancelBt() {
 		return cancelBt;

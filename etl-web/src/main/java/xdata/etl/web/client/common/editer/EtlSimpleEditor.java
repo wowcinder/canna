@@ -8,6 +8,7 @@ import java.io.Serializable;
 import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
 import xdata.etl.web.shared.entity.RpcEntity;
 
+import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.sencha.gxt.core.client.util.Padding;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
@@ -26,11 +27,11 @@ public abstract class EtlSimpleEditor<K extends Serializable, V extends RpcEntit
 	@Ignore
 	protected VerticalLayoutContainer layoutContainer;
 
-	public EtlSimpleEditor(Object driver) {
+	public EtlSimpleEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
 		super(driver);
 	}
 
-	public EtlSimpleEditor(Object driver, EtlGridContainer<K, V> parent) {
+	public EtlSimpleEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver, EtlGridContainer<K, V> parent) {
 		this(driver);
 		this.parent = parent;
 	}
