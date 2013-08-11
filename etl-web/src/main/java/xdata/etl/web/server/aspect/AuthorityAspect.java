@@ -4,13 +4,15 @@ import java.lang.reflect.Method;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
+import xdata.etl.web.server.util.HibernateBeanUtil;
 import xdata.etl.web.shared.annotations.AuthenticationMethod;
 import xdata.etl.web.shared.annotations.AuthenticationService;
 import xdata.etl.web.shared.exception.IllegalMethodException;
@@ -20,12 +22,16 @@ import xdata.etl.web.shared.exception.SharedException;
 @Aspect
 public class AuthorityAspect implements Ordered {
 
-	@Before("execution (* xdata.etl.web.client.service..*Service.*(..))")
-	public void save(JoinPoint jp) throws Throwable {
-		detail(jp);
+	@Around(value = "execution (* xdata.etl.web.client.service..*Service.*(..))")
+	public Object dealResult(ProceedingJoinPoint pjp) throws Throwable {
+		doAccessCheck(pjp);
+		Object retVal = pjp.proceed();
+		HibernateBeanUtil.dealBean(retVal);
+		return retVal;
+
 	}
 
-	public void detail(JoinPoint jp) {
+	public void doAccessCheck(JoinPoint jp) {
 		Class<?> clazz = jp.getTarget().getClass();
 		MethodSignature signature = (MethodSignature) jp.getSignature();
 		Method m = signature.getMethod();

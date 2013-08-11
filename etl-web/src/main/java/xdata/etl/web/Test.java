@@ -3,10 +3,6 @@
  */
 package xdata.etl.web;
 
-import java.lang.reflect.ParameterizedType;
-
-import xdata.etl.web.client.rpc.EntityRpcCaller;
-import xdata.etl.web.shared.entity.menu.Menu;
 
 /**
  * @author XuehuiHe
@@ -16,9 +12,9 @@ import xdata.etl.web.shared.entity.menu.Menu;
 public class Test {
 
 	public static void main(String[] args) {
-		EntityRpcCaller<Integer, Menu> test = new EntityRpcCaller<Integer, Menu>(){};
-		ParameterizedType type = (ParameterizedType)test.getClass().getGenericSuperclass();
-		System.out.println(type.getActualTypeArguments()[0]);
+//		EntityRpcCaller<Integer, Menu> test = new EntityRpcCaller<Integer, Menu>(){};
+//		ParameterizedType type = (ParameterizedType)test.getClass().getGenericSuperclass();
+//		System.out.println(type.getActualTypeArguments()[0]);
 		
 	}
 
