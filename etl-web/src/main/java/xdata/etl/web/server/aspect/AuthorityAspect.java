@@ -26,7 +26,7 @@ public class AuthorityAspect implements Ordered {
 	public Object dealResult(ProceedingJoinPoint pjp) throws Throwable {
 		doAccessCheck(pjp);
 		Object retVal = pjp.proceed();
-		HibernateBeanUtil.dealBean(retVal);
+		new HibernateBeanUtil().dealBean(retVal);
 		return retVal;
 
 	}

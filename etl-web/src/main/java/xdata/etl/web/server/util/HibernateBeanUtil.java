@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.Hibernate;
-
-import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 /**
  * @author XuehuiHe
@@ -27,19 +26,28 @@ public class HibernateBeanUtil {
 
 	private final static Map<Class<?>, List<Field>> columnFieldMap = new HashMap<Class<?>, List<Field>>();;
 
-	private HibernateBeanUtil() {
+	public HibernateBeanUtil() {
 	}
 
-	public static void dealBean(Object t) {
+	public void dealBean(Object t) {
+
+		HashSet<Object> hasDealed = new HashSet<Object>();
+
 		if (t == null) {
 			return;
 		}
+		if (hasDealed.contains(t)) {
+			return;
+		}
+		hasDealed.add(t);
 		if (t instanceof Collection) {
 			for (Object o : (Collection<?>) t) {
 				dealBean(o);
 			}
-		} else if (t instanceof PagingLoadResult) {
-			dealBean(((PagingLoadResult<?>) t).getData());
+		} else if (t instanceof Object[]) {
+			for (Object o : (Object[]) t) {
+				dealBean(o);
+			}
 		} else {
 			if (!t.getClass().isAnnotationPresent(Entity.class)) {
 				return;
@@ -48,15 +56,22 @@ public class HibernateBeanUtil {
 
 			try {
 				for (Field field : fields) {
-					boolean old = field.isAccessible();
-					if (!old) {
-						field.setAccessible(true);
-					}
+					field.setAccessible(true);
 					Object o = field.get(t);
-					if (o == null || o.getClass().isPrimitive()) {
+					if (o == null) {
+						continue;
+					}
+					if (Hibernate.isInitialized(o) && hasDealed.contains(o)) {
+						continue;
+					}
+					if (o.getClass().isPrimitive()
+							|| o.getClass().equals(String.class)) {
 					} else if (!Hibernate.isInitialized(o)) {
 						field.set(t, null);
+					} else {
+						dealBean(o);
 					}
+
 				}
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import xdata.etl.web.server.EtlSpringTestCase;
 import xdata.etl.web.server.dao.menu.MenuGroupDao;
-import xdata.etl.web.server.util.HibernateBeanUtil;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 
 public class MenuGroupDaoTest extends EtlSpringTestCase {
@@ -29,7 +28,6 @@ public class MenuGroupDaoTest extends EtlSpringTestCase {
 		List<MenuGroup> list = dao.get();
 		mg = list.get(0);
 
-		HibernateBeanUtil.dealBean(list);
 
 		for (Field field : get(mg.getClass())) {
 			System.out.println(field.getName());
@@ -52,5 +50,12 @@ public class MenuGroupDaoTest extends EtlSpringTestCase {
 			fields.addAll(get(clazz.getSuperclass()));
 		}
 		return fields;
+	}
+
+	public static void main(String[] args) {
+		String[] strs = new String[] {"jsldjfl"};
+		System.out.println(strs.getClass().getComponentType());
+		System.out.println(strs.getClass().getGenericSuperclass());
+		System.out.println(strs.getClass().getClass().getName());
 	}
 }
