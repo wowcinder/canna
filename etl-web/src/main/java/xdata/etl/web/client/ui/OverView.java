@@ -8,7 +8,7 @@ public class OverView extends CenterView {
 		setCloseAble(false);
 		setToken("overview");
 		setLabel("这是预览!");
-		con.add(new TextButton("这是预览!"));
+		con.add(new TextButton("预览!"));
 	}
 	@Override
 	protected void doAddAttachHandler() {

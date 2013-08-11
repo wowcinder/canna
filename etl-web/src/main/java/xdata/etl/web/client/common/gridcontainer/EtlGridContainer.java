@@ -100,11 +100,11 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		setLoader(getRpcCaller().getPagingLoader(getGrid().getStore()));
 
 		getGrid().setLoader(getLoader());
-		
+
 		setPagingBar(new PagingToolBar(getPageItemCount()));
 		getPagingBar().getElement().getStyle()
 				.setProperty("borderBottom", "none");
-//		getPagingBar().setHeight(40);
+		// getPagingBar().setHeight(40);
 		getPagingBar().bind(getLoader());
 
 	}
@@ -159,62 +159,34 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		this.deleteBt = deleteBt;
 	}
 
-	/**
-	 * @return the bar
-	 */
 	public ToolBar getBar() {
 		return bar;
 	}
 
-	/**
-	 * @param bar
-	 *            the bar to set
-	 */
 	public void setBar(ToolBar bar) {
 		this.bar = bar;
 	}
 
-	/**
-	 * @return the loader
-	 */
 	public EtlPagingLoader<V> getLoader() {
 		return loader;
 	}
 
-	/**
-	 * @param loader
-	 *            the loader to set
-	 */
 	public void setLoader(EtlPagingLoader<V> loader) {
 		this.loader = loader;
 	}
 
-	/**
-	 * @return the pagingBar
-	 */
 	public PagingToolBar getPagingBar() {
 		return pagingBar;
 	}
 
-	/**
-	 * @param pagingBar
-	 *            the pagingBar to set
-	 */
 	public void setPagingBar(PagingToolBar pagingBar) {
 		this.pagingBar = pagingBar;
 	}
 
-	/**
-	 * @return the pageItemCount
-	 */
 	public int getPageItemCount() {
 		return pageItemCount;
 	}
 
-	/**
-	 * @param pageItemCount
-	 *            the pageItemCount to set
-	 */
 	public void setPageItemCount(int pageItemCount) {
 		this.pageItemCount = pageItemCount;
 	}

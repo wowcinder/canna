@@ -31,8 +31,8 @@ public class MenuView extends CenterView {
 		editor.setParent(gridContainer);
 		builder.setAddEditor(editor);
 		builder.setUpdateEditor(editor);
+		builder.setPaging(false);
 		builder.build();
-
 		con.setWidget(gridContainer);
 	}
 

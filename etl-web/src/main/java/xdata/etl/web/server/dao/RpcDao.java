@@ -109,8 +109,9 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<V> get() throws SharedException {
-		Criteria criteria = findGetCriteria();
-		return criteria.list();
+		Session s = getSession();
+		return s.createCriteria(clazz)
+				.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
 	}
 
 	public Criteria findGetCriteria() {
@@ -142,8 +143,8 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 		pr.setOffset(config.getOffset());
 		pr.setTotalLength((int) rowCount);
 		addPagingConfig(config, criteria);
-		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY); 
-		pr.setData((List<V>)criteria.list());
+		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
+		pr.setData((List<V>) criteria.list());
 		return pr;
 	}
 
