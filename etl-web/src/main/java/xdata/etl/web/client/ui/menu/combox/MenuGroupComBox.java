@@ -1,11 +1,12 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.client.ui.menu;
+package xdata.etl.web.client.ui.menu.combox;
 
 import xdata.etl.web.client.common.combox.EtlComBox;
 import xdata.etl.web.client.property.MenuGroupProperty;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.ui.menu.editor.MenuGroupEditor;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 
 import com.google.gwt.core.shared.GWT;

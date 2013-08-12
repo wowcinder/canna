@@ -1,10 +1,11 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.client.ui.menu;
+package xdata.etl.web.client.ui.menu.grid;
 
 import xdata.etl.web.client.common.grid.EtlGrid;
 import xdata.etl.web.client.property.MenuProperty;
+import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 
@@ -52,9 +53,26 @@ public class MenuGrid extends EtlGrid<Integer, Menu> {
 						return SafeHtmlUtils.fromString(str);
 					}
 				}));
+
+		ColumnConfig<Menu, Authority> auCC = new ColumnConfig<Menu, Authority>(
+				getProps().requireAuthority(), 200, "所需权限");
+		auCC.setCell(new SimpleSafeHtmlCell<Authority>(
+				new AbstractSafeHtmlRenderer<Authority>() {
+
+					@Override
+					public SafeHtml render(Authority auth) {
+						if (auth == null) {
+							return null;
+						}
+						return SafeHtmlUtils.fromString(auth.getGroup()
+								.getName() + "_" + auth.getName());
+					}
+				}));
+
 		getColumnConfigs().add(nameCC);
 		getColumnConfigs().add(tokenCC);
 		getColumnConfigs().add(mgCC);
+		getColumnConfigs().add(auCC);
 
 		new GridDragSource<Menu>(this);
 		GridDropTarget<Menu> target1 = new GridDropTarget<Menu>(this);

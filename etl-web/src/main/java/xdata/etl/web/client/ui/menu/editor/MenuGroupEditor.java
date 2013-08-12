@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.client.ui.menu;
+package xdata.etl.web.client.ui.menu.editor;
 
 import xdata.etl.web.client.common.editer.EtlSimpleEditor;
 import xdata.etl.web.shared.entity.menu.MenuGroup;

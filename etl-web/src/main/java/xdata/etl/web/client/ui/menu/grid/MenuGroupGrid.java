@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.client.ui.menu;
+package xdata.etl.web.client.ui.menu.grid;
 
 import xdata.etl.web.client.common.grid.EtlGrid;
 import xdata.etl.web.client.property.MenuGroupProperty;

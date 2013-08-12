@@ -8,6 +8,8 @@ import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
 import xdata.etl.web.client.service.menu.MenuGroupService;
 import xdata.etl.web.client.service.menu.MenuGroupServiceAsync;
 import xdata.etl.web.client.ui.CenterView;
+import xdata.etl.web.client.ui.menu.editor.MenuGroupEditor;
+import xdata.etl.web.client.ui.menu.grid.MenuGroupGrid;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 
