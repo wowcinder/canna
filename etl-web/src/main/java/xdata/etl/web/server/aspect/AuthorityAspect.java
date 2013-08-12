@@ -1,30 +1,25 @@
 package xdata.etl.web.server.aspect;
 
-import java.lang.reflect.Method;
-
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
+import xdata.etl.web.server.common.AccessService;
 import xdata.etl.web.server.util.HibernateBeanUtil;
-import xdata.etl.web.shared.annotations.AuthenticationMethod;
-import xdata.etl.web.shared.annotations.AuthenticationService;
-import xdata.etl.web.shared.exception.IllegalMethodException;
 import xdata.etl.web.shared.exception.SharedException;
 
 @Component
 @Aspect
 public class AuthorityAspect implements Ordered {
+
+	@Autowired
+	private AccessService accessService;
 
 	@Around(value = "execution (* xdata.etl.web.client.service..*Service.*(..))")
 	public Object dealResult(ProceedingJoinPoint pjp) throws Throwable {
@@ -35,29 +30,37 @@ public class AuthorityAspect implements Ordered {
 
 	}
 
-	public void doAccessCheck(JoinPoint jp) {
-		if(RequestContextHolder.getRequestAttributes() == null){
-			//NO Session
-			return ;
-		}
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession();
-		System.out.println(session);
-		Class<?> clazz = jp.getTarget().getClass();
-		MethodSignature signature = (MethodSignature) jp.getSignature();
-		Method m = signature.getMethod();
+	public static class Tuple {
+		String group;
+		String name;
 
-		AuthenticationMethod am = m.getAnnotation(AuthenticationMethod.class);
-		AuthenticationService as = clazz
-				.getAnnotation(AuthenticationService.class);
-		if (am == null || as == null) {
-			throw new IllegalMethodException(m.getName() + " is illegal method");
+		@Override
+		public int hashCode() {
+			return group.hashCode() + 3 * name.hashCode();
 		}
-		if (am.isOpen()) {
-			System.out.println("-----------open---------------");
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (obj == this) {
+				return true;
+			}
+			if (!(obj instanceof Tuple)) {
+				return false;
+			}
+			Tuple that = (Tuple) obj;
+			return this.group.equals(that.group) && this.name.equals(that.name);
 		}
-		System.out.println("权限组名: " + as.value() + "\t权限名: " + am.value());
-		System.out.println("--------------detail------------");
+	}
+
+	public void doAccessCheck(JoinPoint jp) {
+		if (accessService.isAccess(jp)) {
+			// TODO
+		} else {
+			// TODO
+		}
 	}
 
 	@AfterThrowing(pointcut = "execution (* xdata.etl.web.client.service..*Service.*(..))", throwing = "ex")

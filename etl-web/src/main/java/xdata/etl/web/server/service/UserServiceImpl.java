@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import xdata.etl.web.client.service.user.UserService;
 import xdata.etl.web.server.dao.user.UserDao;
-import xdata.etl.web.shared.annotations.AuthenticationService;
+import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.entity.user.User;
 
 /**
@@ -16,7 +16,7 @@ import xdata.etl.web.shared.entity.user.User;
  * @date 2013年8月8日
  */
 @Service
-@AuthenticationService("用户")
+@AccessAuthorityGroup("用户")
 public class UserServiceImpl extends RpcServiceImpl<Integer, User> implements
 		UserService {
 	public UserServiceImpl() {
