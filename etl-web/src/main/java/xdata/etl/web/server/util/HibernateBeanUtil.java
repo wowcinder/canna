@@ -11,11 +11,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.Hibernate;
+import org.hibernate.collection.AbstractPersistentCollection;
 
 /**
  * @author XuehuiHe
@@ -29,6 +31,7 @@ public class HibernateBeanUtil {
 	public HibernateBeanUtil() {
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void dealBean(Object t) {
 
 		HashSet<Object> hasDealed = new HashSet<Object>();
@@ -68,6 +71,22 @@ public class HibernateBeanUtil {
 							|| o.getClass().equals(String.class)) {
 					} else if (!Hibernate.isInitialized(o)) {
 						field.set(t, null);
+					} else if (Hibernate.isInitialized(o)
+							&& o instanceof AbstractPersistentCollection) {
+						if (field.getType().isArray()) {
+							// TODO
+						} else if (List.class.isAssignableFrom(field.getType())) {
+							List list = new ArrayList();
+							list.addAll((Collection<?>) o);
+							field.set(t, list);
+						} else if (Set.class.isAssignableFrom(field.getType())) {
+							Set set = new HashSet();
+							set.addAll((Collection<?>) o);
+							field.set(t, set);
+						} else {
+							// TODO
+						}
+						dealBean(field.get(t));
 					} else {
 						dealBean(o);
 					}

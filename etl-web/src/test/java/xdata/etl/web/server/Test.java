@@ -8,7 +8,10 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author XuehuiHe
@@ -16,6 +19,11 @@ import java.lang.reflect.Method;
  * 
  */
 public class Test {
+	
+	private List<String> strs;
+	private String[] strs2;
+	private Set<String> strs3;
+	
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	@Inherited
@@ -28,11 +36,7 @@ public class Test {
 
 	}
 
-	public static void main(String[] args) {
-		for (Method method : Test.class.getMethods()) {
-			System.out.println(method.getName());
-			System.out.println(method.isAnnotationPresent(KK.class));
-		}
+	public static void main(String[] args) throws SecurityException, NoSuchFieldException {
 	}
 
 }

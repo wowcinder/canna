@@ -26,6 +26,7 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 	private boolean isShowAddBt = true;
 	private boolean isShowRemoveBt = true;
 	private boolean isUpdateEnabled = true;
+	private boolean isInitData = true;
 	private EtlEditor<K, V> addEditor;
 	private EtlEditor<K, V> updateEditor;
 
@@ -141,7 +142,9 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 		}
 		gridContainer.initBtBar();
 		gridContainer.initView();
-		gridContainer.initData();
+		if(isInitData()){
+			gridContainer.initData();
+		}
 		return gridContainer;
 	}
 
@@ -419,6 +422,21 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 	 */
 	public EtlGridContainer<K, V> getGridContainer() {
 		return gridContainer;
+	}
+
+	/**
+	 * @return the isInitData
+	 */
+	public boolean isInitData() {
+		return isInitData;
+	}
+
+	/**
+	 * @param isInitData
+	 *            the isInitData to set
+	 */
+	public void setInitData(boolean isInitData) {
+		this.isInitData = isInitData;
 	}
 
 }

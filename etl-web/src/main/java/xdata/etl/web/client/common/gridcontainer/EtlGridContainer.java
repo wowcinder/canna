@@ -30,8 +30,8 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		extends VerticalLayoutContainer {
 
 	private final EtlGrid<K, V> grid;
-	private final RpcServiceAsync<K, V> service;
-	private final EntityRpcCaller<K, V> rpcCaller;
+	private RpcServiceAsync<K, V> service;
+	private EntityRpcCaller<K, V> rpcCaller;
 
 	private TextButton addBt;
 	private TextButton deleteBt;
@@ -43,8 +43,10 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 
 	public EtlGridContainer(EtlGrid<K, V> grid, RpcServiceAsync<K, V> service) {
 		this.grid = grid;
-		this.service = service;
-		this.rpcCaller = new EntityRpcCaller<K, V>(service);
+		if (service != null) {
+			this.service = service;
+			this.rpcCaller = new EntityRpcCaller<K, V>(service);
+		}
 	}
 
 	public void initAddBt() {
@@ -82,13 +84,15 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 
 	public void initData() {
 		if (getLoader() == null) {
-			this.rpcCaller.get(new GwtCallBack<List<V>>() {
-				@Override
-				public void call(List<V> t) {
-					grid.getStore().clear();
-					grid.getStore().addAll(t);
-				}
-			});
+			if (this.rpcCaller != null) {
+				this.rpcCaller.get(new GwtCallBack<List<V>>() {
+					@Override
+					public void call(List<V> t) {
+						grid.getStore().clear();
+						grid.getStore().addAll(t);
+					}
+				});
+			}
 		} else {
 			getLoader().load();
 		}
@@ -115,6 +119,11 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 			getDeleteBt().enable();
 			return;
 		}
+		rpcDelete(list);
+
+	}
+
+	protected void rpcDelete(final List<V> list) {
 		List<K> ids = new ArrayList<K>();
 		for (V v : list) {
 			ids.add(v.getId());
