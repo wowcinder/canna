@@ -55,6 +55,9 @@ public class Authority extends IdentityRpcEntity<Integer> {
 			CascadeType.DETACH })
 	private Set<UserGroup> userGroups;
 
+	public Authority() {
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -95,32 +98,12 @@ public class Authority extends IdentityRpcEntity<Integer> {
 		this.isOpen = isOpen;
 	}
 
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
 	public Set<Menu> getMenus() {
 		return menus;
 	}
 
 	public void setMenus(Set<Menu> menus) {
 		this.menus = menus;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (this == obj) {
-			return true;
-		}
-		if (obj instanceof Authority) {
-			Authority that = (Authority) obj;
-			return this.getName().equals(that.getName());
-		}
-		return false;
 	}
 
 	public Set<User> getUsers() {

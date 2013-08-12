@@ -23,6 +23,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.3.0</version>
@@ -45,7 +50,6 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>${gwt.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -72,7 +76,6 @@
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt</artifactId>
 			<version>${gxt.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
@@ -86,7 +89,6 @@
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt-chart</artifactId>
 			<version>${gxt.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
@@ -100,7 +102,6 @@
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt-legacy</artifactId>
 			<version>${gxt.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
@@ -114,7 +115,6 @@
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>uibinder-bridge</artifactId>
 			<version>2.4.0</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
