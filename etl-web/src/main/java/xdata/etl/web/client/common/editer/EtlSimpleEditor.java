@@ -5,7 +5,6 @@ package xdata.etl.web.client.common.editer;
 
 import java.io.Serializable;
 
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
 import xdata.etl.web.shared.entity.RpcEntity;
 
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -29,11 +28,6 @@ public abstract class EtlSimpleEditor<K extends Serializable, V extends RpcEntit
 
 	public EtlSimpleEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
 		super(driver);
-	}
-
-	public EtlSimpleEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver, EtlGridContainer<K, V> parent) {
-		this(driver);
-		this.parent = parent;
 	}
 
 	protected void initView() {
