@@ -114,7 +114,7 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 				.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
 	}
 
-	public Criteria findGetCriteria() {
+	protected Criteria findGetCriteria() {
 		return getSession().createCriteria(clazz);
 	}
 
@@ -131,6 +131,10 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 		return lt;
 	}
 
+	protected void criteriaLimit(Criteria criteria) {
+
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public PagingLoadResult<V> get(EtlPagingLoadConfigBean config)
@@ -143,6 +147,7 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 		pr.setOffset(config.getOffset());
 		pr.setTotalLength((int) rowCount);
 		addPagingConfig(config, criteria);
+		criteriaLimit(criteria);
 		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 		pr.setData((List<V>) criteria.list());
 		return pr;

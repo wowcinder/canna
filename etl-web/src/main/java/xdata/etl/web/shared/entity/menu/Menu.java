@@ -28,7 +28,7 @@ public class Menu extends IdentityRpcEntity<Integer> {
 	private String name;
 	@Column(length = 20, nullable = false, unique = true)
 	@NotNull
-	@Length(min = 1, max = 20)
+	@Length(min = 1, max = 50)
 	private String token;
 	@ManyToOne
 	private MenuGroup menuGroup;

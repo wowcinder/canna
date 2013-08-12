@@ -5,8 +5,10 @@ package xdata.etl.web.server.dao.authority;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +30,14 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 		AuthorityDao {
 
 	public AuthorityDaoImpl() {
+	}
+
+	@Override
+	protected void criteriaLimit(Criteria criteria) {
+		super.criteriaLimit(criteria);
+		criteria.createAlias("group", "g").addOrder(Order.asc("g.name"))
+				.addOrder(Order.asc("name"));
+
 	}
 
 	@Override
