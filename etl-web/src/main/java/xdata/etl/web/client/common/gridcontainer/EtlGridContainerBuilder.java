@@ -118,8 +118,10 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 
 	public EtlGridContainer<K, V> build() {
 		if (isShowAddBt()) {
-			addEditor.setAddCancelCallBack(getAddCancelCallBack());
-			addEditor.setAddCallBack(getRealAddCallBack());
+			if (addEditor != null) {
+				addEditor.setAddCancelCallBack(getAddCancelCallBack());
+				addEditor.setAddCallBack(getRealAddCallBack());
+			}
 			gridContainer.initAddBt();
 			gridContainer.getAddBt().addSelectHandler(getRealAddBtHandler());
 		}
@@ -129,7 +131,9 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 					getRealDeleteBtHandler());
 		}
 		if (isUpdateEnabled()) {
-			updateEditor.setUpdateCallBack(getUpdateCallBack());
+			if (updateEditor != null) {
+				updateEditor.setUpdateCallBack(getUpdateCallBack());
+			}
 			grid.addCellDoubleClickHandler(getUpdateHandler());
 		}
 		if (isPaging()) {

@@ -23,7 +23,12 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 public class AuthorityGrid extends EtlGrid<Integer, Authority> {
 
 	public AuthorityGrid() {
-		super(GWT.<AuthorityProperty> create(AuthorityProperty.class));
+		this(true);
+	}
+
+	public AuthorityGrid(boolean isMultiSelect) {
+		super(GWT.<AuthorityProperty> create(AuthorityProperty.class),
+				isMultiSelect);
 	}
 
 	@Override

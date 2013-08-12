@@ -4,9 +4,11 @@
 package xdata.etl.web.client.ui.menu.editor;
 
 import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.service.menu.MenuGroupService;
 import xdata.etl.web.client.service.menu.MenuGroupServiceAsync;
+import xdata.etl.web.client.ui.menu.combox.AuthoritySelector;
 import xdata.etl.web.client.ui.menu.combox.MenuGroupComBox;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.menu.Menu;
@@ -14,6 +16,8 @@ import xdata.etl.web.shared.entity.menu.MenuGroup;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.widget.client.TextButton;
 import com.sencha.gxt.cell.core.client.form.TextInputCell.TextFieldAppearance;
@@ -97,7 +101,7 @@ public class MenuEditor extends EtlSimpleEditor<Integer, Menu> {
 		layoutContainer.add(new FieldLabel(name, "name"), vd);
 		layoutContainer.add(new FieldLabel(token, "token"), vd);
 		layoutContainer.add(new FieldLabel(menuGroup, "菜单组"), vd);
-		
+
 		modifyAuthority = new TextButton("修改权限");
 
 		HorizontalLayoutContainer hbox = new HorizontalLayoutContainer();
@@ -108,7 +112,22 @@ public class MenuEditor extends EtlSimpleEditor<Integer, Menu> {
 		FieldLabel f = new FieldLabel(hbox, "所需权限");
 
 		layoutContainer.add(f, vd);
-		 layoutContainer.setWidth(350);
+		layoutContainer.setWidth(350);
+
+		modifyAuthority.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				AuthoritySelector selector = new AuthoritySelector();
+				selector.setCallback(new GwtCallBack<Authority>() {
+					@Override
+					public void call(Authority t) {
+						requireAuthority.setValue(t);
+					}
+				});
+				selector.show();
+			}
+		});
 	}
 
 	@Override
