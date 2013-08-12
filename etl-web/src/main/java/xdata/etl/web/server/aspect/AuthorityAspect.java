@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+
 import xdata.etl.web.server.common.AccessService;
 import xdata.etl.web.server.util.HibernateBeanUtil;
 import xdata.etl.web.shared.exception.SharedException;
@@ -25,7 +27,15 @@ public class AuthorityAspect implements Ordered {
 	public Object dealResult(ProceedingJoinPoint pjp) throws Throwable {
 		doAccessCheck(pjp);
 		Object retVal = pjp.proceed();
-		new HibernateBeanUtil().dealBean(retVal);
+		if (retVal != null) {
+			if (retVal instanceof PagingLoadResult) {
+				new HibernateBeanUtil().dealBean(((PagingLoadResult<?>) retVal)
+						.getData());
+			} else {
+				new HibernateBeanUtil().dealBean(retVal);
+			}
+		}
+
 		return retVal;
 
 	}
