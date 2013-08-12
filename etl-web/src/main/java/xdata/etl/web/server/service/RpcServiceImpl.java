@@ -13,9 +13,8 @@ import org.hibernate.validator.engine.ValidationSupport;
 import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.client.service.RpcService;
 import xdata.etl.web.server.dao.IRpcDao;
-import xdata.etl.web.server.util.HibernateBeanReplicatorUtil;
 import xdata.etl.web.shared.Provider;
-import xdata.etl.web.shared.annotations.AuthenticationMethod;
+import xdata.etl.web.shared.annotations.AccessAuthority;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
 
@@ -38,38 +37,38 @@ public class RpcServiceImpl<K extends Serializable, V extends RpcEntity<K>>
 	}
 
 	@Override
-	@AuthenticationMethod("添加")
+	@AccessAuthority("添加")
 	public V saveAndReturn(V v) throws SharedException,
 			ConstraintViolationException {
 		return getRpcDao().saveAndReturn(v);
 	}
 
 	@Override
-	@AuthenticationMethod("添加")
+	@AccessAuthority("添加")
 	public K save(V v) throws SharedException, ConstraintViolationException {
 		return getRpcDao().save(v);
 	}
 
 	@Override
-	@AuthenticationMethod("修改")
+	@AccessAuthority("修改")
 	public V update(V v) throws SharedException, ConstraintViolationException {
 		return getRpcDao().update(v);
 	}
 
 	@Override
-	@AuthenticationMethod("删除")
+	@AccessAuthority("删除")
 	public void delete(List<K> ids) throws SharedException {
 		getRpcDao().delete(ids);
 	}
 
 	@Override
-	@AuthenticationMethod("删除")
+	@AccessAuthority("删除")
 	public void delete(Provider<K> k) throws SharedException {
 		getRpcDao().delete(k.get());
 	}
 
 	@Override
-	@AuthenticationMethod("查询")
+	@AccessAuthority("查询")
 	public List<V> get() throws SharedException {
 		return getRpcDao().get();
 	}
@@ -84,23 +83,18 @@ public class RpcServiceImpl<K extends Serializable, V extends RpcEntity<K>>
 	}
 
 	@Override
-	@AuthenticationMethod("查询")
+	@AccessAuthority("查询")
 	public V get(Provider<K> k) throws SharedException {
 		return getRpcDao().get(k.get());
 	}
 
 	@Override
-	@AuthenticationMethod("查询")
+	@AccessAuthority("查询")
 	public PagingLoadResult<V> get(EtlPagingLoadConfigBean config)
 			throws SharedException {
-		PagingLoadResultBean<V> pr = (PagingLoadResultBean<V>) getRpcDao().get(config);
-		// excludeCollectionCopy(result);
-		// TODO
+		PagingLoadResultBean<V> pr = (PagingLoadResultBean<V>) getRpcDao().get(
+				config);
 		return pr;
 	}
 
-	protected void excludeCollectionCopy(PagingLoadResultBean<V> pr) {
-		pr.setData(HibernateBeanReplicatorUtil.excludeCollectionCopy(pr
-				.getData()));
-	}
 }

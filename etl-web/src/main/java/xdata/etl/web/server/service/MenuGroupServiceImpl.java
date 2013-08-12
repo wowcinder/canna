@@ -3,20 +3,25 @@
  */
 package xdata.etl.web.server.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xdata.etl.web.client.service.menu.MenuGroupService;
 import xdata.etl.web.server.dao.menu.MenuGroupDao;
-import xdata.etl.web.shared.annotations.AuthenticationService;
+import xdata.etl.web.shared.annotations.AccessAuthorities;
+import xdata.etl.web.shared.annotations.AccessAuthority;
+import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
+import xdata.etl.web.shared.exception.SharedException;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月8日
  */
 @Service
-@AuthenticationService("菜单组")
+@AccessAuthorityGroup("菜单组")
 public class MenuGroupServiceImpl extends RpcServiceImpl<Integer, MenuGroup>
 		implements MenuGroupService {
 	public MenuGroupServiceImpl() {
@@ -25,5 +30,12 @@ public class MenuGroupServiceImpl extends RpcServiceImpl<Integer, MenuGroup>
 	@Autowired
 	public MenuGroupServiceImpl(MenuGroupDao dao) {
 		super(dao);
+	}
+
+	@Override
+	@AccessAuthorities({ @AccessAuthority("查询"),
+			@AccessAuthority(group = "菜单", value = "查询") })
+	public List<MenuGroup> get() throws SharedException {
+		return super.get();
 	}
 }

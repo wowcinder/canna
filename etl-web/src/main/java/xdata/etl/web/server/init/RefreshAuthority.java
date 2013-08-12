@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,9 @@ import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.dao.menu.MenuDao;
 import xdata.etl.web.server.util.ClassScaner;
 import xdata.etl.web.server.util.ClassScaner.ClassFilter;
-import xdata.etl.web.shared.annotations.AuthenticationMethod;
-import xdata.etl.web.shared.annotations.AuthenticationService;
+import xdata.etl.web.shared.annotations.AccessAuthorities;
+import xdata.etl.web.shared.annotations.AccessAuthority;
+import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
@@ -40,18 +39,103 @@ public class RefreshAuthority implements InitializingBean {
 	@Autowired
 	private MenuDao menuDao;
 
-	private static ClassFilter<Class<?>> filter = new ClassFilter<Class<?>>() {
+	public static class ScanedAccessAuthority {
+		private String group;
+		private String value;
+		private Boolean isOpen = false;
+
+		public ScanedAccessAuthority() {
+		}
+
+		public String getGroup() {
+			return group;
+		}
+
+		public void setGroup(String group) {
+			this.group = group;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public void setValue(String value) {
+			this.value = value;
+		}
+
+		public Boolean isOpen() {
+			return isOpen;
+		}
+
+		public void setOpen(Boolean isOpen) {
+			this.isOpen = isOpen;
+		}
 
 		@Override
-		public List<Class<?>> filte(ClassScaner scaner) {
-			List<Class<?>> list = new ArrayList<Class<?>>();
+		public int hashCode() {
+			return getGroup().hashCode() + 3 * getValue().hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (obj == this) {
+				return true;
+			}
+			if (!(obj instanceof ScanedAccessAuthority)) {
+				return false;
+			}
+			ScanedAccessAuthority that = (ScanedAccessAuthority) obj;
+			return that.getGroup().equals(this.getGroup())
+					&& that.getValue().equals(this.getValue());
+		}
+
+	}
+
+	private static ClassFilter<ScanedAccessAuthority> filter = new ClassFilter<ScanedAccessAuthority>() {
+
+		@Override
+		public List<ScanedAccessAuthority> filte(ClassScaner scaner) {
+			List<ScanedAccessAuthority> list = new ArrayList<RefreshAuthority.ScanedAccessAuthority>();
+			HashSet<ScanedAccessAuthority> set = new HashSet<RefreshAuthority.ScanedAccessAuthority>();
 			for (Class<?> clazz : scaner.getClazzes()) {
-				AuthenticationService s = clazz
-						.getAnnotation(AuthenticationService.class);
-				if (s != null) {
-					list.add(clazz);
+				AccessAuthorityGroup g = clazz
+						.getAnnotation(AccessAuthorityGroup.class);
+				String gName = "";
+				if (g != null) {
+					gName = g.value();
+				}
+				for (Method method : clazz.getMethods()) {
+					AccessAuthorities authorities = method
+							.getAnnotation(AccessAuthorities.class);
+					AccessAuthority authority = method
+							.getAnnotation(AccessAuthority.class);
+					if (authorities == null && authority == null) {
+						continue;
+					}
+					if (authority != null) {
+						ScanedAccessAuthority a = new ScanedAccessAuthority();
+						a.setOpen(authority.isOpen());
+						a.setValue(authority.value());
+						a.setGroup(authority.group().equals("") ? gName
+								: authority.group());
+						set.add(a);
+					} else {
+						for (AccessAuthority authorityItem : authorities
+								.value()) {
+							ScanedAccessAuthority a = new ScanedAccessAuthority();
+							a.setOpen(authorityItem.isOpen());
+							a.setValue(authorityItem.value());
+							a.setGroup(authorityItem.group().equals("") ? gName
+									: authorityItem.group());
+							set.add(a);
+						}
+					}
 				}
 			}
+			list.addAll(set);
 			return list;
 		}
 	};
@@ -80,62 +164,41 @@ public class RefreshAuthority implements InitializingBean {
 	}
 
 	protected void initAuthorityConfig() {
-		List<Class<?>> list = filter.filte(this.scanner);
-		Set<String> agNames = new HashSet<String>();
-		Map<String, HashSet<Authority>> map = new HashMap<String, HashSet<Authority>>();
+		List<ScanedAccessAuthority> list = filter.filte(this.scanner);
+		HashMap<String, List<ScanedAccessAuthority>> map = new HashMap<String, List<ScanedAccessAuthority>>();
 
-		for (Class<?> clazz : list) {
-			AuthenticationService s = clazz
-					.getAnnotation(AuthenticationService.class);
-			String agName = s.value();
-			if (agNames.contains(agName)) {
-				throw new Error(agName + "权限组重复");
+		for (ScanedAccessAuthority scanedAccessAuthority : list) {
+			String group = scanedAccessAuthority.getGroup();
+			if (!map.containsKey(group)) {
+				map.put(group,
+						new ArrayList<RefreshAuthority.ScanedAccessAuthority>());
 			}
-			agNames.add(agName);
-			if (!map.containsKey(agName)) {
-				map.put(agName, new HashSet<Authority>());
-			}
-			Method[] methods = clazz.getMethods();
-			for (Method method : methods) {
-				AuthenticationMethod m = method
-						.getAnnotation(AuthenticationMethod.class);
-				if (m != null) {
-					Authority a = new Authority();
-					a.setName(m.value());
-					a.setIsOpen(m.isOpen());
-					map.get(agName).add(a);
-				}
-			}
+			map.get(group).add(scanedAccessAuthority);
 		}
-		int i = 1;
-		for (String agName : agNames) {
-			AuthorityGroup ag = new AuthorityGroup();
-			ag.setName(agName);
-			ag.setDisplayOrder(i);
-			Integer agId = agService.queryByName(agName);
-			if (agId == null) {
-				agService.save(ag);
-			} else {
-				ag.setId(agId);
-				agService.update(ag);
+		for (String group : map.keySet()) {
+			if(group==null || group.equals("")){
+				continue;
 			}
-			i++;
+			List<ScanedAccessAuthority> items = map.get(group);
+			Integer gid = agService.queryByName(group);
+			AuthorityGroup ag = new AuthorityGroup();
+			ag.setName(group);
+			if (gid != null) {
+				ag.setId(gid);
+			} else {
+				ag.setId(agService.save(ag));
+			}
 
-			HashSet<Authority> authorities = map.get(agName);
-			int j = 1;
-			for (Authority authority : authorities) {
-				authority.setDisplayOrder(j);
-				authority.setGroup(ag);
+			for (ScanedAccessAuthority scanedAccessAuthority : items) {
 				Authority old = aService.queryByName(ag.getId(),
-						authority.getName());
-				if (old != null) {
-					authority.setId(old.getId());
-					authority.setToken(old.getToken());
-					aService.update(authority);
-				} else {
+						scanedAccessAuthority.getValue());
+				if (old == null) {
+					Authority authority = new Authority();
+					authority.setGroup(ag);
+					authority.setIsOpen(scanedAccessAuthority.isOpen());
+					authority.setName(scanedAccessAuthority.value);
 					aService.save(authority);
 				}
-				j++;
 			}
 		}
 	}

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.server.dao.authority.AuthorityGroupDao;
-import xdata.etl.web.shared.annotations.AuthenticationMethod;
-import xdata.etl.web.shared.annotations.AuthenticationService;
+import xdata.etl.web.shared.annotations.AccessAuthority;
+import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 
 /**
@@ -18,7 +18,7 @@ import xdata.etl.web.shared.entity.authority.AuthorityGroup;
  * 
  */
 @Service
-@AuthenticationService("权限组")
+@AccessAuthorityGroup("权限组")
 public class AuthorityGroupServiceImpl extends
 		RpcServiceImpl<Integer, AuthorityGroup> implements
 		AuthorityGroupService {
@@ -31,7 +31,7 @@ public class AuthorityGroupServiceImpl extends
 	}
 
 	@Override
-	@AuthenticationMethod(value = "检查权限组名", isOpen = true)
+	@AccessAuthority(value = "检查权限组名", isOpen = true)
 	public Integer queryByName(String name) {
 		return getRpcDao().queryByName(name);
 	}
