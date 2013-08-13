@@ -10,14 +10,17 @@ import java.util.Map;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import xdata.etl.web.server.service.open.AccountService;
 import xdata.etl.web.server.util.AuthorityUtil;
 import xdata.etl.web.shared.annotations.AccessAuthorities;
 import xdata.etl.web.shared.annotations.AccessAuthority;
 import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.exception.IllegalMethodException;
+import xdata.etl.web.shared.exception.NoLoginException;
 
 /**
  * @author XuehuiHe
@@ -26,6 +29,9 @@ import xdata.etl.web.shared.exception.IllegalMethodException;
  */
 @Service
 public class AccessServiceImpl implements AccessService {
+	@Autowired
+	public AccountService accountService;
+
 	Map<Tuple, HashSet<String>> methodToTokens;
 	HashSet<Tuple> openMethods;
 	HashSet<Tuple> illegalMethods;
@@ -40,6 +46,12 @@ public class AccessServiceImpl implements AccessService {
 	public boolean isAccess(JoinPoint jp) {
 		if (RequestContextHolder.getRequestAttributes() == null) {
 			// NO Session
+			return true;
+		}
+		if (!accountService.isLogin()) {
+			throw new NoLoginException();
+		}
+		if (accountService.isAdmin()) {
 			return true;
 		}
 		MethodSignature signature = (MethodSignature) jp.getSignature();
@@ -61,15 +73,13 @@ public class AccessServiceImpl implements AccessService {
 		if (tokens == null) {
 			throw new IllegalMethodException(m.getName() + " is illegal method");
 		}
-		// ServletRequestAttributes attr = (ServletRequestAttributes)
-		// RequestContextHolder
-		// .currentRequestAttributes();
-		// HttpSession session = attr.getRequest().getSession();
-		// TODO
-		for (String token : tokens) {
-			System.out.println("token:\t" + token);
+		if (accountService.isAccessAbled(tokens)) {
+			for (String token : tokens) {
+				System.out.println("token:\t" + token);
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	protected synchronized void fillMap(Tuple t) {

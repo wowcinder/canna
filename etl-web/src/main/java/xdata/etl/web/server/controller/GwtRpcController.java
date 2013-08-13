@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import xdata.etl.web.client.service.LoginService;
 import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.client.service.menu.MenuGroupService;
@@ -71,5 +72,11 @@ public class GwtRpcController {
 			SerializationException {
 		proxyUtil.getService(MenuGroupService.class).processPost(request,
 				response);
+	}
+
+	@RequestMapping("login")
+	public void login(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException, SerializationException {
+		proxyUtil.getService(LoginService.class).processPost(request, response);
 	}
 }

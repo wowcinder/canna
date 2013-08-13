@@ -9,12 +9,16 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
-
-import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import xdata.etl.web.server.common.AccessService;
+import xdata.etl.web.server.service.open.OpenService;
 import xdata.etl.web.server.util.HibernateBeanUtil;
+import xdata.etl.web.shared.exception.PermissionException;
 import xdata.etl.web.shared.exception.SharedException;
+
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 @Component
 @Aspect
@@ -23,11 +27,13 @@ public class AuthorityAspect implements Ordered {
 	@Autowired
 	private AccessService accessService;
 
-	@Around(value = "execution (* xdata.etl.web.client.service..*Service.*(..))")
+	@Around(value = "execution(* xdata.etl.web.server.service..*(..))")
 	public Object dealResult(ProceedingJoinPoint pjp) throws Throwable {
 		doAccessCheck(pjp);
 		Object retVal = pjp.proceed();
-		if (retVal != null) {
+		if (retVal != null
+				&& RequestContextHolder.getRequestAttributes() != null
+				&& pjp.getTarget() instanceof RemoteService) {
 			if (retVal instanceof PagingLoadResult) {
 				new HibernateBeanUtil().dealBean(((PagingLoadResult<?>) retVal)
 						.getData());
@@ -40,36 +46,12 @@ public class AuthorityAspect implements Ordered {
 
 	}
 
-	public static class Tuple {
-		String group;
-		String name;
-
-		@Override
-		public int hashCode() {
-			return group.hashCode() + 3 * name.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (obj == this) {
-				return true;
-			}
-			if (!(obj instanceof Tuple)) {
-				return false;
-			}
-			Tuple that = (Tuple) obj;
-			return this.group.equals(that.group) && this.name.equals(that.name);
-		}
-	}
-
 	public void doAccessCheck(JoinPoint jp) {
-		if (accessService.isAccess(jp)) {
-			// TODO
-		} else {
-			// TODO
+		if (jp.getTarget() instanceof OpenService) {
+			return;
+		}
+		if (!accessService.isAccess(jp)) {
+			throw new PermissionException();
 		}
 	}
 

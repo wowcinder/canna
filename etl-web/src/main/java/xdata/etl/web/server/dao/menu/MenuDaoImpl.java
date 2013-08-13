@@ -24,12 +24,34 @@ public class MenuDaoImpl extends RpcDao<Integer, Menu> implements MenuDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Menu> get() throws SharedException {
+	public List<Menu> getUserMenu(Integer uid) throws SharedException {
 		Session s = getSession();
+		if (uid.equals(0)) {// ADMIN
+			List<Menu> list = s.createCriteria(Menu.class)
+					.createAlias("menuGroup", "mg")
+					.createAlias("requireAuthority", "auth")
+					.addOrder(Order.desc("mg.pos")).addOrder(Order.desc("pos"))
+					.list();
+
+			list.addAll(s.createCriteria(Menu.class)
+					.createAlias("requireAuthority", "auth")
+					.add(Restrictions.isNull("menuGroup"))
+					.addOrder(Order.desc("pos")).list());
+
+			return list;
+		}
 		List<Menu> list = s.createCriteria(Menu.class)
-				.createAlias("menuGroup", "mg").addOrder(Order.desc("mg.pos"))
-				.addOrder(Order.desc("pos")).list();
+				.createAlias("menuGroup", "mg")
+				.createAlias("requireAuthority", "auth")
+				.createAlias("auth.users", "user")
+				.add(Restrictions.eq("user.id", uid))
+				.addOrder(Order.desc("mg.pos")).addOrder(Order.desc("pos"))
+				.list();
+
 		list.addAll(s.createCriteria(Menu.class)
+				.createAlias("requireAuthority", "auth")
+				.createAlias("auth.users", "user")
+				.add(Restrictions.eq("user.id", uid))
 				.add(Restrictions.isNull("menuGroup"))
 				.addOrder(Order.desc("pos")).list());
 
