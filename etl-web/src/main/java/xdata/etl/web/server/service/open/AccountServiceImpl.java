@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import xdata.etl.web.server.dao.authority.AuthorityDao;
 import xdata.etl.web.server.dao.user.UserDao;
 
 /**
@@ -24,6 +25,8 @@ import xdata.etl.web.server.dao.user.UserDao;
 public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	public AuthorityDao authorityDao;
 
 	public AccountServiceImpl() {
 	}
@@ -110,6 +113,18 @@ public class AccountServiceImpl implements AccountService {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	@Override
+	public Boolean isOpen(Set<String> tokens) {
+		Set<String> set = authorityDao.getOpenAuthorities();
+		for (String token : tokens) {
+			if (set.contains(token)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 

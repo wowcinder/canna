@@ -24,5 +24,7 @@ public interface AccountService extends OpenService {
 
 	Set<String> getUserAuthorities();
 
+	Boolean isOpen(Set<String> tokens);
+
 	boolean isAccessAbled(Collection<String> tokens);
 }

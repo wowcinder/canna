@@ -3,11 +3,14 @@
  */
 package xdata.etl.web.server.dao.authority;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -106,5 +109,18 @@ public class AuthorityDaoImpl extends RpcDao<Integer, Authority> implements
 			return a;
 		}
 		return null;
+	}
+
+	@Override
+	public Set<String> getOpenAuthorities() {
+		@SuppressWarnings("unchecked")
+		List<Authority> list = getSession().createCriteria(Authority.class)
+				.add(Restrictions.eq("isOpen", Boolean.TRUE))
+				.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
+		Set<String> set = new HashSet<String>();
+		for (Authority authority : list) {
+			set.add(authority.getToken());
+		}
+		return set;
 	}
 }

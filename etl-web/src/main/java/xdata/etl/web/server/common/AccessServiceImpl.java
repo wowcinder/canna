@@ -48,12 +48,6 @@ public class AccessServiceImpl implements AccessService {
 			// NO Session
 			return true;
 		}
-		if (!accountService.isLogin()) {
-			throw new NoLoginException();
-		}
-		if (accountService.isAdmin()) {
-			return true;
-		}
 		MethodSignature signature = (MethodSignature) jp.getSignature();
 		Method m = signature.getMethod();
 		Class<?> clazz = jp.getTarget().getClass();
@@ -72,6 +66,15 @@ public class AccessServiceImpl implements AccessService {
 		HashSet<String> tokens = methodToTokens.get(t);
 		if (tokens == null) {
 			throw new IllegalMethodException(m.getName() + " is illegal method");
+		}
+		if (accountService.isOpen(tokens)) {
+			return true;
+		}
+		if (!accountService.isLogin()) {
+			throw new NoLoginException();
+		}
+		if (accountService.isAdmin()) {
+			return true;
 		}
 		if (accountService.isAccessAbled(tokens)) {
 			for (String token : tokens) {
