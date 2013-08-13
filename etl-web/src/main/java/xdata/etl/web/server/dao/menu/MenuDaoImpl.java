@@ -29,12 +29,10 @@ public class MenuDaoImpl extends RpcDao<Integer, Menu> implements MenuDao {
 		if (uid.equals(0)) {// ADMIN
 			List<Menu> list = s.createCriteria(Menu.class)
 					.createAlias("menuGroup", "mg")
-					.createAlias("requireAuthority", "auth")
 					.addOrder(Order.desc("mg.pos")).addOrder(Order.desc("pos"))
 					.list();
 
 			list.addAll(s.createCriteria(Menu.class)
-					.createAlias("requireAuthority", "auth")
 					.add(Restrictions.isNull("menuGroup"))
 					.addOrder(Order.desc("pos")).list());
 

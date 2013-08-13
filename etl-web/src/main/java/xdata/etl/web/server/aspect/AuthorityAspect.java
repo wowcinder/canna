@@ -55,7 +55,7 @@ public class AuthorityAspect implements Ordered {
 		}
 	}
 
-	@AfterThrowing(pointcut = "execution (* xdata.etl.web.client.service..*Service.*(..))", throwing = "ex")
+	@AfterThrowing(pointcut = "execution(* xdata.etl.web.server.service..*(..))", throwing = "ex")
 	public void errorInterceptor(Exception ex) throws SharedException {
 		if (ex instanceof SharedException) {
 			throw (SharedException) ex;

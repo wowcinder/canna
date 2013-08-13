@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import xdata.etl.web.client.service.LoginService;
 import xdata.etl.web.server.service.open.AccountService;
+import xdata.etl.web.server.service.open.OpenService;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月13日
  */
 @Service
-public class LoginServiceImpl implements LoginService {
+public class LoginServiceImpl implements LoginService, OpenService {
 	@Autowired
 	private AccountService accountService;
 
