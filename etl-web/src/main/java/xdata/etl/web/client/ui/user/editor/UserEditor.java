@@ -3,6 +3,7 @@
  */
 package xdata.etl.web.client.ui.user.editor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xdata.etl.web.client.common.editer.EtlSimpleEditor;
@@ -118,7 +119,9 @@ public class UserEditor extends EtlSimpleEditor<Integer, User> {
 
 	@Override
 	protected User newInstance() {
-		return new User();
+		User u = new User();
+		u.setExtraAuthorities(new ArrayList<Authority>());
+		return u;
 	}
 
 }
