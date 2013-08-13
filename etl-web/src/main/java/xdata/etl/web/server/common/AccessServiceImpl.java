@@ -30,7 +30,7 @@ import xdata.etl.web.shared.exception.NoLoginException;
 @Service
 public class AccessServiceImpl implements AccessService {
 	@Autowired
-	public AccountService accountService;
+	private AccountService accountService;
 
 	Map<Tuple, HashSet<String>> methodToTokens;
 	HashSet<Tuple> openMethods;
@@ -114,6 +114,14 @@ public class AccessServiceImpl implements AccessService {
 		}
 		methodToTokens.put(t, tokens);
 
+	}
+
+	public AccountService getAccountService() {
+		return accountService;
+	}
+
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
 	}
 
 	public static class Tuple {

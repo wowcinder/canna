@@ -5,12 +5,14 @@ package xdata.etl.web.server.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import xdata.etl.web.client.service.menu.MenuService;
 import xdata.etl.web.server.dao.menu.MenuDao;
-import xdata.etl.web.server.service.open.AccountService;
 import xdata.etl.web.shared.annotations.AccessAuthority;
 import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.entity.menu.Menu;
@@ -24,29 +26,28 @@ import xdata.etl.web.shared.exception.SharedException;
 @AccessAuthorityGroup("菜单")
 public class MenuServiceImpl extends RpcServiceImpl<Integer, Menu> implements
 		MenuService {
-	private AccountService accountService;
 
 	public MenuServiceImpl() {
 	}
 
-	@Autowired
-	public MenuServiceImpl(MenuDao dao, AccountService accountService) {
+	public MenuServiceImpl(MenuDao dao) {
 		super(dao);
-		this.accountService = accountService;
 	}
 
 	@Override
 	@AccessAuthority("查询")
 	public List<Menu> get() throws SharedException {
-		return getRpcDao().getUserMenu(getAccountService().getUserId());
+		return getRpcDao().getUserMenu(
+				(Integer) getSession().getAttribute("userId"));
 	}
 
-	public AccountService getAccountService() {
-		return accountService;
-	}
-
-	public void setAccountService(AccountService accountService) {
-		this.accountService = accountService;
+	protected HttpSession getSession() {
+		if (RequestContextHolder.currentRequestAttributes() != null) {
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder
+					.currentRequestAttributes();
+			return attr.getRequest().getSession();
+		}
+		return null;
 	}
 
 	@Override
