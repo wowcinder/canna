@@ -44,6 +44,7 @@ public class AuthoritySelector {
 			public void onCellClick(CellDoubleClickEvent event) {
 				callback.call(gridContainer.getGrid().getStore()
 						.get(event.getRowIndex()));
+				root.hide();
 				root.removeFromParent();
 			}
 		});
