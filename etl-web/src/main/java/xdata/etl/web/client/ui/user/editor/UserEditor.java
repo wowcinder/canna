@@ -29,6 +29,7 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.event.ShowEvent;
 import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
+import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
@@ -54,6 +55,7 @@ public class UserEditor extends EtlSimpleEditor<Integer, User> {
 
 	TextField email;
 	UserGroupComBox userGroup;
+	PasswordField password;
 	ListStoreEditor<Authority> extraAuthorities;
 	@Ignore
 	AuthorityGrid authGrid;
@@ -67,9 +69,11 @@ public class UserEditor extends EtlSimpleEditor<Integer, User> {
 		userGroup = new UserGroupComBox(
 				new EntityRpcCaller<Integer, UserGroup>(GWT
 						.<UserGroupServiceAsync> create(UserGroupService.class)));
+		password = new PasswordField();
 
 		layoutContainer.add(new FieldLabel(email, "email"), vd);
 		layoutContainer.add(new FieldLabel(userGroup, "用户组"), vd);
+		layoutContainer.add(new FieldLabel(password, "密码"), vd);
 
 		authGrid = new AuthorityGrid();
 		extraAuthorities = new ListStoreEditor<Authority>(authGrid.getStore());
@@ -115,6 +119,12 @@ public class UserEditor extends EtlSimpleEditor<Integer, User> {
 		authGridLabel.setLabelAlign(LabelAlign.TOP);
 		layoutContainer.add(authGridLabel, vd);
 
+	}
+	
+	@Override
+	public void edit(User v) {
+		v.setPassword("");
+		super.edit(v);
 	}
 
 	@Override

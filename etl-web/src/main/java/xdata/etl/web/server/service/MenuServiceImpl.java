@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -30,12 +31,13 @@ public class MenuServiceImpl extends RpcServiceImpl<Integer, Menu> implements
 	public MenuServiceImpl() {
 	}
 
+	@Autowired
 	public MenuServiceImpl(MenuDao dao) {
 		super(dao);
 	}
 
 	@Override
-	@AccessAuthority("查询")
+	@AccessAuthority(value = "查询", isOpen = true)
 	public List<Menu> get() throws SharedException {
 		return getRpcDao().getUserMenu(
 				(Integer) getSession().getAttribute("userId"));

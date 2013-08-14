@@ -46,6 +46,18 @@ public class UserDaoImpl extends RpcDao<Integer, User> implements UserDao {
 		s.update(v);
 	}
 
+	@Override
+	public User update(User v) throws SharedException {
+		User old = (User) getSession().load(User.class, v.getId());
+		if (v.getPassword() == null || v.getPassword().length() == 0) {
+			v.setPassword(old.getPassword());
+		} else {
+			v.setPassword(PasswordUtil.getHexPassword(v.getPassword()));
+		}
+		getSession().merge(v);
+		return v;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public PagingLoadResult<User> get(EtlPagingLoadConfigBean config)
@@ -60,7 +72,7 @@ public class UserDaoImpl extends RpcDao<Integer, User> implements UserDao {
 		addPagingConfig(config, criteria);
 		criteriaLimit(criteria);
 		criteria.setFetchMode("extraAuthorities", FetchMode.JOIN);
-		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		pr.setData((List<User>) criteria.list());
 		return pr;
 	}

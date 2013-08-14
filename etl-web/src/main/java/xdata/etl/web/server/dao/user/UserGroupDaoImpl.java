@@ -62,7 +62,7 @@ public class UserGroupDaoImpl extends RpcDao<Integer, UserGroup> implements
 		addPagingConfig(config, criteria);
 		criteriaLimit(criteria);
 		criteria.setFetchMode("authorities", FetchMode.JOIN);
-		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		pr.setData((List<UserGroup>) criteria.list());
 		return pr;
 	}

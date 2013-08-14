@@ -11,6 +11,9 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class PasswordUtil {
 	public static String getHexPassword(String password) {
+		if (password == null || password.length() == 0) {
+			return null;
+		}
 		return DigestUtils.md5Hex("xdata.etl.web" + password);
 	}
 }

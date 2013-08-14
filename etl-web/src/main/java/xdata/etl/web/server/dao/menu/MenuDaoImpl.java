@@ -3,7 +3,10 @@
  */
 package xdata.etl.web.server.dao.menu;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -46,12 +49,35 @@ public class MenuDaoImpl extends RpcDao<Integer, Menu> implements MenuDao {
 				.addOrder(Order.desc("mg.pos")).addOrder(Order.desc("pos"))
 				.list();
 
+		list.addAll(s.createCriteria(Menu.class).createAlias("menuGroup", "mg")
+				.createAlias("requireAuthority", "auth")
+				.createAlias("auth.userGroups", "userGroup")
+				.createAlias("userGroup.users", "user")
+				.add(Restrictions.eq("user.id", uid))
+				.addOrder(Order.desc("mg.pos")).addOrder(Order.desc("pos"))
+				.list());
+
 		list.addAll(s.createCriteria(Menu.class)
 				.createAlias("requireAuthority", "auth")
 				.createAlias("auth.users", "user")
 				.add(Restrictions.eq("user.id", uid))
 				.add(Restrictions.isNull("menuGroup"))
 				.addOrder(Order.desc("pos")).list());
+
+		list.addAll(s.createCriteria(Menu.class)
+				.createAlias("requireAuthority", "auth")
+				.createAlias("auth.userGroups", "userGroup")
+				.createAlias("userGroup.users", "user")
+				.add(Restrictions.eq("user.id", uid))
+				.add(Restrictions.isNull("menuGroup"))
+				.addOrder(Order.desc("pos")).list());
+		Set<Integer> ids = new HashSet<Integer>();
+		List<Menu> result = new ArrayList<Menu>();
+		for (Menu menu : list) {
+			if (!ids.contains(menu.getId())) {
+				result.add(menu);
+			}
+		}
 
 		return list;
 	}

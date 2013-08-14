@@ -104,12 +104,13 @@ public class AccessServiceImpl implements AccessService {
 			group = aag.value();
 		}
 		if (as != null) {
-			tokens.add(AuthorityUtil.getToken(as.value(),
-					as.group().equals("") ? group : as.group()));
+			tokens.add(AuthorityUtil.getToken(as.group().equals("") ? group
+					: as.group(), as.value()));
 		} else {
 			for (AccessAuthority asItem : aas.value()) {
-				tokens.add(AuthorityUtil.getToken(asItem.value(), asItem
-						.group().equals("") ? group : asItem.group()));
+				tokens.add(AuthorityUtil.getToken(
+						asItem.group().equals("") ? group : asItem.group(),
+						asItem.value()));
 			}
 		}
 		methodToTokens.put(t, tokens);
