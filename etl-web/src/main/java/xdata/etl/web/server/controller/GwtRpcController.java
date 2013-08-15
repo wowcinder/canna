@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import xdata.etl.web.client.service.LoginService;
 import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.client.service.authority.AuthorityService;
+import xdata.etl.web.client.service.hbasemeta.HbaseTableColumnService;
+import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
+import xdata.etl.web.client.service.hbasemeta.HbaseTableVersionService;
 import xdata.etl.web.client.service.menu.MenuGroupService;
 import xdata.etl.web.client.service.menu.MenuService;
 import xdata.etl.web.client.service.user.UserGroupService;
@@ -78,5 +81,29 @@ public class GwtRpcController {
 	public void login(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SerializationException {
 		proxyUtil.getService(LoginService.class).processPost(request, response);
+	}
+
+	@RequestMapping("hbase_table")
+	public void hbaseTable(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException,
+			SerializationException {
+		proxyUtil.getService(HbaseTableService.class).processPost(request,
+				response);
+	}
+
+	@RequestMapping("hbase_table_version")
+	public void hbaseTableVersion(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException,
+			SerializationException {
+		proxyUtil.getService(HbaseTableVersionService.class).processPost(
+				request, response);
+	}
+
+	@RequestMapping("hbase_table_column")
+	public void hbaseTableColumn(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException,
+			SerializationException {
+		proxyUtil.getService(HbaseTableColumnService.class).processPost(
+				request, response);
 	}
 }
