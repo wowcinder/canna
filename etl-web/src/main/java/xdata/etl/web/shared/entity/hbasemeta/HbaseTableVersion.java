@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,7 +38,7 @@ public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
 	private String version = "";
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ts", nullable = false, updatable = false, columnDefinition = "timestamp")
+	@Column(name = "ts", nullable = false, updatable = false, insertable = false, columnDefinition = "timestamp")
 	private Date timestamp;
 
 	@Column(name = "description", columnDefinition = "text")
@@ -53,14 +52,9 @@ public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
 	private List<HbaseTableColumn> columns;
 
 	@Column(name = "create_time", nullable = false, updatable = false)
-	private Date createTime;
+	private Date createTime = new Date();
 
 	public HbaseTableVersion() {
-	}
-
-	@PrePersist
-	public void prePersist() {
-		this.createTime = new Date();
 	}
 
 	public String getVersion() {

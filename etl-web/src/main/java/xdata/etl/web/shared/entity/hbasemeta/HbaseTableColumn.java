@@ -11,7 +11,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,18 +45,13 @@ public class HbaseTableColumn extends IdentityRpcEntity<Integer> {
 	private HbaseTableVersion version;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ts", nullable = false, updatable = false, columnDefinition = "timestamp")
+	@Column(name = "ts", nullable = false, insertable = false, updatable = false, columnDefinition = "timestamp")
 	private Date timestamp;
 	@Column(name = "description", columnDefinition = "text")
 	private String desc;
 
 	@Column(name = "create_time", nullable = false, updatable = false)
-	private Date createTime;
-
-	@PrePersist
-	public void prePersist() {
-		this.createTime = new Date();
-	}
+	private Date createTime = new Date();
 
 	public HbaseTableColumn() {
 	}

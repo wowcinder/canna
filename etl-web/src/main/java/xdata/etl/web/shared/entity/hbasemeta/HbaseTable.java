@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,7 +39,7 @@ public class HbaseTable extends IdentityRpcEntity<Integer> {
 	private String shortname;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ts", nullable = false, updatable = false, columnDefinition = "timestamp")
+	@Column(name = "ts", nullable = false, insertable = false, updatable = false, columnDefinition = "timestamp")
 	private Date timestamp;
 
 	@Column(name = "description", columnDefinition = "text")
@@ -50,12 +49,7 @@ public class HbaseTable extends IdentityRpcEntity<Integer> {
 	private List<HbaseTableVersion> versions;
 
 	@Column(name = "create_time", nullable = false, updatable = false)
-	private Date createTime;
-
-	@PrePersist
-	public void prePersist() {
-		this.createTime = new Date();
-	}
+	private Date createTime = new Date();
 
 	public HbaseTable() {
 	}
