@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.shared.entity.hbase;
+package xdata.etl.web.shared.entity.hbasemeta;
 
 import java.util.Date;
 import java.util.List;
@@ -9,8 +9,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
@@ -25,18 +23,21 @@ import xdata.etl.web.shared.entity.IdentityRpcEntity;
 
 /**
  * @author XuehuiHe
- * @date 2013年8月15日
+ * @date 2013年8月14日
  */
 @Entity
-@Table(name = "hbase_table_version")
+@Table(name = "hbase_table")
 @org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
-public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
-	private static final long serialVersionUID = 1172877225725071936L;
-
-	@Column(length = 20, nullable = false)
+public class HbaseTable extends IdentityRpcEntity<Integer> {
+	private static final long serialVersionUID = -5625914468739750008L;
+	@Column(length = 40, unique = true)
+	@NotNull
+	@Length(min = 1, max = 40)
+	private String name;
+	@Column(length = 20)
 	@NotNull
 	@Length(min = 1, max = 20)
-	private String version = "";
+	private String shortname;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ts", nullable = false, updatable = false, columnDefinition = "timestamp")
@@ -44,31 +45,35 @@ public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
 
 	@Column(name = "description", columnDefinition = "text")
 	private String desc;
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "table_id")
-	@NotNull
-	private HbaseTable table;
-	@OneToMany(mappedBy = "version", cascade = CascadeType.REMOVE)
-	@OrderBy("pos")
-	private List<HbaseTableColumn> columns;
+	@OneToMany(mappedBy = "table", cascade = CascadeType.REMOVE)
+	@OrderBy("version")
+	private List<HbaseTableVersion> versions;
 
 	@Column(name = "create_time", nullable = false, updatable = false)
 	private Date createTime;
-
-	public HbaseTableVersion() {
-	}
 
 	@PrePersist
 	public void prePersist() {
 		this.createTime = new Date();
 	}
 
-	public String getVersion() {
-		return version;
+	public HbaseTable() {
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getShortname() {
+		return shortname;
+	}
+
+	public void setShortname(String shortname) {
+		this.shortname = shortname;
 	}
 
 	public Date getTimestamp() {
@@ -87,20 +92,12 @@ public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
 		this.desc = desc;
 	}
 
-	public HbaseTable getTable() {
-		return table;
+	public List<HbaseTableVersion> getVersions() {
+		return versions;
 	}
 
-	public void setTable(HbaseTable table) {
-		this.table = table;
-	}
-
-	public List<HbaseTableColumn> getColumns() {
-		return columns;
-	}
-
-	public void setColumns(List<HbaseTableColumn> columns) {
-		this.columns = columns;
+	public void setVersions(List<HbaseTableVersion> versions) {
+		this.versions = versions;
 	}
 
 	public Date getCreateTime() {

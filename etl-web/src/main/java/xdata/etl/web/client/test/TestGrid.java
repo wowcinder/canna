@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import xdata.etl.web.shared.hbase.HbaseRecord;
-import xdata.etl.web.shared.hbase.HbaseRecordValueProvider;
+import xdata.etl.web.shared.hbasemeta.HbaseRecord;
+import xdata.etl.web.shared.hbasemeta.HbaseRecordValueProvider;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;

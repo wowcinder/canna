@@ -4,7 +4,7 @@
 package xdata.etl.web.server.dao.hbasemeta;
 
 import xdata.etl.web.server.dao.IRpcDao;
-import xdata.etl.web.shared.entity.hbase.HbaseTable;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 
 /**
  * @author XuehuiHe

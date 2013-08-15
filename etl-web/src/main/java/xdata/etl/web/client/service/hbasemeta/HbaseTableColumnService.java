@@ -4,7 +4,7 @@
 package xdata.etl.web.client.service.hbasemeta;
 
 import xdata.etl.web.client.service.RpcService;
-import xdata.etl.web.shared.entity.hbase.HbaseTableColumn;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

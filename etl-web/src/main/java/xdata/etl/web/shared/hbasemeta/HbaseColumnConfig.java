@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.shared.hbase;
+package xdata.etl.web.shared.hbasemeta;
 
 import java.sql.Date;
 
-import xdata.etl.web.shared.entity.hbase.HbaseTableColumn;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtml;

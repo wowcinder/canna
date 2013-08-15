@@ -5,9 +5,9 @@ package xdata.etl.web.client.property;
 
 import java.util.Date;
 
-import xdata.etl.web.shared.entity.hbase.HbaseTableColumn;
-import xdata.etl.web.shared.entity.hbase.HbaseTableColumn.HbaseTableColumnType;
-import xdata.etl.web.shared.entity.hbase.HbaseTableVersion;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn.HbaseTableColumnType;
 
 import com.sencha.gxt.core.client.ValueProvider;
 

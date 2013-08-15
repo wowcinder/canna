@@ -6,8 +6,8 @@ package xdata.etl.web.client.property;
 import java.util.Date;
 import java.util.List;
 
-import xdata.etl.web.shared.entity.hbase.HbaseTable;
-import xdata.etl.web.shared.entity.hbase.HbaseTableVersion;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
 import com.sencha.gxt.core.client.ValueProvider;
 

@@ -6,7 +6,7 @@ package xdata.etl.web.server.dao.hbasemeta;
 import org.springframework.stereotype.Repository;
 
 import xdata.etl.web.server.dao.RpcDao;
-import xdata.etl.web.shared.entity.hbase.HbaseTableColumn;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 
 /**
  * @author XuehuiHe

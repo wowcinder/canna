@@ -4,7 +4,7 @@
 package xdata.etl.web.client.service.hbasemeta;
 
 import xdata.etl.web.client.service.RpcServiceAsync;
-import xdata.etl.web.shared.entity.hbase.HbaseTableVersion;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
 /**
  * @author XuehuiHe

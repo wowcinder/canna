@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import xdata.etl.web.client.service.hbasemeta.HbaseTableVersionService;
 import xdata.etl.web.server.dao.hbasemeta.HbaseTableVersionDao;
-import xdata.etl.web.shared.entity.hbase.HbaseTableVersion;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
 /**
  * @author XuehuiHe
