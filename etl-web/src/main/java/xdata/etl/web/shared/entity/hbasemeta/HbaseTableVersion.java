@@ -4,9 +4,7 @@
 package xdata.etl.web.shared.entity.hbasemeta;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -54,13 +52,10 @@ public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
 	@OrderBy("pos")
 	private List<HbaseTableColumn> columns;
 
-	private transient Set<HbaseTableColumn> hasDeleted;
-
 	@Column(name = "create_time", nullable = false, updatable = false)
 	private Date createTime = new Date();
 
 	public HbaseTableVersion() {
-		hasDeleted = new HashSet<HbaseTableColumn>();
 	}
 
 	public String getVersion() {
@@ -109,14 +104,6 @@ public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-	}
-
-	public Set<HbaseTableColumn> getHasDeleted() {
-		return hasDeleted;
-	}
-
-	public void setHasDeleted(Set<HbaseTableColumn> hasDeleted) {
-		this.hasDeleted = hasDeleted;
 	}
 
 }
