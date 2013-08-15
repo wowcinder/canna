@@ -4,13 +4,13 @@
 package xdata.etl.web.shared.entity.hbase;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,31 +23,33 @@ import xdata.etl.web.shared.entity.IdentityRpcEntity;
 
 /**
  * @author XuehuiHe
- * @date 2013年8月14日
+ * @date 2013年8月15日
  */
 @Entity
-@Table(name = "hbase_table")
+@Table(name = "hbase_table_column")
 @org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
-public class HbaseTable extends IdentityRpcEntity<Integer> {
-	private static final long serialVersionUID = -5625914468739750008L;
-	@Column(length = 40, unique = true)
-	@NotNull
+public class HbaseTableColumn extends IdentityRpcEntity<Integer> {
+	private static final long serialVersionUID = -7351279578902858388L;
+	@Column(length = 40, nullable = false)
 	@Length(min = 1, max = 40)
+	@NotNull
 	private String name;
 	@Column(length = 20)
-	@NotNull
-	@Length(min = 1, max = 20)
+	@Length(min = 1, max = 40)
 	private String shortname;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "column_type", nullable = false, length = 20)
+	private HbaseTableColumnType type;
+	private Integer pos;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "version_id")
+	private HbaseTableVersion version;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ts", nullable = false, updatable = false, columnDefinition = "timestamp")
 	private Date timestamp;
-
 	@Column(name = "description", columnDefinition = "text")
 	private String desc;
-	@OneToMany(mappedBy = "table", cascade = CascadeType.REMOVE)
-	@OrderBy("version")
-	private List<HbaseTableVersion> versions;
 
 	@Column(name = "create_time", nullable = false, updatable = false)
 	private Date createTime;
@@ -57,7 +59,7 @@ public class HbaseTable extends IdentityRpcEntity<Integer> {
 		this.createTime = new Date();
 	}
 
-	public HbaseTable() {
+	public HbaseTableColumn() {
 	}
 
 	public String getName() {
@@ -76,6 +78,30 @@ public class HbaseTable extends IdentityRpcEntity<Integer> {
 		this.shortname = shortname;
 	}
 
+	public HbaseTableColumnType getType() {
+		return type;
+	}
+
+	public void setType(HbaseTableColumnType type) {
+		this.type = type;
+	}
+
+	public Integer getPos() {
+		return pos;
+	}
+
+	public void setPos(Integer pos) {
+		this.pos = pos;
+	}
+
+	public HbaseTableVersion getVersion() {
+		return version;
+	}
+
+	public void setVersion(HbaseTableVersion version) {
+		this.version = version;
+	}
+
 	public Date getTimestamp() {
 		return timestamp;
 	}
@@ -92,14 +118,6 @@ public class HbaseTable extends IdentityRpcEntity<Integer> {
 		this.desc = desc;
 	}
 
-	public List<HbaseTableVersion> getVersions() {
-		return versions;
-	}
-
-	public void setVersions(List<HbaseTableVersion> versions) {
-		this.versions = versions;
-	}
-
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -108,4 +126,24 @@ public class HbaseTable extends IdentityRpcEntity<Integer> {
 		this.createTime = createTime;
 	}
 
+	public enum HbaseTableColumnType {
+		SHORT(Short.class), INT(Integer.class), LONG(Long.class), FLOAT(
+				Float.class), DOUBLE(Double.class), STRING(String.class), CHAR(
+				Character.class);
+		Class<?> clazz;
+
+		HbaseTableColumnType(Class<?> clazz) {
+			this.clazz = clazz;
+
+		}
+
+		public Class<?> getClazz() {
+			return clazz;
+		}
+
+		public void setClazz(Class<?> clazz) {
+			this.clazz = clazz;
+		}
+
+	}
 }
