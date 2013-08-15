@@ -9,6 +9,7 @@ import java.util.List;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
+import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.core.client.ValueProvider;
 
 /**
@@ -17,6 +18,9 @@ import com.sencha.gxt.core.client.ValueProvider;
  */
 public interface HbaseTableProperty extends
 		RpcEntityPropertyAccess<Integer, HbaseTable> {
+
+	public static final HbaseTableProperty INSTANCE = GWT
+			.create(HbaseTableProperty.class);
 
 	ValueProvider<HbaseTable, String> name();
 

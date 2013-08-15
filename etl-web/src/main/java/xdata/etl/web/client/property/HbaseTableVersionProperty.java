@@ -10,6 +10,7 @@ import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
+import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.core.client.ValueProvider;
 
 /**
@@ -18,6 +19,10 @@ import com.sencha.gxt.core.client.ValueProvider;
  */
 public interface HbaseTableVersionProperty extends
 		RpcEntityPropertyAccess<Integer, HbaseTableVersion> {
+
+	public static final HbaseTableVersionProperty INSTANCE = GWT
+			.create(HbaseTableVersionProperty.class);
+
 	ValueProvider<HbaseTableVersion, String> version();
 
 	ValueProvider<HbaseTableVersion, Date> timestamp();
