@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import xdata.etl.web.client.service.LoginService;
 import xdata.etl.web.client.service.LoginServiceAsync;
+import xdata.etl.web.client.test.TestGrid;
 import xdata.etl.web.client.ui.LoginWindow;
 import xdata.etl.web.client.ui.LoginWindow.LoginSucessCallBack;
 
@@ -33,6 +34,11 @@ public class EtlApp {
 	}
 
 	public void run() {
+		// TestGrid test = new TestGrid();
+		// RootPanel.get().add(test);
+		// if (true) {
+		// return;
+		// }
 		loginService.isLogin(new AsyncCallback<Boolean>() {
 			@Override
 			public void onSuccess(Boolean result) {

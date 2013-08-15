@@ -129,12 +129,12 @@ public class HbaseTableColumn extends IdentityRpcEntity<Integer> {
 	public enum HbaseTableColumnType {
 		SHORT(Short.class), INT(Integer.class), LONG(Long.class), FLOAT(
 				Float.class), DOUBLE(Double.class), STRING(String.class), CHAR(
-				Character.class);
+				Character.class), BOOLEAN(Boolean.class), DATE(Date.class), TIME(
+				Date.class), DATETIME(Date.class), TEXT(String.class);
 		Class<?> clazz;
 
 		HbaseTableColumnType(Class<?> clazz) {
 			this.clazz = clazz;
-
 		}
 
 		public Class<?> getClazz() {
