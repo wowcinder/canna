@@ -3,6 +3,7 @@
  */
 package xdata.etl.web.shared.hbasemeta;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
@@ -18,8 +19,8 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
  * @author XuehuiHe
  * @date 2013年8月15日
  */
-public class HbaseColumnConfig extends
-		ColumnConfig<HbaseRecord<Integer>, Object> {
+public class HbaseColumnConfig<K extends Serializable> extends
+		ColumnConfig<HbaseRecord<K>, Object> {
 	private HbaseTableColumn column;
 
 	public HbaseColumnConfig(HbaseTableColumn column) {

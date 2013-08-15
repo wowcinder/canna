@@ -5,10 +5,13 @@ package xdata.etl.web.client.ui.hbasemeta.combox;
 
 import xdata.etl.web.client.common.combox.EtlComBox;
 import xdata.etl.web.client.property.HbaseTableProperty;
+import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
+import xdata.etl.web.client.service.hbasemeta.HbaseTableServiceAsync;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableEditor;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 
+import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.data.shared.LabelProvider;
 
 /**
@@ -30,7 +33,8 @@ public class HbaseTableComBox extends EtlComBox<Integer, HbaseTable> {
 		});
 
 		HbaseTableEditor addEditor = new HbaseTableEditor();
-		addEditor.setRpcCaller(HbaseTableService.RPC_CALLER);
+		addEditor.setRpcCaller(new EntityRpcCaller<Integer, HbaseTable>(GWT
+				.<HbaseTableServiceAsync> create(HbaseTableService.class)));
 		setAddEditor(addEditor, new AddItem<HbaseTable>() {
 
 			@Override
@@ -50,7 +54,9 @@ public class HbaseTableComBox extends EtlComBox<Integer, HbaseTable> {
 		setDataInitor(new EtlComBoxDataInitor<HbaseTable>() {
 			@Override
 			protected void run() {
-				HbaseTableService.RPC_CALLER.get(getInitBack());
+				new EntityRpcCaller<Integer, HbaseTable>(
+						GWT.<HbaseTableServiceAsync> create(HbaseTableService.class))
+						.get(getInitBack());
 			}
 		});
 
