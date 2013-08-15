@@ -26,16 +26,15 @@ import org.hibernate.collection.AbstractPersistentCollection;
  */
 public class HibernateBeanUtil {
 
-	private final static Map<Class<?>, List<Field>> columnFieldMap = new HashMap<Class<?>, List<Field>>();;
+	private final static Map<Class<?>, List<Field>> columnFieldMap = new HashMap<Class<?>, List<Field>>();
+	private HashSet<Object> hasDealed;
 
 	public HibernateBeanUtil() {
+		hasDealed = new HashSet<Object>();
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void dealBean(Object t) {
-
-		HashSet<Object> hasDealed = new HashSet<Object>();
-
 		if (t == null) {
 			return;
 		}
@@ -67,8 +66,9 @@ public class HibernateBeanUtil {
 					if (Hibernate.isInitialized(o) && hasDealed.contains(o)) {
 						continue;
 					}
-					if (o.getClass().isPrimitive()
-							|| o.getClass().equals(String.class)) {
+					Class<?> oClazz = o.getClass();
+					if (oClazz.isPrimitive() || isWrapperType(oClazz)) {
+
 					} else if (!Hibernate.isInitialized(o)) {
 						field.set(t, null);
 					} else if (Hibernate.isInitialized(o)
@@ -99,6 +99,27 @@ public class HibernateBeanUtil {
 			}
 
 		}
+	}
+
+	private static final Set<Class<?>> WRAPPER_TYPES = getWrapperTypes();
+
+	public static boolean isWrapperType(Class<?> clazz) {
+		return WRAPPER_TYPES.contains(clazz);
+	}
+
+	private static Set<Class<?>> getWrapperTypes() {
+		Set<Class<?>> ret = new HashSet<Class<?>>();
+		ret.add(Boolean.class);
+		ret.add(Character.class);
+		ret.add(Byte.class);
+		ret.add(Short.class);
+		ret.add(Integer.class);
+		ret.add(Long.class);
+		ret.add(Float.class);
+		ret.add(Double.class);
+		ret.add(Void.class);
+		ret.add(String.class);
+		return ret;
 	}
 
 	protected static List<Field> getColumnFields(Class<?> clazz) {

@@ -32,7 +32,20 @@ public class HbaseTableVersionView extends CenterView {
 		EtlGridContainerBuilder<Integer, HbaseTableVersion> builder = new EtlGridContainerBuilder<Integer, HbaseTableVersion>(
 				gridContainer);
 
-		HbaseTableVersionEditor editor = new HbaseTableVersionEditor();
+		HbaseTableVersionEditor editor = new HbaseTableVersionEditor() {
+			@Override
+			public void edit(HbaseTableVersion v) {
+				setSelf(v);
+				super.edit(v);
+			}
+
+			@Override
+			protected HbaseTableVersion newInstance() {
+				HbaseTableVersion version = super.newInstance();
+				setSelf(version);
+				return version;
+			}
+		};
 		editor.setRpcCaller(gridContainer.getRpcCaller());
 
 		builder.setAddEditor(editor);
