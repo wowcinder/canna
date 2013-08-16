@@ -74,8 +74,14 @@ public class HbaseQueryGrid extends Grid<HbaseRecord<String>> {
 				}, 200, "key"));
 		initTableColumn(columns);
 		setLoadMask(true);
-		getView().setForceFit(true);
-		getView().setAutoFill(true);
+		
+		  this.getView().setStripeRows(true);
+		  this.getView().setColumnLines(true);
+		  this.setBorders(false);
+	 
+		  this.setColumnReordering(true);
+//		getView().setForceFit(true);
+//		getView().setAutoFill(true);
 	}
 
 	protected void initTableColumn(List<HbaseTableColumn> list) {

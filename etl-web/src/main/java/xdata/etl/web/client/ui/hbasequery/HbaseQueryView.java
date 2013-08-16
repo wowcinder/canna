@@ -30,6 +30,7 @@ public class HbaseQueryView extends CenterView {
 
 	public HbaseQueryView() {
 		super();
+		con.setHeight(600);
 
 		final VerticalLayoutContainer v = new VerticalLayoutContainer();
 		v.getElement().setHeight("100%");
