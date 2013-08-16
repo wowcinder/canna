@@ -17,4 +17,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpc/hbase_query.rpc")
 public interface HbaseQueryService extends RemoteService {
 	List<HbaseRecord<String>> getData(String table, String[] versions);
+
+	Integer dummyInteger();
 }

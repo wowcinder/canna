@@ -67,6 +67,8 @@ public class HbaseTableVersionEditor extends
 		version = new TextField();
 		desc = new TextArea();
 
+		version.setValue("");
+
 		layoutContainer.add(new FieldLabel(table, "表"), vd);
 		layoutContainer.add(new FieldLabel(version, "版本"), vd);
 		layoutContainer.add(new FieldLabel(desc, "描述"), vd);

@@ -18,4 +18,6 @@ public interface HbaseQueryServiceAsync {
 	void getData(String table, String[] versions,
 			AsyncCallback<List<HbaseRecord<String>>> callback);
 
+	void dummyInteger(AsyncCallback<Integer> callback);
+
 }

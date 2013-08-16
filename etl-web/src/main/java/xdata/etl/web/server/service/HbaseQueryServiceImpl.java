@@ -225,4 +225,9 @@ public class HbaseQueryServiceImpl implements HbaseQueryService {
 		table.close();
 
 	}
+
+	@Override
+	public Integer dummyInteger() {
+		return null;
+	}
 }

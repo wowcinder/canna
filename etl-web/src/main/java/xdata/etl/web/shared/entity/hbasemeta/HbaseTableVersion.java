@@ -35,7 +35,7 @@ public class HbaseTableVersion extends IdentityRpcEntity<Integer> {
 
 	@Column(length = 20, nullable = false)
 	@NotNull
-	@Length(min = 1, max = 20)
+	@Length(min = 0, max = 20)
 	private String version = "";
 
 	@Temporal(TemporalType.TIMESTAMP)
