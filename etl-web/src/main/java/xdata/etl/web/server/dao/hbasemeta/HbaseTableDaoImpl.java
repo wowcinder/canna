@@ -4,8 +4,10 @@
 package xdata.etl.web.server.dao.hbasemeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Criteria;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import xdata.etl.web.server.dao.RpcDao;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
+import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
 /**
  * @author XuehuiHe
@@ -53,5 +56,31 @@ public class HbaseTableDaoImpl extends RpcDao<Integer, HbaseTable> implements
 		}
 
 		return result;
+	}
+
+	@Override
+	public Map<String, Set<HbaseTableColumn>> getMetaForQuery(String tableName,
+			String[] versions) {
+		Map<String, Set<HbaseTableColumn>> map = new HashMap<String, Set<HbaseTableColumn>>();
+		Session s = getSession();
+		Criteria criteria = s
+				.createCriteria(HbaseTableVersion.class)
+				.createAlias("table", "t")
+				.add(Restrictions.eq("t.name", tableName))
+				.setResultTransformer(
+						CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		if (versions == null || versions.length == 0) {// 所有
+		} else {
+			criteria.add(Restrictions.in("version", versions));
+		}
+		@SuppressWarnings("unchecked")
+		List<HbaseTableVersion> tableVersions = criteria.list();
+		for (HbaseTableVersion hbaseTableVersion : tableVersions) {
+			Set<HbaseTableColumn> set = new HashSet<HbaseTableColumn>();
+			set.addAll(hbaseTableVersion.getColumns());
+			map.put(hbaseTableVersion.getVersion(), set);
+		}
+
+		return map;
 	}
 }

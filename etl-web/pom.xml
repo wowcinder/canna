@@ -124,7 +124,20 @@
 			<scope>provided</scope>
 		</dependency>
 		<!-- /gxt -->
+		<!-- hadoop -->
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-core</artifactId>
+		</dependency>
+		<!-- /hadoop -->
 
+		<!-- hbase -->
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase</artifactId>
+		</dependency>
+
+		<!-- /hbase -->
 		<!-- hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

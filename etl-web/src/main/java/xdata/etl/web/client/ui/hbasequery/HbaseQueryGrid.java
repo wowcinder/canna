@@ -10,6 +10,7 @@ import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.hbasemeta.HbaseColumnConfig;
 import xdata.etl.web.shared.hbasemeta.HbaseRecord;
 
+import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
@@ -53,11 +54,27 @@ public class HbaseQueryGrid extends Grid<HbaseRecord<String>> {
 				}), new HbaseQueryColumnModel(
 				new ArrayList<ColumnConfig<HbaseRecord<String>, ?>>()));
 		this.columnConfigs = getColumnModel().getCc();
+		columnConfigs.add(new ColumnConfig<HbaseRecord<String>, String>(
+				new ValueProvider<HbaseRecord<String>, String>() {
+					@Override
+					public String getValue(HbaseRecord<String> object) {
+						return object.getKey();
+					}
+
+					@Override
+					public void setValue(HbaseRecord<String> object,
+							String value) {
+
+					}
+
+					@Override
+					public String getPath() {
+						return null;
+					}
+				}, 200, "key"));
 		initTableColumn(columns);
 		setLoadMask(true);
 		getView().setForceFit(true);
-		getStore().addAll(new ArrayList<HbaseRecord<String>>());
-
 	}
 
 	protected void initTableColumn(List<HbaseTableColumn> list) {

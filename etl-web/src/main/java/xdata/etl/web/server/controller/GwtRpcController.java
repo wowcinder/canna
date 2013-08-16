@@ -16,6 +16,7 @@ import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableColumnService;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableVersionService;
+import xdata.etl.web.client.service.hbasequery.HbaseQueryService;
 import xdata.etl.web.client.service.menu.MenuGroupService;
 import xdata.etl.web.client.service.menu.MenuService;
 import xdata.etl.web.client.service.user.UserGroupService;
@@ -104,6 +105,14 @@ public class GwtRpcController {
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
 		proxyUtil.getService(HbaseTableColumnService.class).processPost(
+				request, response);
+	}
+
+	@RequestMapping("hbase_query")
+	public void hbaseQuery(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException,
+			SerializationException {
+		proxyUtil.getService(HbaseQueryService.class).processPost(
 				request, response);
 	}
 }

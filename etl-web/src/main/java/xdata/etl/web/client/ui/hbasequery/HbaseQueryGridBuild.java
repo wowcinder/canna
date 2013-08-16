@@ -5,13 +5,13 @@ package xdata.etl.web.client.ui.hbasequery;
 
 import java.util.List;
 
-import com.google.gwt.core.shared.GWT;
-
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.service.RpcAsyncCallback;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableServiceAsync;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
+
+import com.google.gwt.core.shared.GWT;
 
 /**
  * @author XuehuiHe
