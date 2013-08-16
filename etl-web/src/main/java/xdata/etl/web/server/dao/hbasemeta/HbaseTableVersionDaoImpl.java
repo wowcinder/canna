@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,13 @@ import xdata.etl.web.shared.exception.SharedException;
 @Repository
 public class HbaseTableVersionDaoImpl extends
 		RpcDao<Integer, HbaseTableVersion> implements HbaseTableVersionDao {
+
+	@Override
+	protected void criteriaLimit(Criteria criteria) {
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		super.criteriaLimit(criteria);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public HbaseTableVersion update(HbaseTableVersion v) throws SharedException {

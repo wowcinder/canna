@@ -3,7 +3,10 @@
  */
 package xdata.etl.web.client.service.hbasequery;
 
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.validator.engine.ValidationSupport;
 
 import xdata.etl.web.shared.hbasemeta.HbaseRecord;
 
@@ -17,6 +20,17 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpc/hbase_query.rpc")
 public interface HbaseQueryService extends RemoteService {
 	List<HbaseRecord<String>> getData(String table, String[] versions);
-
+	Short dummyShort();
+	
 	Integer dummyInteger();
+	
+	Long dummyLong();
+
+	Boolean dummyBoolean();
+
+	Date dummyDate();
+	
+	Character dummyCharacter();
+
+	ValidationSupport dummy();
 }

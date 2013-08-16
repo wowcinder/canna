@@ -14,7 +14,9 @@ import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.hbasemeta.HbaseRecord;
 
 import com.google.gwt.core.shared.GWT;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 
 /**
  * @author XuehuiHe
@@ -30,13 +32,16 @@ public class HbaseQueryView extends CenterView {
 		super();
 
 		final VerticalLayoutContainer v = new VerticalLayoutContainer();
+		v.getElement().setHeight("100%");
+		v.setBorders(true);
+		con.setWidget(v);
+//		v.getScrollSupport().setScrollMode(ScrollMode.AUTO);
 		HbaseQueryGridBuild build = new HbaseQueryGridBuild("msg_v3a_user_auth");
 		build.create(new GwtCallBack<HbaseQueryGrid>() {
 
 			@Override
 			public void call(final HbaseQueryGrid grid) {
-				v.add(grid);
-
+				v.add(grid, new VerticalLayoutData(1, 1));
 				servie2.getData("msg_v3a_user_auth", null,
 						new RpcAsyncCallback<List<HbaseRecord<String>>>() {
 							@Override
@@ -48,7 +53,5 @@ public class HbaseQueryView extends CenterView {
 						});
 			}
 		});
-
-		con.setWidget(v);
 	}
 }

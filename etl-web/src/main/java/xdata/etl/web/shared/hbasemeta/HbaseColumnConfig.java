@@ -24,7 +24,7 @@ public class HbaseColumnConfig<K extends Serializable> extends
 	private HbaseTableColumn column;
 
 	public HbaseColumnConfig(HbaseTableColumn column) {
-		super(new HbaseRecordValueProvider(column.getName()), 200, column
+		super(new HbaseRecordValueProvider(column.getName()), 100, column
 				.getShortname());
 		this.column = column;
 		initValueProvider();

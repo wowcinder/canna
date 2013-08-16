@@ -25,6 +25,7 @@ import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.hibernate.validator.engine.ValidationSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,7 @@ import xdata.etl.web.shared.hbasemeta.HbaseRecord;
 @AccessAuthorityGroup("hbase_query")
 public class HbaseQueryServiceImpl implements HbaseQueryService {
 
-	public static final int DEFAULT_ITEMS_PER_PAGE = 50;
+	public static final int DEFAULT_ITEMS_PER_PAGE = 200;
 
 	public static final Configuration config = HBaseConfiguration.create();
 	@Autowired
@@ -144,7 +145,7 @@ public class HbaseQueryServiceImpl implements HbaseQueryService {
 		if (clazz.equals(boolean.class) || clazz.equals(Boolean.class)) {
 			return Bytes.toBoolean(b);
 		} else if (clazz.equals(Long.class) || clazz.equals(long.class)) {
-			return Bytes.toLong(b) + "";
+			return Bytes.toLong(b);
 		} else if (clazz.equals(Short.class) || clazz.equals(short.class)) {
 			return Bytes.toShort(b);
 		} else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
@@ -228,6 +229,36 @@ public class HbaseQueryServiceImpl implements HbaseQueryService {
 
 	@Override
 	public Integer dummyInteger() {
+		return null;
+	}
+
+	@Override
+	public Short dummyShort() {
+		return null;
+	}
+
+	@Override
+	public Long dummyLong() {
+		return null;
+	}
+
+	@Override
+	public Boolean dummyBoolean() {
+		return null;
+	}
+
+	@Override
+	public Date dummyDate() {
+		return null;
+	}
+
+	@Override
+	public Character dummyCharacter() {
+		return null;
+	}
+
+	@Override
+	public ValidationSupport dummy() {
 		return null;
 	}
 }
