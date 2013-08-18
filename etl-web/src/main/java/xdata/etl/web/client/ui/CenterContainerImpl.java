@@ -5,9 +5,9 @@ package xdata.etl.web.client.ui;
 
 import xdata.etl.web.client.app.CenterViewFinder;
 import xdata.etl.web.client.event.CenterVievChangeEvent;
+import xdata.etl.web.client.ui.CenterView.CenterViewConfig;
 
 import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -19,8 +19,7 @@ import com.sencha.gxt.widget.core.client.info.Info;
  * @author XuehuiHe
  * @date 2013年8月9日
  */
-public class CenterContainerImpl extends Composite implements CenterContainer {
-	private TabPanel tabPanel;
+public class CenterContainerImpl extends TabPanel implements CenterContainer {
 
 	@Inject
 	private EventBus eventBus;
@@ -29,37 +28,24 @@ public class CenterContainerImpl extends Composite implements CenterContainer {
 	private CenterViewFinder viewFinder;
 
 	public CenterContainerImpl() {
-		tabPanel = new TabPanel() {
-			@Override
-			protected void close(Widget item) {
-				super.close(item);
-				afterClosedSubPanel();
-			}
-		};
-		tabPanel.setBodyBorder(true);
-		tabPanel.setTabScroll(true);
-		tabPanel.setResizeTabs(true);
-		tabPanel.setMinTabWidth(130);
-		tabPanel.setCloseContextMenu(true);
-		tabPanel.getElement().getStyle().setTextAlign(TextAlign.CENTER);
-
-		CenterView view = new OverView();
-
-		TabItemConfig config = new TabItemConfig(view.getLabel(),
-				view.isCloseAble());
-		tabPanel.add(view, config);
+		setBodyBorder(true);
+		setTabScroll(true);
+		setResizeTabs(true);
+		setMinTabWidth(130);
+		setCloseContextMenu(true);
+		getElement().getStyle().setTextAlign(TextAlign.CENTER);
 	}
 
-	@Override
-	public Widget asWidget() {
-		return tabPanel;
+	protected void close(Widget item) {
+		super.close(item);
+		afterClosedSubPanel();
 	}
 
 	@Override
 	public void showCenter(String token) {
 		CenterView exists = findExistsTabItem(token);
 		if (exists != null) {
-			tabPanel.setActiveWidget(exists);
+			setActiveWidget(exists);
 			return;
 		}
 		CenterView newView = create(token);
@@ -67,10 +53,11 @@ public class CenterContainerImpl extends Composite implements CenterContainer {
 			Info.display("WARN", "没有找到页面!");
 			return;
 		}
-		TabItemConfig config = new TabItemConfig(newView.getLabel(),
-				newView.isCloseAble());
-		tabPanel.add(newView, config);
-		tabPanel.setActiveWidget(newView);
+		CenterViewConfig centerViewConfig = newView.getCenterViewConfig();
+		TabItemConfig config = new TabItemConfig(centerViewConfig.getLabel(),
+				centerViewConfig.isCloseAble());
+		add(newView, config);
+		setActiveWidget(newView);
 	}
 
 	protected CenterView create(String token) {
@@ -79,10 +66,11 @@ public class CenterContainerImpl extends Composite implements CenterContainer {
 
 	@Override
 	public void afterClosedSubPanel() {
-		CenterView active = (CenterView) tabPanel.getActiveWidget();
+		CenterView active = (CenterView) getActiveWidget();
 		if (active != null) {
 			eventBus.fireEvent(new CenterVievChangeEvent(
-					CenterVievChangeEvent.From.RIGHT, active.getToken()));
+					CenterVievChangeEvent.From.RIGHT, active
+							.getCenterViewConfig().getToken()));
 		} else {
 			eventBus.fireEvent(new CenterVievChangeEvent(
 					CenterVievChangeEvent.From.RIGHT, null));
@@ -91,9 +79,9 @@ public class CenterContainerImpl extends Composite implements CenterContainer {
 	}
 
 	protected CenterView findExistsTabItem(String token) {
-		for (int i = 0; i < tabPanel.getWidgetCount(); i++) {
-			CenterView item = (CenterView) tabPanel.getWidget(i);
-			if (token.equals(item.getToken())) {
+		for (int i = 0; i < getWidgetCount(); i++) {
+			CenterView item = (CenterView) getWidget(i);
+			if (token.equals(item.getCenterViewConfig().getToken())) {
 				return item;
 			}
 		}

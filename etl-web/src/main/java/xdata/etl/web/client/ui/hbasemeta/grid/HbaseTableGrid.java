@@ -3,21 +3,21 @@
  */
 package xdata.etl.web.client.ui.hbasemeta.grid;
 
-import xdata.etl.web.client.common.grid.EtlGrid;
-import xdata.etl.web.client.property.HbaseTableProperty;
+import xdata.etl.web.client.common.grid.RpcEntityGridBuilder;
+import xdata.etl.web.client.property.hbasemeta.HbaseTableProperty;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 
-import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月15日
  */
-public class HbaseTableGrid extends EtlGrid<Integer, HbaseTable> {
+public class HbaseTableGrid extends
+		RpcEntityGridBuilder<Integer, HbaseTable, HbaseTableProperty> {
 
 	public HbaseTableGrid() {
-		super(GWT.<HbaseTableProperty> create(HbaseTableProperty.class));
+		super(HbaseTableProperty.INSTANCE);
 	}
 
 	@Override
@@ -33,11 +33,6 @@ public class HbaseTableGrid extends EtlGrid<Integer, HbaseTable> {
 		getColumnConfigs().add(nameCC);
 		getColumnConfigs().add(shortnameCC);
 		getColumnConfigs().add(descCC);
-	}
-
-	@Override
-	public HbaseTableProperty getProps() {
-		return (HbaseTableProperty) super.getProps();
 	}
 
 }

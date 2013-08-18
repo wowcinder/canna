@@ -6,11 +6,12 @@ package xdata.etl.web.client.ui.user.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
 import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.service.user.UserGroupService;
 import xdata.etl.web.client.service.user.UserGroupServiceAsync;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
@@ -29,8 +30,8 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.event.ShowEvent;
 import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
-import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
+import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
 /**
@@ -38,12 +39,13 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * @date 2013年8月12日
  * 
  */
-public class UserEditor extends EtlSimpleEditor<Integer, User> {
+public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 	interface UserDriver extends SimpleBeanEditorDriver<User, UserEditor> {
 	}
 
 	public UserEditor() {
-		super(GWT.<UserDriver> create(UserDriver.class));
+		super(GWT.<UserDriver> create(UserDriver.class), "用户",
+				ServiceUtil.UserRpcCaller);
 
 		getRoot().addShowHandler(new ShowHandler() {
 			@Override
@@ -98,7 +100,7 @@ public class UserEditor extends EtlSimpleEditor<Integer, User> {
 		authoritySelector = new AuthoritySelector();
 		authoritySelector.setCallback(new GwtCallBack<List<Authority>>() {
 			@Override
-			public void call(List<Authority> t) {
+			public void _call(List<Authority> t) {
 				ListStore<Authority> store = authGrid.getStore();
 				for (Authority item : t) {
 					if (store.indexOf(item) == -1) {
@@ -120,7 +122,7 @@ public class UserEditor extends EtlSimpleEditor<Integer, User> {
 		layoutContainer.add(authGridLabel, vd);
 
 	}
-	
+
 	@Override
 	public void edit(User v) {
 		v.setPassword("");

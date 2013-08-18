@@ -30,7 +30,6 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		extends VerticalLayoutContainer {
 
 	private final EtlGrid<K, V> grid;
-	private RpcServiceAsync<K, V> service;
 	private EntityRpcCaller<K, V> rpcCaller;
 
 	private TextButton addBt;
@@ -41,11 +40,10 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 	protected PagingToolBar pagingBar;
 	private int pageItemCount = 50;
 
-	public EtlGridContainer(EtlGrid<K, V> grid, RpcServiceAsync<K, V> service) {
+	public EtlGridContainer(EtlGrid<K, V> grid, EntityRpcCaller<K, V> rpcCaller) {
 		this.grid = grid;
-		if (service != null) {
-			this.service = service;
-			this.rpcCaller = new EntityRpcCaller<K, V>(service);
+		if (rpcCaller != null) {
+			this.rpcCaller = rpcCaller;
 		}
 	}
 
@@ -57,8 +55,12 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		deleteBt = new TextButton("删除");
 	}
 
+	protected boolean isShowToolBar() {
+		return addBt != null || deleteBt != null;
+	}
+
 	public void initBtBar() {
-		if (addBt == null && deleteBt == null) {
+		if (!isShowToolBar()) {
 			return;
 		}
 		bar = new ToolBar();
@@ -87,7 +89,7 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 			if (this.rpcCaller != null) {
 				this.rpcCaller.get(new GwtCallBack<List<V>>() {
 					@Override
-					public void call(List<V> t) {
+					public void _call(List<V> t) {
 						grid.getStore().clear();
 						grid.getStore().addAll(t);
 					}
@@ -130,7 +132,7 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 		}
 		rpcCaller.delete(ids, new GwtCallBack<Void>() {
 			@Override
-			public void call(Void t) {
+			public void _call(Void t) {
 				ListStore<V> store = getGrid().getStore();
 				for (V v : list) {
 					store.remove(v);

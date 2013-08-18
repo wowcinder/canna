@@ -3,12 +3,11 @@
  */
 package xdata.etl.web.client.ui.user.grid;
 
-import xdata.etl.web.client.common.grid.EtlGrid;
-import xdata.etl.web.client.property.UserProperty;
+import xdata.etl.web.client.common.grid.RpcEntityGridBuilder;
+import xdata.etl.web.client.property.user.UserProperty;
 import xdata.etl.web.shared.entity.user.User;
 import xdata.etl.web.shared.entity.user.UserGroup;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
@@ -20,10 +19,10 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
  * @date 2013年8月12日
  * 
  */
-public class UserGrid extends EtlGrid<Integer, User> {
+public class UserGrid extends RpcEntityGridBuilder<Integer, User, UserProperty> {
 
 	public UserGrid() {
-		super(GWT.<UserProperty> create(UserProperty.class));
+		super(UserProperty.INSTANCE);
 	}
 
 	@Override
@@ -42,15 +41,10 @@ public class UserGrid extends EtlGrid<Integer, User> {
 						return null;
 					}
 				}));
-		
+
 		getColumnConfigs().add(emailCC);
 		getColumnConfigs().add(userGroupCC);
 
-	}
-
-	@Override
-	public UserProperty getProps() {
-		return (UserProperty) super.getProps();
 	}
 
 }

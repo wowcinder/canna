@@ -41,7 +41,7 @@ public class HbaseQueryView extends CenterView {
 		build.create(new GwtCallBack<HbaseQueryGrid>() {
 
 			@Override
-			public void call(final HbaseQueryGrid grid) {
+			public void _call(final HbaseQueryGrid grid) {
 				v.add(grid, new VerticalLayoutData(1, 1));
 				servie2.getData("msg_v3a_user_auth", null,
 						new RpcAsyncCallback<List<HbaseRecord<String>>>() {

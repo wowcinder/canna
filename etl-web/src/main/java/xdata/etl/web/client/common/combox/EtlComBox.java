@@ -1,25 +1,21 @@
 package xdata.etl.web.client.common.combox;
 
-import java.io.Serializable;
 import java.util.List;
 
 import xdata.etl.web.client.common.editer.EtlEditor;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.property.RpcEntityPropertyAccess;
-import xdata.etl.web.shared.entity.RpcEntity;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
 import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ListStore;
-import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.widget.core.client.event.ShowEvent;
 import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
 import com.sencha.gxt.widget.core.client.form.ComboBox;
 
-public class EtlComBox<K extends Serializable, V extends RpcEntity<K>> extends
-		ComboBox<V> {
+public class EtlComBox<V> extends ComboBox<V> {
 
 	public abstract static class EtlComBoxDataInitor<V> {
 		private GwtCallBack<List<V>> initback;
@@ -39,7 +35,7 @@ public class EtlComBox<K extends Serializable, V extends RpcEntity<K>> extends
 
 	private EtlComBoxDataInitor<V> dataInitor;
 
-	private EtlEditor<K, V> addEditor;
+	private EtlEditor<V> addEditor;
 
 	private AddItem<V> addItem;
 
@@ -47,37 +43,34 @@ public class EtlComBox<K extends Serializable, V extends RpcEntity<K>> extends
 
 	protected V lastSelected = null;
 
-	public EtlComBox(RpcEntityPropertyAccess<K, V> props,
-			LabelProvider<V> labelProvider) {
-		super(new ListStore<V>(props.key()), labelProvider);
-		this.setTriggerAction(TriggerAction.ALL);
+	public EtlComBox(ModelKeyProvider<V> keyProvider,
+			LabelProvider<? super V> labelProvider) {
+		super(new ListStore<V>(keyProvider), labelProvider);
+		setEditable(false);
+		setForceSelection(true);
+		setTriggerAction(TriggerAction.ALL);
 		this.addShowHandler(new ShowHandler() {
 			@Override
 			public void onShow(ShowEvent event) {
-				if (!isInited && dataInitor != null) {
-					dataInitor.run();
-					isInited = true;
-				} else {
-					select(0);
-				}
-
+				init();
 			}
 		});
 	}
-	
-	public void init(){
+
+	public void init() {
 		if (!isInited && dataInitor != null) {
 			dataInitor.run();
 			isInited = true;
 		} else {
-			select(0);
+			setValue(null);
+			lastSelected = null;
 		}
 	}
 
 	public GwtCallBack<List<V>> getInitCallBack() {
 		return new GwtCallBack<List<V>>() {
 			@Override
-			public void call(List<V> t) {
+			public void _call(List<V> t) {
 				initData(t);
 			}
 		};
@@ -109,18 +102,18 @@ public class EtlComBox<K extends Serializable, V extends RpcEntity<K>> extends
 		this.dataInitor.initback = getInitCallBack();
 	}
 
-	public void setAddEditor(EtlEditor<K, V> addEditor, AddItem<V> addItem) {
+	public void setAddEditor(EtlEditor<V> addEditor, AddItem<V> addItem) {
 		this.addEditor = addEditor;
 		this.addEditor.setAddCallBack(new GwtCallBack<V>() {
 			@Override
-			public void call(V t) {
+			public void _call(V t) {
 				getStore().add(0, t);
 				setValue(t);
 			}
-		});
-		this.addEditor.setAddCancelCallBack(new GwtCallBack<SelectEvent>() {
+
 			@Override
-			public void call(SelectEvent t) {
+			public void clean() {
+				super.clean();
 				setValue(getLastSelected());
 			}
 		});

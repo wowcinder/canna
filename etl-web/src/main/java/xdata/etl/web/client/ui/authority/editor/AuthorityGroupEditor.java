@@ -3,7 +3,8 @@
  */
 package xdata.etl.web.client.ui.authority.editor;
 
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 
 import com.google.gwt.core.shared.GWT;
@@ -17,7 +18,7 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * 
  */
 public class AuthorityGroupEditor extends
-		EtlSimpleEditor<Integer, AuthorityGroup> {
+		RpcEntitySimpleEditor<Integer, AuthorityGroup> {
 	interface AuthorityGroupDriver extends
 			SimpleBeanEditorDriver<AuthorityGroup, AuthorityGroupEditor> {
 	}
@@ -25,7 +26,8 @@ public class AuthorityGroupEditor extends
 	TextField name;
 
 	public AuthorityGroupEditor() {
-		super(GWT.<AuthorityGroupDriver> create(AuthorityGroupDriver.class));
+		super(GWT.<AuthorityGroupDriver> create(AuthorityGroupDriver.class),
+				"权限组", ServiceUtil.AuthorityGroupRpcCaller);
 	}
 
 	@Override

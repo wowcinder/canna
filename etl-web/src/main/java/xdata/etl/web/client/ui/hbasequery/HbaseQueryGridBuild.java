@@ -35,7 +35,7 @@ public class HbaseQueryGridBuild {
 				new RpcAsyncCallback<List<HbaseTableColumn>>() {
 					@Override
 					public void _onSuccess(List<HbaseTableColumn> t) {
-						callback.call(new HbaseQueryGrid(t));
+						callback._call(new HbaseQueryGrid(t));
 					}
 				});
 	}

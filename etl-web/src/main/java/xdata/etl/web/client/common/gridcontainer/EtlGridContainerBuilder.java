@@ -37,36 +37,36 @@ public class EtlGridContainerBuilder<K extends Serializable, V extends RpcEntity
 	private GwtCallBack<SelectEvent> addCancelCallBack = new GwtCallBack<SelectEvent>() {
 
 		@Override
-		public void call(SelectEvent t) {
+		public void _call(SelectEvent t) {
 			gridContainer.getAddBt().enable();
 		}
 	};
 	private GwtCallBack<V> addCallBack = new GwtCallBack<V>() {
 		@Override
-		public void call(final V t) {
+		public void _call(final V t) {
 			grid.getStore().add(0, t);
 		}
 	};
 
 	private GwtCallBack<V> realAddCallBack = new GwtCallBack<V>() {
 		@Override
-		public void call(final V t) {
-			addCallBack.call(t);
+		public void _call(final V t) {
+			addCallBack._call(t);
 			gridContainer.getAddBt().enable();
 		}
 	};
 
 	private GwtCallBack<V> updateCallBack = new GwtCallBack<V>() {
 		@Override
-		public void call(final V t) {
+		public void _call(final V t) {
 			grid.getStore().update(t);
 		}
 	};
 
 	private GwtCallBack<V> realUpdateCallBack = new GwtCallBack<V>() {
 		@Override
-		public void call(final V t) {
-			updateCallBack.call(t);
+		public void _call(final V t) {
+			updateCallBack._call(t);
 		}
 	};
 

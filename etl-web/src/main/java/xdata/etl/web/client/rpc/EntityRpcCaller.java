@@ -43,6 +43,12 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 			public void _onSuccess(V t) {
 				callBack.call(t);
 			}
+
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
+			}
 		});
 	}
 
@@ -51,6 +57,12 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 			@Override
 			public void _onSuccess(K t) {
 				callBack.call(t);
+			}
+
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
 			}
 		});
 	}
@@ -62,6 +74,11 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 				callBack.call(t);
 			}
 
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
+			}
 		});
 	}
 
@@ -72,6 +89,11 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 				callBack.call(t);
 			}
 
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
+			}
 		});
 	}
 
@@ -82,6 +104,11 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 				callBack.call(t);
 			}
 
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
+			}
 		});
 	}
 
@@ -90,6 +117,12 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 			@Override
 			public void _onSuccess(List<V> t) {
 				callBack.call(t);
+			}
+
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
 			}
 
 		});
@@ -102,6 +135,11 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 				callBack.call(t);
 			}
 
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
+			}
 		});
 	}
 
@@ -113,6 +151,11 @@ public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 				callBack.call(t);
 			}
 
+			@Override
+			public void afterOnFailure(Throwable caught) {
+				super.afterOnFailure(caught);
+				callBack.clean();
+			}
 		});
 	}
 

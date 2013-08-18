@@ -3,8 +3,8 @@
  */
 package xdata.etl.web.client.ui.menu.combox;
 
-import xdata.etl.web.client.common.combox.EtlComBox;
-import xdata.etl.web.client.property.MenuGroupProperty;
+import xdata.etl.web.client.common.combox.RpcEntityComBox;
+import xdata.etl.web.client.property.menu.MenuGroupProperty;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.ui.menu.editor.MenuGroupEditor;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
@@ -17,7 +17,7 @@ import com.sencha.gxt.data.shared.LabelProvider;
  * @date 2013年8月12日
  * 
  */
-public class MenuGroupComBox extends EtlComBox<Integer, MenuGroup> {
+public class MenuGroupComBox extends RpcEntityComBox<Integer, MenuGroup> {
 
 	public MenuGroupComBox(final EntityRpcCaller<Integer, MenuGroup> rpcCaller) {
 		super((MenuGroupProperty) GWT.create(MenuGroupProperty.class),

@@ -3,12 +3,11 @@
  */
 package xdata.etl.web.client.ui.authority.grid;
 
-import xdata.etl.web.client.common.grid.EtlGrid;
-import xdata.etl.web.client.property.AuthorityProperty;
+import xdata.etl.web.client.common.grid.RpcEntityGridBuilder;
+import xdata.etl.web.client.property.authority.AuthorityProperty;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
@@ -20,15 +19,16 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
  * @date 2013年8月12日
  * 
  */
-public class AuthorityGrid extends EtlGrid<Integer, Authority> {
+public class AuthorityGrid extends
+		RpcEntityGridBuilder<Integer, Authority, AuthorityProperty> {
 
 	public AuthorityGrid() {
 		this(true);
 	}
 
 	public AuthorityGrid(boolean isMultiSelect) {
-		super(GWT.<AuthorityProperty> create(AuthorityProperty.class),
-				isMultiSelect);
+		super(AuthorityProperty.INSTANCE);
+		setMultiSelect(isMultiSelect);
 	}
 
 	@Override
@@ -55,9 +55,4 @@ public class AuthorityGrid extends EtlGrid<Integer, Authority> {
 		getColumnConfigs().add(nameCC);
 		getColumnConfigs().add(groupCC);
 	}
-
-	public AuthorityProperty getProps() {
-		return (AuthorityProperty) props;
-	}
-
 }

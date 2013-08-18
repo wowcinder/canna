@@ -3,13 +3,12 @@
  */
 package xdata.etl.web.client.ui.menu.grid;
 
-import xdata.etl.web.client.common.grid.EtlGrid;
-import xdata.etl.web.client.property.MenuProperty;
+import xdata.etl.web.client.common.grid.RpcEntityGridBuilder;
+import xdata.etl.web.client.property.menu.MenuProperty;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
@@ -18,16 +17,27 @@ import com.sencha.gxt.dnd.core.client.DND.Feedback;
 import com.sencha.gxt.dnd.core.client.GridDragSource;
 import com.sencha.gxt.dnd.core.client.GridDropTarget;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
+import com.sencha.gxt.widget.core.client.grid.Grid;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月10日
  * 
  */
-public class MenuGrid extends EtlGrid<Integer, Menu> {
+public class MenuGrid extends RpcEntityGridBuilder<Integer, Menu, MenuProperty> {
 
 	public MenuGrid() {
-		super((MenuProperty) GWT.create(MenuProperty.class));
+		super(MenuProperty.INSTANCE);
+	}
+
+	@Override
+	public Grid<Menu> create() {
+		Grid<Menu> grid = super.create();
+		new GridDragSource<Menu>(grid);
+		GridDropTarget<Menu> target1 = new GridDropTarget<Menu>(grid);
+		target1.setFeedback(Feedback.INSERT);
+		target1.setAllowSelfAsSource(true);
+		return grid;
 	}
 
 	@Override
@@ -73,15 +83,6 @@ public class MenuGrid extends EtlGrid<Integer, Menu> {
 		getColumnConfigs().add(tokenCC);
 		getColumnConfigs().add(mgCC);
 		getColumnConfigs().add(auCC);
-
-		new GridDragSource<Menu>(this);
-		GridDropTarget<Menu> target1 = new GridDropTarget<Menu>(this);
-		target1.setFeedback(Feedback.INSERT);
-		target1.setAllowSelfAsSource(true);
-	}
-
-	public MenuProperty getProps() {
-		return (MenuProperty) props;
 	}
 
 }

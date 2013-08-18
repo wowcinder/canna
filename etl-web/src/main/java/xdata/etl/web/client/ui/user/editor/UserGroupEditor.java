@@ -6,10 +6,11 @@ package xdata.etl.web.client.ui.user.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
 import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
 import xdata.etl.web.client.gwt.GwtCallBack;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
 import xdata.etl.web.client.ui.user.combox.AuthoritySelector;
 import xdata.etl.web.shared.entity.authority.Authority;
@@ -30,7 +31,7 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * @date 2013年8月12日
  * 
  */
-public class UserGroupEditor extends EtlSimpleEditor<Integer, UserGroup> {
+public class UserGroupEditor extends RpcEntitySimpleEditor<Integer, UserGroup> {
 	interface UserGroupDriver extends
 			SimpleBeanEditorDriver<UserGroup, UserGroupEditor> {
 	}
@@ -44,7 +45,8 @@ public class UserGroupEditor extends EtlSimpleEditor<Integer, UserGroup> {
 	AuthoritySelector authoritySelector;
 
 	public UserGroupEditor() {
-		super(GWT.<UserGroupDriver> create(UserGroupDriver.class));
+		super(GWT.<UserGroupDriver> create(UserGroupDriver.class), "用户组",
+				ServiceUtil.UserGroupRpcCaller);
 	}
 
 	@Override
@@ -82,7 +84,7 @@ public class UserGroupEditor extends EtlSimpleEditor<Integer, UserGroup> {
 		authoritySelector = new AuthoritySelector();
 		authoritySelector.setCallback(new GwtCallBack<List<Authority>>() {
 			@Override
-			public void call(List<Authority> t) {
+			public void _call(List<Authority> t) {
 				ListStore<Authority> store = authGrid.getStore();
 				for (Authority item : t) {
 					if (store.indexOf(item) == -1) {

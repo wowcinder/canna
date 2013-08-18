@@ -3,11 +3,10 @@
  */
 package xdata.etl.web.client.ui.authority.grid;
 
-import xdata.etl.web.client.common.grid.EtlGrid;
-import xdata.etl.web.client.property.AuthorityGroupProperty;
+import xdata.etl.web.client.common.grid.RpcEntityGridBuilder;
+import xdata.etl.web.client.property.authority.AuthorityGroupProperty;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 
-import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 
 /**
@@ -15,10 +14,11 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
  * @date 2013年8月12日
  * 
  */
-public class AuthorityGroupGrid extends EtlGrid<Integer, AuthorityGroup> {
+public class AuthorityGroupGrid extends
+		RpcEntityGridBuilder<Integer, AuthorityGroup, AuthorityGroupProperty> {
 
 	public AuthorityGroupGrid() {
-		super(GWT.<AuthorityGroupProperty> create(AuthorityGroupProperty.class));
+		super(AuthorityGroupProperty.INSTANCE);
 	}
 
 	@Override
@@ -26,10 +26,6 @@ public class AuthorityGroupGrid extends EtlGrid<Integer, AuthorityGroup> {
 		ColumnConfig<AuthorityGroup, String> nameCC = new ColumnConfig<AuthorityGroup, String>(
 				getProps().name(), 200, "name");
 		getColumnConfigs().add(nameCC);
-	}
-
-	public AuthorityGroupProperty getProps() {
-		return (AuthorityGroupProperty) props;
 	}
 
 }

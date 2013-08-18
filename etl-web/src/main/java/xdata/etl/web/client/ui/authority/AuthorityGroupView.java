@@ -21,7 +21,7 @@ import com.google.gwt.core.shared.GWT;
  * 
  */
 @MenuToken(name = "权限组管理", token = "authority_group_manager")
-public class AuthorityGroupView extends CenterView {
+public class AuthorityGroupView implements CenterView {
 
 	public AuthorityGroupView() {
 		super();

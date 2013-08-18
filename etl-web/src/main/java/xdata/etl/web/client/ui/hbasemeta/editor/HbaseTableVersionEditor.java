@@ -6,10 +6,11 @@ package xdata.etl.web.client.ui.hbasemeta.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
 import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
 import xdata.etl.web.client.gwt.GwtCallBack;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.hbasemeta.combox.HbaseTableComBox;
 import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableColumnGrid;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
@@ -31,7 +32,7 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * @date 2013年8月15日
  */
 public class HbaseTableVersionEditor extends
-		EtlSimpleEditor<Integer, HbaseTableVersion> {
+		RpcEntitySimpleEditor<Integer, HbaseTableVersion> {
 
 	interface HbaseTableVersionDriver extends
 			SimpleBeanEditorDriver<HbaseTableVersion, HbaseTableVersionEditor> {
@@ -40,7 +41,8 @@ public class HbaseTableVersionEditor extends
 
 	public HbaseTableVersionEditor() {
 		super(
-				GWT.<HbaseTableVersionDriver> create(HbaseTableVersionDriver.class));
+				GWT.<HbaseTableVersionDriver> create(HbaseTableVersionDriver.class),
+				"版本", ServiceUtil.HbaseTableVersionRpcCaller);
 
 		getRoot().addShowHandler(new ShowHandler() {
 
@@ -108,7 +110,7 @@ public class HbaseTableVersionEditor extends
 		builder.setAddEditor(editor);
 		builder.setAddCallBack(new GwtCallBack<HbaseTableColumn>() {
 			@Override
-			public void call(HbaseTableColumn t) {
+			public void _call(HbaseTableColumn t) {
 				t.setVersion(getSelf());
 				grid.getStore().add(t);
 			}

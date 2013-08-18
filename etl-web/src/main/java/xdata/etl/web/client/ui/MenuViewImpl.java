@@ -22,7 +22,6 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.sencha.gxt.cell.core.client.SimpleSafeHtmlCell;
@@ -30,6 +29,7 @@ import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.TreeStore;
+import com.sencha.gxt.widget.core.client.Composite;
 import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.sencha.gxt.widget.core.client.tree.Tree;
 

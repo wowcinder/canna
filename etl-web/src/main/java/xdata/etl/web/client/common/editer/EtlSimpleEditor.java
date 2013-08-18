@@ -3,10 +3,6 @@
  */
 package xdata.etl.web.client.common.editer;
 
-import java.io.Serializable;
-
-import xdata.etl.web.shared.entity.RpcEntity;
-
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.sencha.gxt.core.client.util.Padding;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -18,16 +14,17 @@ import com.sencha.gxt.widget.core.client.form.FormPanel;
  * @date 2013年8月10日
  * 
  */
-public abstract class EtlSimpleEditor<K extends Serializable, V extends RpcEntity<K>>
-		extends EtlEditor<K, V> {
+public abstract class EtlSimpleEditor<V> extends EtlEditor<V> {
 	protected static final VerticalLayoutData vd = new VerticalLayoutData(1, -1);
 	@Ignore
 	protected FormPanel formPanel;
 	@Ignore
 	protected VerticalLayoutContainer layoutContainer;
 
-	public EtlSimpleEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
-		super(driver);
+	public EtlSimpleEditor(
+			SimpleBeanEditorDriver<V, ? extends EtlEditor<V>> driver,
+			String baseHeadingText) {
+		super(driver, baseHeadingText);
 	}
 
 	protected void initView() {

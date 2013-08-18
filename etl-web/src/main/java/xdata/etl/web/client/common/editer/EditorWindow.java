@@ -8,8 +8,8 @@ import xdata.etl.web.client.gwt.GwtCallBack;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
-import com.sencha.gxt.widget.core.client.event.ShowEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.event.ShowEvent;
 import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
 
 /**
@@ -46,7 +46,7 @@ public class EditorWindow extends Window {
 				@Override
 				public void onSelect(SelectEvent event) {
 					if (cancelBack != null) {
-						cancelBack.call(null);
+						cancelBack.call(event);
 					}
 				}
 			});

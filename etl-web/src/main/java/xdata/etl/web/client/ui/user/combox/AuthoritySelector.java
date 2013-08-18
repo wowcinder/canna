@@ -48,7 +48,7 @@ public class AuthoritySelector {
 			public void onSelect(SelectEvent event) {
 				List<Authority> authorities = gridContainer.getGrid()
 						.getSelectionModel().getSelectedItems();
-				callback.call(authorities);
+				callback._call(authorities);
 				root.hide();
 			}
 		});

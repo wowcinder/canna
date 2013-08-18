@@ -3,8 +3,8 @@
  */
 package xdata.etl.web.client.ui.hbasemeta.combox;
 
-import xdata.etl.web.client.common.combox.EtlComBox;
-import xdata.etl.web.client.property.HbaseTableProperty;
+import xdata.etl.web.client.common.combox.RpcEntityComBox;
+import xdata.etl.web.client.property.hbasemeta.HbaseTableProperty;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableServiceAsync;
@@ -18,7 +18,7 @@ import com.sencha.gxt.data.shared.LabelProvider;
  * @author XuehuiHe
  * @date 2013年8月15日
  */
-public class HbaseTableComBox extends EtlComBox<Integer, HbaseTable> {
+public class HbaseTableComBox extends RpcEntityComBox<Integer, HbaseTable> {
 
 	public HbaseTableComBox() {
 		super(HbaseTableProperty.INSTANCE, new LabelProvider<HbaseTable>() {

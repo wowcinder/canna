@@ -3,7 +3,8 @@
  */
 package xdata.etl.web.client.ui.menu.editor;
 
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 
 import com.google.gwt.core.shared.GWT;
@@ -16,18 +17,17 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * @date 2013年8月11日
  * 
  */
-public class MenuGroupEditor extends EtlSimpleEditor<Integer, MenuGroup> {
+public class MenuGroupEditor extends RpcEntitySimpleEditor<Integer, MenuGroup> {
 	interface MenuGroupDriver extends
 			SimpleBeanEditorDriver<MenuGroup, MenuGroupEditor> {
 	}
 
-	private static MenuGroupDriver menuGroupDriver = GWT
+	private static final MenuGroupDriver menuGroupDriver = GWT
 			.create(MenuGroupDriver.class);
-
 	TextField name;
 
 	public MenuGroupEditor() {
-		super(menuGroupDriver);
+		super(menuGroupDriver, "菜单组", ServiceUtil.MenuGroupRpcCaller);
 	}
 
 	@Override

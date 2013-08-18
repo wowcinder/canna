@@ -42,7 +42,7 @@ public class AuthoritySelector {
 		builder.setUpdateHandler(new CellDoubleClickHandler() {
 			@Override
 			public void onCellClick(CellDoubleClickEvent event) {
-				callback.call(gridContainer.getGrid().getStore()
+				callback._call(gridContainer.getGrid().getStore()
 						.get(event.getRowIndex()));
 				root.hide();
 				root.removeFromParent();

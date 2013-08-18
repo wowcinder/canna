@@ -4,7 +4,8 @@
 package xdata.etl.web.client.ui.hbasemeta.editor;
 
 import xdata.etl.web.client.common.combox.EnumComboBox;
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn.HbaseTableColumnType;
 
@@ -20,14 +21,16 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * @date 2013年8月15日
  */
 public class HbaseTableColumnEditor extends
-		EtlSimpleEditor<Integer, HbaseTableColumn> {
+		RpcEntitySimpleEditor<Integer, HbaseTableColumn> {
 	interface HbaseTableColumnDriver extends
 			SimpleBeanEditorDriver<HbaseTableColumn, HbaseTableColumnEditor> {
 
 	}
 
 	public HbaseTableColumnEditor() {
-		super(GWT.<HbaseTableColumnDriver> create(HbaseTableColumnDriver.class));
+		super(
+				GWT.<HbaseTableColumnDriver> create(HbaseTableColumnDriver.class),
+				"字段", ServiceUtil.HbaseTableColumnRpcCaller);
 	}
 
 	TextField name;

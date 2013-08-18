@@ -3,13 +3,7 @@
  */
 package xdata.etl.web.client.common.editer;
 
-import java.io.Serializable;
-
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
-import xdata.etl.web.client.service.RpcServiceAsync;
-import xdata.etl.web.shared.entity.RpcEntity;
 
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -24,8 +18,7 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
  * @date 2013年8月10日
  * 
  */
-public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
-		implements Editor<V> {
+public abstract class EtlEditor<V> implements Editor<V> {
 
 	@Ignore
 	private final EditorWindow root;
@@ -34,17 +27,11 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	@Ignore
 	private final TextButton cancelBt;
 	@Ignore
-	protected GwtCallBack<SelectEvent> addCancelCallBack;
-	@Ignore
-	protected GwtCallBack<SelectEvent> updateCancelCallBack;
-	@Ignore
 	protected GwtCallBack<V> addCallBack;
 	@Ignore
 	protected GwtCallBack<V> updateCallBack;
 	@Ignore
-	protected EtlGridContainer<K, V> parent;
-	@Ignore
-	private SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver;
+	private SimpleBeanEditorDriver<V, ? extends EtlEditor<V>> driver;
 	@Ignore
 	private String baseHeadingText = "";
 	@Ignore
@@ -53,11 +40,11 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	private HandlerRegistration cancelBtHandlerHr;
 	@Ignore
 	private HandlerRegistration saveOrUpdateBtHandlerHr;
-	@Ignore
-	private EntityRpcCaller<K, V> rpcCaller;
 
-	public EtlEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
+	public EtlEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<V>> driver,
+			String baseHeadingText) {
 		this.driver = driver;
+		this.baseHeadingText = baseHeadingText;
 		root = new EditorWindow();
 		saveOrUpdateBt = new TextButton("Save");
 		cancelBt = new TextButton("取消");
@@ -68,17 +55,19 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		root.addButton(saveOrUpdateBt);
 		root.addButton(cancelBt);
 
-		setCancelBtHandler(new SelectHandler() {
+		cancelBt.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				getCancelBt().disable();
-				final GwtCallBack<SelectEvent> cancelCallBack = getActionCancelCallBack();
-				if (cancelCallBack != null) {
-					cancelCallBack.call(event);
-				}
-				getCancelBt().enable();
-				getRoot().hide();
+				cancel();
 			}
+		});
+
+		getRoot().setCancelBack(new GwtCallBack<SelectEvent>() {
+			@Override
+			protected void _call(SelectEvent t) {
+				cancel();
+			}
+
 		});
 
 		setSaveOrUpdateBtHandler(new SelectHandler() {
@@ -96,32 +85,48 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 
 	protected abstract void initView();
 
-	protected void saveOrUpdate(V v) {
-		if (isAdd()) {
-			save(v);
-		} else {
-			update(v);
+	protected abstract V newInstance();
+
+	protected abstract void save(V v, GwtCallBack<V> callback);
+
+	protected abstract void update(V v, GwtCallBack<V> callback);
+
+	protected void cancel() {
+		clean();
+		getRoot().hide();
+	}
+
+	protected void clean() {
+		final GwtCallBack<V> actionCallBack = getActionCallBack();
+		if (actionCallBack != null) {
+			actionCallBack.clean();
 		}
 	}
 
-	protected void save(V v) {
-		getRpcCaller().saveAndReturn(v, getSaveOrUpdateCallBackSwap());
-	}
-
-	protected void update(V v) {
-		getRpcCaller().update(v, getSaveOrUpdateCallBackSwap());
+	protected void saveOrUpdate(V v) {
+		if (isAdd()) {
+			save(v, getSaveOrUpdateCallBackSwap());
+		} else {
+			update(v, getSaveOrUpdateCallBackSwap());
+		}
 	}
 
 	protected GwtCallBack<V> getSaveOrUpdateCallBackSwap() {
 		return new GwtCallBack<V>() {
 			@Override
-			public void call(V t) {
+			public void _call(V t) {
 				final GwtCallBack<V> actionCallBack = getActionCallBack();
 				if (actionCallBack != null) {
 					actionCallBack.call(t);
 				}
-				getSaveOrUpdateBt().enable();
 				getRoot().hide();
+			}
+
+			@Override
+			public void clean() {
+				super.clean();
+				EtlEditor.this.clean();
+				getSaveOrUpdateBt().enable();
 			}
 		};
 	}
@@ -134,60 +139,33 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		}
 	}
 
-	protected GwtCallBack<SelectEvent> getActionCancelCallBack() {
-		if (isAdd()) {
-			return getAddCancelCallBack();
-		} else {
-			return getUpdateCancelCallBack();
-		}
+	protected void _edit(V v) {
+		getDriver().edit(v);
+		getRoot().show();
 	}
 
 	public void edit(V v) {
 		setAdd(false);
 		getRoot().setHeadingText(getHeadingText());
 		getSaveOrUpdateBt().setText("修改");
-		getDriver().edit(v);
-		getRoot().show();
+		_edit(v);
 	}
 
 	public void add() {
 		setAdd(true);
 		getRoot().setHeadingText(getHeadingText());
 		getSaveOrUpdateBt().setText("添加");
-		getDriver().edit(newInstance());
-		getRoot().show();
+		_edit(newInstance());
 	}
-
-	protected abstract V newInstance();
 
 	protected String getHeadingText() {
 		if (isAdd()) {
-			return "添加" + getBaseHeadingText();
+			return "添加  " + getBaseHeadingText();
 		}
-		return "修改" + getBaseHeadingText();
+		return "修改  " + getBaseHeadingText();
 	}
 
-	public RpcServiceAsync<K, V> getService() {
-		return getRpcCaller().getService();
-	}
-
-	public EntityRpcCaller<K, V> getRpcCaller() {
-		return this.rpcCaller;
-	}
-
-	public void setCancelBtHandler(SelectHandler cancelBtHandler) {
-		if (this.cancelBtHandlerHr != null) {
-			this.cancelBtHandlerHr.removeHandler();
-			this.cancelBtHandlerHr = null;
-		}
-
-		if (cancelBtHandler != null) {
-			this.cancelBtHandlerHr = getCancelBt().addSelectHandler(
-					cancelBtHandler);
-		}
-	}
-
-	public void setSaveOrUpdateBtHandler(SelectHandler saveOrUpdateBtHandler) {
+	protected void setSaveOrUpdateBtHandler(SelectHandler saveOrUpdateBtHandler) {
 		if (this.saveOrUpdateBtHandlerHr != null) {
 			this.saveOrUpdateBtHandlerHr.removeHandler();
 			this.saveOrUpdateBtHandlerHr = null;
@@ -200,31 +178,13 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 	}
 
 	@SuppressWarnings("unchecked")
-	public SimpleBeanEditorDriver<V, EtlEditor<K, V>> getDriver() {
-		return (SimpleBeanEditorDriver<V, EtlEditor<K, V>>) driver;
+	public SimpleBeanEditorDriver<V, EtlEditor<V>> getDriver() {
+		return (SimpleBeanEditorDriver<V, EtlEditor<V>>) driver;
 	}
 
 	public void setDriver(
-			SimpleBeanEditorDriver<V, ? extends EtlEditor<K, V>> driver) {
+			SimpleBeanEditorDriver<V, ? extends EtlEditor<V>> driver) {
 		this.driver = driver;
-	}
-
-	public EtlGridContainer<K, V> getParent() {
-		return parent;
-	}
-
-	public void setParent(EtlGridContainer<K, V> parent) {
-		this.parent = parent;
-		this.rpcCaller = parent.getRpcCaller();
-	}
-
-	public GwtCallBack<SelectEvent> getAddCancelCallBack() {
-		return addCancelCallBack;
-	}
-
-	public void setAddCancelCallBack(GwtCallBack<SelectEvent> addCancelCallBack) {
-		this.addCancelCallBack = addCancelCallBack;
-		root.setCancelBack(addCancelCallBack);
 	}
 
 	public GwtCallBack<V> getAddCallBack() {
@@ -265,23 +225,11 @@ public abstract class EtlEditor<K extends Serializable, V extends RpcEntity<K>>
 		return cancelBt;
 	}
 
-	public GwtCallBack<SelectEvent> getUpdateCancelCallBack() {
-		return updateCancelCallBack;
-	}
-
-	public void setUpdateCancelCallBack(
-			GwtCallBack<SelectEvent> updateCancelCallBack) {
-		this.updateCancelCallBack = updateCancelCallBack;
-	}
-
 	public GwtCallBack<V> getUpdateCallBack() {
 		return updateCallBack;
 	}
 
 	public void setUpdateCallBack(GwtCallBack<V> updateCallBack) {
 		this.updateCallBack = updateCallBack;
-	}
-	public void setRpcCaller(EntityRpcCaller<K, V> rpcCaller) {
-		this.rpcCaller = rpcCaller;
 	}
 }

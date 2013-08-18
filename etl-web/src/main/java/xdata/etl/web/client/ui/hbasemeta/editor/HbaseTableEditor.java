@@ -3,7 +3,8 @@
  */
 package xdata.etl.web.client.ui.hbasemeta.editor;
 
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 
 import com.google.gwt.core.shared.GWT;
@@ -16,7 +17,8 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * @author XuehuiHe
  * @date 2013年8月15日
  */
-public class HbaseTableEditor extends EtlSimpleEditor<Integer, HbaseTable> {
+public class HbaseTableEditor extends
+		RpcEntitySimpleEditor<Integer, HbaseTable> {
 
 	interface HbaseTableDriver extends
 			SimpleBeanEditorDriver<HbaseTable, HbaseTableEditor> {
@@ -24,7 +26,8 @@ public class HbaseTableEditor extends EtlSimpleEditor<Integer, HbaseTable> {
 	}
 
 	public HbaseTableEditor() {
-		super(GWT.<HbaseTableDriver> create(HbaseTableDriver.class));
+		super(GWT.<HbaseTableDriver> create(HbaseTableDriver.class), "hbase表",
+				ServiceUtil.HbaseTableRpcCaller);
 	}
 
 	@Override

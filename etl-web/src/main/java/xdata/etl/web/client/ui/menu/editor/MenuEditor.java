@@ -3,9 +3,10 @@
  */
 package xdata.etl.web.client.ui.menu.editor;
 
-import xdata.etl.web.client.common.editer.EtlSimpleEditor;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.service.menu.MenuGroupService;
 import xdata.etl.web.client.service.menu.MenuGroupServiceAsync;
 import xdata.etl.web.client.ui.menu.combox.AuthoritySelector;
@@ -37,12 +38,12 @@ import com.sencha.gxt.widget.core.client.form.ValueBaseField;
  * @date 2013年8月10日
  * 
  */
-public class MenuEditor extends EtlSimpleEditor<Integer, Menu> {
+public class MenuEditor extends RpcEntitySimpleEditor<Integer, Menu> {
 
 	interface MenuDriver extends SimpleBeanEditorDriver<Menu, MenuEditor> {
 	}
 
-	private static MenuDriver menuDriver = GWT.create(MenuDriver.class);
+	private static final MenuDriver menuDriver = GWT.create(MenuDriver.class);
 
 	TextField name;
 	TextField token;
@@ -52,7 +53,7 @@ public class MenuEditor extends EtlSimpleEditor<Integer, Menu> {
 	TextButton modifyAuthority;
 
 	public MenuEditor() {
-		super(menuDriver);
+		super(menuDriver, "菜单", ServiceUtil.MenuRpcCaller);
 		getRoot().addShowHandler(new ShowHandler() {
 			@Override
 			public void onShow(ShowEvent event) {
@@ -121,7 +122,7 @@ public class MenuEditor extends EtlSimpleEditor<Integer, Menu> {
 				AuthoritySelector selector = new AuthoritySelector();
 				selector.setCallback(new GwtCallBack<Authority>() {
 					@Override
-					public void call(Authority t) {
+					public void _call(Authority t) {
 						requireAuthority.setValue(t);
 					}
 				});

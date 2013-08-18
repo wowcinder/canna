@@ -1,11 +1,12 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.client.property;
+package xdata.etl.web.client.property.hbasemeta;
 
 import java.util.Date;
 import java.util.List;
 
+import xdata.etl.web.client.property.RpcEntityPropertyAccess;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
