@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import xdata.etl.web.client.ui.CenterView;
+import xdata.etl.web.client.ui.CenterView.CenterViewConfig;
 import xdata.etl.web.shared.annotations.MenuToken;
 
 import com.google.gwt.core.client.GWT;
@@ -55,6 +56,7 @@ public class CenterViewFinderGenerator extends Generator {
 		factory.setSuperclass(typeName);
 		factory.addImport(Name.getSourceNameForClass(GWT.class));
 		factory.addImport(Name.getSourceNameForClass(CenterView.class));
+		factory.addImport(Name.getSourceNameForClass(CenterViewConfig.class));
 		SourceWriter sw = factory.createSourceWriter(context, pw);
 
 		sw.println("public CenterView findCenterView(String token) {");
@@ -66,10 +68,11 @@ public class CenterViewFinderGenerator extends Generator {
 				token = "";
 			}
 			sw.println("if(\"%1$s\".equals(token)){", token);
+			sw.println("CenterViewConfig viewConfig = new CenterViewConfig(\"%1$s\",\"%2$s\");",token,tokenToLabel.get(token));
 			sw.println("m = new %1$s();", jClassType.getQualifiedSourceName());
-			sw.println("m.setToken(\"%1$s\");", token);
-			sw.println("m.setLabel(\"%1$s\");", tokenToLabel.get(token));
-			sw.println("m.setEventBus(eventBus);");
+			sw.println("m.setCenterViewConfig(viewConfig);", token);
+//			sw.println("m.setLabel(\"%1$s\");", tokenToLabel.get(token));
+//			sw.println("m.setEventBus(eventBus);");
 			sw.println("return m;}");
 		}
 		sw.outdent();

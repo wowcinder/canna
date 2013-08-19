@@ -11,6 +11,7 @@ public class RpcEntityGridBuilder<K extends Serializable, V extends RpcEntity<K>
 
 	public RpcEntityGridBuilder(P props) {
 		setKeyProvider(props.key());
+		setProps(props);
 	}
 
 	public P getProps() {

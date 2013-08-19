@@ -4,15 +4,12 @@
 package xdata.etl.web.client.ui.menu.combox;
 
 import xdata.etl.web.client.common.editer.EditorWindow;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
+import xdata.etl.web.client.common.gridcontainer.GridContainer;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.service.authority.AuthorityService;
-import xdata.etl.web.client.service.authority.AuthorityServiceAsync;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
 import xdata.etl.web.shared.entity.authority.Authority;
 
-import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.widget.core.client.event.CellDoubleClickEvent;
 import com.sencha.gxt.widget.core.client.event.CellDoubleClickEvent.CellDoubleClickHandler;
 
@@ -21,44 +18,33 @@ import com.sencha.gxt.widget.core.client.event.CellDoubleClickEvent.CellDoubleCl
  * @date 2013年8月12日
  * 
  */
-public class AuthoritySelector {
+public class AuthoritySelector extends EditorWindow {
 
-	private final EditorWindow root;
 	private GwtCallBack<Authority> callback;
 
 	public AuthoritySelector() {
-		root = new EditorWindow();
-		root.setModal(true);
+		setModal(true);
 
-		final EtlGridContainer<Integer, Authority> gridContainer = new EtlGridContainer<Integer, Authority>(
-				new AuthorityGrid(false),
-				GWT.<AuthorityServiceAsync> create(AuthorityService.class));
+		final GridContainer<Authority> gridContainer = new GridContainer<Authority>(
+				new AuthorityGrid(false).create());
+		gridContainer.setPagingLoader(ServiceUtil.AuthorityRpcCaller
+				.getPagingLoader(gridContainer.getGrid().getStore()), 50);
 
-		EtlGridContainerBuilder<Integer, Authority> builder = new EtlGridContainerBuilder<Integer, Authority>(
-				gridContainer);
-		builder.setShowAddBt(false);
-		builder.setShowRemoveBt(false);
+		gridContainer.getGrid().addCellDoubleClickHandler(
+				new CellDoubleClickHandler() {
 
-		builder.setUpdateHandler(new CellDoubleClickHandler() {
-			@Override
-			public void onCellClick(CellDoubleClickEvent event) {
-				callback._call(gridContainer.getGrid().getStore()
-						.get(event.getRowIndex()));
-				root.hide();
-				root.removeFromParent();
-			}
-		});
-		builder.build();
-		gridContainer.setHeight(200);
-		gridContainer.setWidth(400);
-		root.setWidget(gridContainer);
-		root.setHeadingHtml("请双击选择:");
-		root.setHeaderVisible(true);
-	}
-
-	public void show() {
-		root.forceLayout();
-		root.show();
+					@Override
+					public void onCellClick(CellDoubleClickEvent event) {
+						callback.call(gridContainer.getGrid().getStore()
+								.get(event.getRowIndex()));
+						hide();
+					}
+				});
+		// gridContainer.setHeight(200);
+		// gridContainer.setWidth(400);
+		setWidget(gridContainer);
+		setHeadingHtml("请双击选择:");
+		setHeaderVisible(true);
 	}
 
 	public void setCallback(GwtCallBack<Authority> callback) {

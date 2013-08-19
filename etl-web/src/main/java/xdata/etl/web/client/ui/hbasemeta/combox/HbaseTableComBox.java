@@ -3,60 +3,49 @@
  */
 package xdata.etl.web.client.ui.hbasemeta.combox;
 
-import xdata.etl.web.client.common.combox.RpcEntityComBox;
+import xdata.etl.web.client.common.combox.EtlComBox;
 import xdata.etl.web.client.property.hbasemeta.HbaseTableProperty;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
-import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
-import xdata.etl.web.client.service.hbasemeta.HbaseTableServiceAsync;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableEditor;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 
-import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.data.shared.LabelProvider;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月15日
  */
-public class HbaseTableComBox extends RpcEntityComBox<Integer, HbaseTable> {
+public class HbaseTableComBox extends EtlComBox<HbaseTable> {
 
 	public HbaseTableComBox() {
-		super(HbaseTableProperty.INSTANCE, new LabelProvider<HbaseTable>() {
+		super(HbaseTableProperty.INSTANCE.key(),
+				new LabelProvider<HbaseTable>() {
 
-			@Override
-			public String getLabel(HbaseTable item) {
-				if (item != null) {
-					return item.getName();
-				}
-				return null;
-			}
-		});
+					@Override
+					public String getLabel(HbaseTable item) {
+						if (item != null) {
+							return item.getName();
+						}
+						return null;
+					}
+				});
 
 		HbaseTableEditor addEditor = new HbaseTableEditor();
-		addEditor.setRpcCaller(new EntityRpcCaller<Integer, HbaseTable>(GWT
-				.<HbaseTableServiceAsync> create(HbaseTableService.class)));
 		setAddEditor(addEditor, new AddItem<HbaseTable>() {
 
 			@Override
-			public HbaseTable getAddItem() {
+			protected HbaseTable createAddItem() {
 				HbaseTable item = new HbaseTable();
 				item.setId(-1);
 				item.setName("添加...");
 				return item;
-			}
-
-			@Override
-			public boolean isAddItem(HbaseTable v) {
-				return v.getId().equals(-1);
 			}
 		});
 
 		setDataInitor(new EtlComBoxDataInitor<HbaseTable>() {
 			@Override
 			protected void run() {
-				new EntityRpcCaller<Integer, HbaseTable>(
-						GWT.<HbaseTableServiceAsync> create(HbaseTableService.class))
-						.get(getInitBack());
+				ServiceUtil.HbaseTableRpcCaller.get(getInitBack());
 			}
 		});
 

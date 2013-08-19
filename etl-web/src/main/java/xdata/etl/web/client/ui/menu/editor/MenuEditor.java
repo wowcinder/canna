@@ -5,10 +5,7 @@ package xdata.etl.web.client.ui.menu.editor;
 
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.service.ServiceUtil;
-import xdata.etl.web.client.service.menu.MenuGroupService;
-import xdata.etl.web.client.service.menu.MenuGroupServiceAsync;
 import xdata.etl.web.client.ui.menu.combox.AuthoritySelector;
 import xdata.etl.web.client.ui.menu.combox.MenuGroupComBox;
 import xdata.etl.web.shared.entity.authority.Authority;
@@ -96,9 +93,7 @@ public class MenuEditor extends RpcEntitySimpleEditor<Integer, Menu> {
 		};
 
 		requireAuthority.setReadOnly(true);
-		menuGroup = new MenuGroupComBox(
-				new EntityRpcCaller<Integer, MenuGroup>(GWT
-						.<MenuGroupServiceAsync> create(MenuGroupService.class)));
+		menuGroup = new MenuGroupComBox();
 		layoutContainer.add(new FieldLabel(name, "name"), vd);
 		layoutContainer.add(new FieldLabel(token, "token"), vd);
 		layoutContainer.add(new FieldLabel(menuGroup, "菜单组"), vd);

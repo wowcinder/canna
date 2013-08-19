@@ -14,9 +14,8 @@ import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.hbasemeta.HbaseRecord;
 
 import com.google.gwt.core.shared.GWT;
-import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+import com.sencha.gxt.widget.core.client.grid.Grid;
 
 /**
  * @author XuehuiHe
@@ -24,35 +23,50 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.Verti
  * 
  */
 @MenuToken(name = "hbase查询", token = "hbase_query")
-public class HbaseQueryView extends CenterView {
+public class HbaseQueryView extends VerticalLayoutContainer implements
+		CenterView {
 	private static final HbaseQueryServiceAsync servie2 = GWT
 			.<HbaseQueryServiceAsync> create(HbaseQueryService.class);
 
-	public HbaseQueryView() {
-		super();
-		con.setHeight(600);
+	private Grid<HbaseRecord<String>> grid;
 
-		final VerticalLayoutContainer v = new VerticalLayoutContainer();
-		v.getElement().setHeight("100%");
-		v.setBorders(true);
-		con.setWidget(v);
-//		v.getScrollSupport().setScrollMode(ScrollMode.AUTO);
-		HbaseQueryGridBuild build = new HbaseQueryGridBuild("msg_v3a_user_auth");
-		build.create(new GwtCallBack<HbaseQueryGrid>() {
+	private CenterViewConfig centerViewConfig;
+
+	public HbaseQueryView() {
+
+		GwtCallBack<Void> gridCallBack = new GwtCallBack<Void>() {
 
 			@Override
-			public void _call(final HbaseQueryGrid grid) {
-				v.add(grid, new VerticalLayoutData(1, 1));
-				servie2.getData("msg_v3a_user_auth", null,
-						new RpcAsyncCallback<List<HbaseRecord<String>>>() {
-							@Override
-							public void _onSuccess(List<HbaseRecord<String>> t) {
-								if (t != null) {
-									grid.getStore().addAll(t);
-								}
-							}
-						});
+			protected void _call(Void t) {
+				refreshGrid();
 			}
-		});
+		};
+		HbaseQueryGridBuild build = new HbaseQueryGridBuild("msg_v3a_user_auth");
+		grid = build.create();
+		add(grid, new VerticalLayoutData(1, 1));
+		build.getInitColumns(gridCallBack);
+	}
+
+	public void refreshGrid() {
+		grid.getView().refresh(true);
+		servie2.getData("msg_v3a_user_auth", null,
+				new RpcAsyncCallback<List<HbaseRecord<String>>>() {
+					@Override
+					public void _onSuccess(List<HbaseRecord<String>> t) {
+						if (t != null) {
+							grid.getStore().addAll(t);
+						}
+					}
+				});
+	}
+
+	@Override
+	public CenterViewConfig getCenterViewConfig() {
+		return centerViewConfig;
+	}
+
+	@Override
+	public void setCenterViewConfig(CenterViewConfig centerViewConfig) {
+		this.centerViewConfig = centerViewConfig;
 	}
 }

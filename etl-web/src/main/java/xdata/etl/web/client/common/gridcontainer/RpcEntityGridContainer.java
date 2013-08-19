@@ -1,15 +1,14 @@
 package xdata.etl.web.client.common.gridcontainer;
 
+import com.google.gwt.user.client.ui.IsWidget;
 import com.sencha.gxt.widget.core.client.grid.Grid;
-import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
+import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 public class RpcEntityGridContainer<V> extends GridContainer<V> {
-	private GridContainerHeaderBar headerBar;
-	private PagingToolBar pagingToolBar;
+	private ToolBar headerBar;
 
 	public RpcEntityGridContainer(Grid<V> grid) {
 		super(grid);
-		this.headerBar = new GridContainerHeaderBar();
 	}
 
 	@Override
@@ -17,26 +16,22 @@ public class RpcEntityGridContainer<V> extends GridContainer<V> {
 		if (this.headerBar != null) {
 			this.addToBeforeGrid(headerBar);
 		}
-		if (this.pagingToolBar != null) {
-			this.addToAfterGrid(pagingToolBar);
-		}
 		super.initView();
 	}
 
-	public GridContainerHeaderBar getHeaderBar() {
+	public void addToHeaderBar(IsWidget widget) {
+		if (headerBar == null) {
+			headerBar = new ToolBar();
+		}
+		headerBar.add(widget);
+	}
+
+	public ToolBar getHeaderBar() {
 		return headerBar;
 	}
 
-	public void setHeaderBar(GridContainerHeaderBar headerBar) {
+	public void setHeaderBar(ToolBar headerBar) {
 		this.headerBar = headerBar;
-	}
-
-	public PagingToolBar getPagingToolBar() {
-		return pagingToolBar;
-	}
-
-	public void setPagingToolBar(PagingToolBar pagingToolBar) {
-		this.pagingToolBar = pagingToolBar;
 	}
 
 }

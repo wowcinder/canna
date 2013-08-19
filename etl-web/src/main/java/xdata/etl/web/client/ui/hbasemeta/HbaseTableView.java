@@ -3,44 +3,43 @@
  */
 package xdata.etl.web.client.ui.hbasemeta;
 
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
-import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
-import xdata.etl.web.client.service.hbasemeta.HbaseTableServiceAsync;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
+import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableEditor;
 import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableGrid;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 
-import com.google.gwt.core.client.GWT;
-
 /**
  * @author XuehuiHe
  * @date 2013年8月15日
  */
 @MenuToken(name = "表管理", token = "hbase_table")
-public class HbaseTableView extends CenterView {
+public class HbaseTableView extends
+		SimpleRpcEntityGridContainer<Integer, HbaseTable> implements CenterView {
+
+	private static final HbaseTableEditor editor = new HbaseTableEditor();
+
 	public HbaseTableView() {
-		super();
+		super(new HbaseTableGrid().create());
 
-		HbaseTableGrid grid = new HbaseTableGrid();
-		EtlGridContainer<Integer, HbaseTable> gridContainer = new EtlGridContainer<Integer, HbaseTable>(
-				grid,
-				GWT.<HbaseTableServiceAsync> create(HbaseTableService.class));
+	}
 
-		EtlGridContainerBuilder<Integer, HbaseTable> builder = new EtlGridContainerBuilder<Integer, HbaseTable>(
-				gridContainer);
+	@Override
+	protected RpcEntitySimpleEditor<Integer, HbaseTable> getAddEditor() {
+		return editor;
+	}
 
-		HbaseTableEditor editor = new HbaseTableEditor();
-		editor.setRpcCaller(gridContainer.getRpcCaller());
+	@Override
+	protected RpcEntitySimpleEditor<Integer, HbaseTable> getUpdateEditor() {
+		return editor;
+	}
 
-		builder.setAddEditor(editor);
-		builder.setUpdateEditor(editor);
-
-		builder.build();
-
-		con.setWidget(gridContainer);
-
+	@Override
+	protected EntityRpcCaller<Integer, HbaseTable> getRpcCaller() {
+		return ServiceUtil.HbaseTableRpcCaller;
 	}
 }

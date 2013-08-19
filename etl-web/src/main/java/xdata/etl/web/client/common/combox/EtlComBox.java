@@ -27,10 +27,21 @@ public class EtlComBox<V> extends ComboBox<V> {
 		}
 	}
 
-	public interface AddItem<V> {
-		V getAddItem();
+	public static abstract class AddItem<V> {
+		private V addItem;
 
-		boolean isAddItem(V v);
+		protected abstract V createAddItem();
+
+		public V getAddItem() {
+			if (this.addItem == null) {
+				this.addItem = createAddItem();
+			}
+			return this.addItem;
+		}
+
+		public boolean isAddItem(V v) {
+			return this.addItem == v;
+		}
 	}
 
 	private EtlComBoxDataInitor<V> dataInitor;

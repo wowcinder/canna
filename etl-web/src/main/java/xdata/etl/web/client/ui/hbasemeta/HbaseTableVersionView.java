@@ -3,57 +3,44 @@
  */
 package xdata.etl.web.client.ui.hbasemeta;
 
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
-import xdata.etl.web.client.service.hbasemeta.HbaseTableVersionService;
-import xdata.etl.web.client.service.hbasemeta.HbaseTableVersionServiceAsync;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
+import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableVersionEditor;
 import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableVersionGrid;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
-import com.google.gwt.core.client.GWT;
-
 /**
  * @author XuehuiHe
  * @date 2013年8月15日
  */
 @MenuToken(name = "表版本管理", token = "hbase_table_version")
-public class HbaseTableVersionView extends CenterView {
+public class HbaseTableVersionView extends
+		SimpleRpcEntityGridContainer<Integer, HbaseTableVersion> implements
+		CenterView {
+
+	private static final HbaseTableVersionEditor editor = new HbaseTableVersionEditor();
+
 	public HbaseTableVersionView() {
-		super();
+		super(new HbaseTableVersionGrid().create());
 
-		HbaseTableVersionGrid grid = new HbaseTableVersionGrid();
-		EtlGridContainer<Integer, HbaseTableVersion> gridContainer = new EtlGridContainer<Integer, HbaseTableVersion>(
-				grid,
-				GWT.<HbaseTableVersionServiceAsync> create(HbaseTableVersionService.class));
+	}
 
-		EtlGridContainerBuilder<Integer, HbaseTableVersion> builder = new EtlGridContainerBuilder<Integer, HbaseTableVersion>(
-				gridContainer);
+	@Override
+	protected RpcEntitySimpleEditor<Integer, HbaseTableVersion> getAddEditor() {
+		return editor;
+	}
 
-		HbaseTableVersionEditor editor = new HbaseTableVersionEditor() {
-			@Override
-			public void edit(HbaseTableVersion v) {
-				setSelf(v);
-				super.edit(v);
-			}
+	@Override
+	protected RpcEntitySimpleEditor<Integer, HbaseTableVersion> getUpdateEditor() {
+		return editor;
+	}
 
-			@Override
-			protected HbaseTableVersion newInstance() {
-				HbaseTableVersion version = super.newInstance();
-				setSelf(version);
-				return version;
-			}
-		};
-		editor.setRpcCaller(gridContainer.getRpcCaller());
-
-		builder.setAddEditor(editor);
-		builder.setUpdateEditor(editor);
-
-		builder.build();
-
-		con.setWidget(gridContainer);
-
+	@Override
+	protected EntityRpcCaller<Integer, HbaseTableVersion> getRpcCaller() {
+		return ServiceUtil.HbaseTableVersionRpcCaller;
 	}
 }

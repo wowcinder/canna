@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
+import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
+import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder.DeleteAction;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.hbasemeta.combox.HbaseTableComBox;
@@ -20,12 +20,12 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.user.client.ui.TextArea;
 import com.sencha.gxt.data.client.editor.ListStoreEditor;
-import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.event.ShowEvent;
 import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
 import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.grid.Grid;
 
 /**
  * @author XuehuiHe
@@ -58,7 +58,7 @@ public class HbaseTableVersionEditor extends
 	TextArea desc;
 	ListStoreEditor<HbaseTableColumn> columns;
 	@Ignore
-	HbaseTableColumnGrid grid;
+	Grid<HbaseTableColumn> grid;
 	@Ignore
 	HbaseTableVersion self;
 
@@ -79,49 +79,51 @@ public class HbaseTableVersionEditor extends
 	}
 
 	private void initGrid() {
-		grid = new HbaseTableColumnGrid();
+		grid = new HbaseTableColumnGrid().create();
 		columns = new ListStoreEditor<HbaseTableColumn>(grid.getStore());
 
 		HbaseTableColumnEditor editor = new HbaseTableColumnEditor() {
-			protected void save(HbaseTableColumn v) {
-				getSaveOrUpdateCallBackSwap().call(v);
+			@Override
+			protected void update(HbaseTableColumn v,
+					GwtCallBack<HbaseTableColumn> callback) {
+				callback.call(v);
 			}
 
-			protected void update(HbaseTableColumn v) {
-				getSaveOrUpdateCallBackSwap().call(v);
+			@Override
+			protected void save(HbaseTableColumn v,
+					GwtCallBack<HbaseTableColumn> callback) {
+				v.setVersion(getSelf());
+				callback.call(v);
 			}
 		};
 
-		EtlGridContainer<Integer, HbaseTableColumn> gridContainer = new EtlGridContainer<Integer, HbaseTableColumn>(
-				grid, null) {
-			@Override
-			protected void rpcDelete(final List<HbaseTableColumn> list) {
-				ListStore<HbaseTableColumn> store = getGrid().getStore();
-				for (HbaseTableColumn v : list) {
-					store.remove(v);
-				}
-				getDeleteBt().enable();
-			}
-		};
-		EtlGridContainerBuilder<Integer, HbaseTableColumn> builder = new EtlGridContainerBuilder<Integer, HbaseTableColumn>(
-				gridContainer);
-		builder.setPaging(false);
+		RpcEntityGridContainerBuilder<Integer, HbaseTableColumn> gridContainerBuilder = new RpcEntityGridContainerBuilder<Integer, HbaseTableColumn>();
+		gridContainerBuilder.setGrid(grid);
+		gridContainerBuilder.setPaging(false);
+		gridContainerBuilder.setAutoInitData(false);
+		gridContainerBuilder
+				.setDeleteAction(new DeleteAction<HbaseTableColumn>() {
 
-		builder.setAddEditor(editor);
-		builder.setAddCallBack(new GwtCallBack<HbaseTableColumn>() {
-			@Override
-			public void _call(HbaseTableColumn t) {
-				t.setVersion(getSelf());
-				grid.getStore().add(t);
-			}
-		});
-		builder.setUpdateEditor(editor);
-		builder.build();
+					@Override
+					protected void doDelete(List<HbaseTableColumn> list,
+							GwtCallBack<Void> deleteCallback) {
+						deleteCallback.call(null);
+					}
+				});
+		gridContainerBuilder.setAddEditor(editor);
+		gridContainerBuilder.setUpdateEditor(editor);
 
-		FieldLabel columnsLabel = new FieldLabel(gridContainer, "字段");
+		FieldLabel columnsLabel = new FieldLabel(gridContainerBuilder.create(),
+				"字段");
 		columnsLabel.setLabelAlign(LabelAlign.TOP);
 		layoutContainer.add(columnsLabel, vd);
 
+	}
+
+	@Override
+	protected void _edit(HbaseTableVersion v) {
+		setSelf(v);
+		super._edit(v);
 	}
 
 	@Override

@@ -3,17 +3,15 @@
  */
 package xdata.etl.web.client.ui.user;
 
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
-import xdata.etl.web.client.service.user.UserGroupService;
-import xdata.etl.web.client.service.user.UserGroupServiceAsync;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
+import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.user.editor.UserGroupEditor;
 import xdata.etl.web.client.ui.user.grid.UserGroupGrid;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.user.UserGroup;
-
-import com.google.gwt.core.shared.GWT;
 
 /**
  * @author XuehuiHe
@@ -21,24 +19,27 @@ import com.google.gwt.core.shared.GWT;
  * 
  */
 @MenuToken(name = "用户组管理", token = "user_group_manager")
-public class UserGroupView extends CenterView {
+public class UserGroupView extends
+		SimpleRpcEntityGridContainer<Integer, UserGroup> implements CenterView {
+
+	private static final UserGroupEditor editor = new UserGroupEditor();
+
 	public UserGroupView() {
-		super();
+		super(new UserGroupGrid().create());
+	}
 
-		UserGroupGrid grid = new UserGroupGrid();
-		EtlGridContainer<Integer, UserGroup> gridContainer = new EtlGridContainer<Integer, UserGroup>(
-				grid,
-				GWT.<UserGroupServiceAsync> create(UserGroupService.class));
-		EtlGridContainerBuilder<Integer, UserGroup> builder = new EtlGridContainerBuilder<Integer, UserGroup>(
-				gridContainer);
+	@Override
+	protected RpcEntitySimpleEditor<Integer, UserGroup> getAddEditor() {
+		return editor;
+	}
 
-		UserGroupEditor editor = new UserGroupEditor();
-		editor.setParent(gridContainer);
+	@Override
+	protected RpcEntitySimpleEditor<Integer, UserGroup> getUpdateEditor() {
+		return editor;
+	}
 
-		builder.setAddEditor(editor);
-		builder.setUpdateEditor(editor);
-		builder.build();
-
-		con.setWidget(gridContainer);
+	@Override
+	protected EntityRpcCaller<Integer, UserGroup> getRpcCaller() {
+		return ServiceUtil.UserGroupRpcCaller;
 	}
 }

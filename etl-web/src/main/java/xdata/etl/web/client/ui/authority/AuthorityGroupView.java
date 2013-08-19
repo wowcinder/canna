@@ -3,17 +3,15 @@
  */
 package xdata.etl.web.client.ui.authority;
 
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
-import xdata.etl.web.client.service.authority.AuthorityGroupService;
-import xdata.etl.web.client.service.authority.AuthorityGroupServiceAsync;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
+import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.authority.editor.AuthorityGroupEditor;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGroupGrid;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
-
-import com.google.gwt.core.shared.GWT;
 
 /**
  * @author XuehuiHe
@@ -21,24 +19,28 @@ import com.google.gwt.core.shared.GWT;
  * 
  */
 @MenuToken(name = "权限组管理", token = "authority_group_manager")
-public class AuthorityGroupView implements CenterView {
+public class AuthorityGroupView extends
+		SimpleRpcEntityGridContainer<Integer, AuthorityGroup> implements
+		CenterView {
+	private static final AuthorityGroupEditor editor = new AuthorityGroupEditor();
 
 	public AuthorityGroupView() {
-		super();
+		super((new AuthorityGroupGrid()).create());
+	}
 
-		EtlGridContainer<Integer, AuthorityGroup> gridContainer = new EtlGridContainer<Integer, AuthorityGroup>(
-				new AuthorityGroupGrid(),
-				GWT.<AuthorityGroupServiceAsync> create(AuthorityGroupService.class));
+	@Override
+	protected RpcEntitySimpleEditor<Integer, AuthorityGroup> getAddEditor() {
+		return editor;
+	}
 
-		EtlGridContainerBuilder<Integer, AuthorityGroup> builder = new EtlGridContainerBuilder<Integer, AuthorityGroup>(
-				gridContainer);
+	@Override
+	protected RpcEntitySimpleEditor<Integer, AuthorityGroup> getUpdateEditor() {
+		return editor;
+	}
 
-		AuthorityGroupEditor editor = new AuthorityGroupEditor();
-		editor.setParent(gridContainer);
-		builder.setAddEditor(editor);
-		builder.setUpdateEditor(editor);
-		builder.build();
-		con.setWidget(gridContainer);
+	@Override
+	protected EntityRpcCaller<Integer, AuthorityGroup> getRpcCaller() {
+		return ServiceUtil.AuthorityGroupRpcCaller;
 	}
 
 }

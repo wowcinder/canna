@@ -3,17 +3,15 @@
  */
 package xdata.etl.web.client.ui.authority;
 
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
-import xdata.etl.web.client.service.authority.AuthorityService;
-import xdata.etl.web.client.service.authority.AuthorityServiceAsync;
+import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
+import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.authority.editor.AuthorityEditor;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.authority.Authority;
-
-import com.google.gwt.core.shared.GWT;
 
 /**
  * @author XuehuiHe
@@ -21,23 +19,28 @@ import com.google.gwt.core.shared.GWT;
  * 
  */
 @MenuToken(name = "权限管理", token = "authority_manager")
-public class AuthorityView extends CenterView {
+public class AuthorityView extends
+		SimpleRpcEntityGridContainer<Integer, Authority> implements CenterView {
+
+	private static final AuthorityEditor editor = new AuthorityEditor();
+
 	public AuthorityView() {
-		super();
+		super(new AuthorityGrid().create());
+	}
 
-		EtlGridContainer<Integer, Authority> gridContainer = new EtlGridContainer<Integer, Authority>(
-				new AuthorityGrid(),
-				GWT.<AuthorityServiceAsync> create(AuthorityService.class));
+	@Override
+	protected RpcEntitySimpleEditor<Integer, Authority> getAddEditor() {
+		return editor;
+	}
 
-		EtlGridContainerBuilder<Integer, Authority> builder = new EtlGridContainerBuilder<Integer, Authority>(
-				gridContainer);
+	@Override
+	protected RpcEntitySimpleEditor<Integer, Authority> getUpdateEditor() {
+		return editor;
+	}
 
-		AuthorityEditor editor = new AuthorityEditor();
-		editor.setParent(gridContainer);
-		builder.setAddEditor(editor);
-		builder.setUpdateEditor(editor);
-		builder.build();
-		con.setWidget(gridContainer);
+	@Override
+	protected EntityRpcCaller<Integer, Authority> getRpcCaller() {
+		return ServiceUtil.AuthorityRpcCaller;
 	}
 
 }

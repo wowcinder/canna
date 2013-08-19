@@ -27,7 +27,7 @@ import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
  * 
  */
 public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
-		extends VerticalLayoutContainer {
+		extends VerticalLayoutContainer {/*
 
 	private final EtlGrid<K, V> grid;
 	private EntityRpcCaller<K, V> rpcCaller;
@@ -201,5 +201,5 @@ public class EtlGridContainer<K extends Serializable, V extends RpcEntity<K>>
 	public void setPageItemCount(int pageItemCount) {
 		this.pageItemCount = pageItemCount;
 	}
-
+*/
 }

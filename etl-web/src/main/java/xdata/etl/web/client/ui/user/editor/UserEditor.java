@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
+import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
+import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder.DeleteAction;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.service.ServiceUtil;
@@ -33,6 +33,7 @@ import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
 import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.grid.Grid;
 
 /**
  * @author XuehuiHe
@@ -60,7 +61,7 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 	PasswordField password;
 	ListStoreEditor<Authority> extraAuthorities;
 	@Ignore
-	AuthorityGrid authGrid;
+	Grid<Authority> authGrid;
 	@Ignore
 	AuthoritySelector authoritySelector;
 
@@ -77,25 +78,26 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 		layoutContainer.add(new FieldLabel(userGroup, "用户组"), vd);
 		layoutContainer.add(new FieldLabel(password, "密码"), vd);
 
-		authGrid = new AuthorityGrid();
+		authGrid = new AuthorityGrid().create();
 		extraAuthorities = new ListStoreEditor<Authority>(authGrid.getStore());
 		authGrid.setHeight(150);
 		getRoot().setHeight(350);
-		EtlGridContainer<Integer, Authority> container = new EtlGridContainer<Integer, Authority>(
-				authGrid, null) {
+		final RpcEntityGridContainerBuilder<Integer, Authority> gridContainerBuilder = new RpcEntityGridContainerBuilder<Integer, Authority>();
+		gridContainerBuilder.setUpdateEnabled(false);
+		gridContainerBuilder.setAutoInitData(false);
+		gridContainerBuilder.setPaging(false);
+		gridContainerBuilder.setDeleteAction(new DeleteAction<Authority>() {
 			@Override
-			protected void rpcDelete(final List<Authority> list) {
-				ListStore<Authority> store = getGrid().getStore();
-				for (Authority v : list) {
-					store.remove(v);
+			protected void doDelete(List<Authority> list,
+					GwtCallBack<Void> deleteCallback) {
+				ListStore<Authority> store = gridContainerBuilder.getGrid()
+						.getStore();
+				for (Authority authority : list) {
+					store.remove(authority);
 				}
-				getDeleteBt().enable();
+				deleteCallback.call(null);
 			}
-		};
-		EtlGridContainerBuilder<Integer, Authority> builder = new EtlGridContainerBuilder<Integer, Authority>(
-				container);
-		builder.setPaging(false);
-		builder.setUpdateEnabled(false);
+		});
 
 		authoritySelector = new AuthoritySelector();
 		authoritySelector.setCallback(new GwtCallBack<List<Authority>>() {
@@ -110,14 +112,14 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 			}
 		});
 
-		builder.setRealAddBtHandler(new SelectHandler() {
+		gridContainerBuilder.setAddBtHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
 				authoritySelector.show();
 			}
 		});
-		builder.build();
-		FieldLabel authGridLabel = new FieldLabel(container, "额外权限");
+		FieldLabel authGridLabel = new FieldLabel(
+				gridContainerBuilder.create(), "额外权限");
 		authGridLabel.setLabelAlign(LabelAlign.TOP);
 		layoutContainer.add(authGridLabel, vd);
 

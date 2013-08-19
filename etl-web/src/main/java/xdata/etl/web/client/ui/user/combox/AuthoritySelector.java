@@ -6,71 +6,58 @@ package xdata.etl.web.client.ui.user.combox;
 import java.util.List;
 
 import xdata.etl.web.client.common.editer.EditorWindow;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainer;
-import xdata.etl.web.client.common.gridcontainer.EtlGridContainerBuilder;
+import xdata.etl.web.client.common.gridcontainer.GridContainer;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.service.authority.AuthorityService;
-import xdata.etl.web.client.service.authority.AuthorityServiceAsync;
+import xdata.etl.web.client.gwt.GwtCallBack.DelayCallback;
+import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
 import xdata.etl.web.shared.entity.authority.Authority;
 
-import com.google.gwt.core.shared.GWT;
+import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
-import com.sencha.gxt.widget.core.client.event.ShowEvent;
-import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
+import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月13日
  * 
  */
-public class AuthoritySelector {
-	private final EditorWindow root;
+public class AuthoritySelector extends EditorWindow {
 	private GwtCallBack<List<Authority>> callback;
-	private boolean isInited = false;
 
 	public AuthoritySelector() {
-		root = new EditorWindow();
-		root.setModal(true);
+		setModal(true);
 
-		final EtlGridContainer<Integer, Authority> gridContainer = new EtlGridContainer<Integer, Authority>(
-				new AuthorityGrid(),
-				GWT.<AuthorityServiceAsync> create(AuthorityService.class));
+		final GridContainer<Authority> gridContainer = new GridContainer<Authority>(
+				new AuthorityGrid().create());
+		ToolBar footBar = new ToolBar();
+		TextButton tb = new TextButton("添加");
+		footBar.add(tb);
+		gridContainer.addToAfterGrid(footBar);
 
-		EtlGridContainerBuilder<Integer, Authority> builder = new EtlGridContainerBuilder<Integer, Authority>(
-				gridContainer);
-		builder.setShowRemoveBt(false);
-		builder.setUpdateEnabled(false);
-		builder.setInitData(false);
-		builder.setRealAddBtHandler(new SelectHandler() {
+		tb.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
 				List<Authority> authorities = gridContainer.getGrid()
 						.getSelectionModel().getSelectedItems();
-				callback._call(authorities);
-				root.hide();
+				callback.call(authorities);
+				hide();
 			}
 		});
-		builder.build();
+
+		gridContainer
+				.setInitDataDelayCallback(new DelayCallback<List<Authority>>() {
+					@Override
+					public void run(GwtCallBack<List<Authority>> callback) {
+						ServiceUtil.AuthorityRpcCaller.get(callback);
+					}
+				});
+
 		gridContainer.setHeight(200);
 		gridContainer.setWidth(400);
-		root.setWidget(gridContainer);
+		setWidget(gridContainer);
 
-		root.addShowHandler(new ShowHandler() {
-			@Override
-			public void onShow(ShowEvent event) {
-				if(!isInited){
-					gridContainer.initData();
-					isInited = true;
-				}
-			}
-		});
-	}
-
-	public void show() {
-		root.forceLayout();
-		root.show();
 	}
 
 	public void setCallback(GwtCallBack<List<Authority>> callback) {

@@ -82,10 +82,10 @@ public class EtlShell extends BorderLayoutContainer {
 		MarginData centerData = new MarginData();
 		centerData.setMargins(new Margins(5));
 
-		center = new SimpleContainer();
-		center.add(centerContainer.asWidget());
+//		center = new SimpleContainer();
+//		center.add(centerContainer.asWidget());
 
-		setCenterWidget(center, centerData);
+		setCenterWidget(centerContainer.asWidget(), centerData);
 		RootPanel.get().add(this);
 		menuView.init();
 	}
