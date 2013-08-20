@@ -14,7 +14,6 @@ import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.HtmlLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.MarginData;
-import com.sencha.gxt.widget.core.client.container.SimpleContainer;
 
 public class EtlShell extends BorderLayoutContainer {
 	@Inject
@@ -25,7 +24,6 @@ public class EtlShell extends BorderLayoutContainer {
 	private MenuView menuView;
 
 	private ContentPanel west;
-	private SimpleContainer center;
 
 	public EtlShell() {
 		monitorWindowResize = true;
@@ -81,9 +79,6 @@ public class EtlShell extends BorderLayoutContainer {
 
 		MarginData centerData = new MarginData();
 		centerData.setMargins(new Margins(5));
-
-//		center = new SimpleContainer();
-//		center.add(centerContainer.asWidget());
 
 		setCenterWidget(centerContainer.asWidget(), centerData);
 		RootPanel.get().add(this);
