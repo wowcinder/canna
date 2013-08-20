@@ -13,8 +13,8 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Repository;
 
-import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.server.dao.RpcDao;
+import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.user.User;
 import xdata.etl.web.shared.entity.user.UserGroup;
 import xdata.etl.web.shared.exception.SharedException;

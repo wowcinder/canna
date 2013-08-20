@@ -6,8 +6,8 @@ package xdata.etl.web.server.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import xdata.etl.web.client.service.hbasequery.HbaseQueryService;
 import xdata.etl.web.server.EtlSpringTestCase;
+import xdata.etl.web.shared.service.hbasequery.HbaseQueryService;
 
 /**
  * @author XuehuiHe

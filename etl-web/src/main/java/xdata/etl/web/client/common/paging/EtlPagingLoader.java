@@ -1,5 +1,8 @@
 package xdata.etl.web.client.common.paging;
 
+import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
+import xdata.etl.web.shared.common.paging.PagingCondition;
+
 import com.sencha.gxt.data.shared.loader.DataProxy;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;

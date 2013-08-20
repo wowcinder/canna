@@ -3,10 +3,10 @@
  */
 package xdata.etl.web.client.ui.menu.combox;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.EditorWindow;
 import xdata.etl.web.client.common.gridcontainer.GridContainer;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
 import xdata.etl.web.shared.entity.authority.Authority;
 

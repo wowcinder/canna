@@ -6,20 +6,20 @@ package xdata.etl.web.client.ui.user.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder.DeleteAction;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
-import xdata.etl.web.client.service.ServiceUtil;
-import xdata.etl.web.client.service.user.UserGroupService;
-import xdata.etl.web.client.service.user.UserGroupServiceAsync;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
 import xdata.etl.web.client.ui.user.combox.AuthoritySelector;
 import xdata.etl.web.client.ui.user.combox.UserGroupComBox;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.user.User;
 import xdata.etl.web.shared.entity.user.UserGroup;
+import xdata.etl.web.shared.service.user.UserGroupService;
+import xdata.etl.web.shared.service.user.UserGroupServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;

@@ -6,11 +6,11 @@ package xdata.etl.web.server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.authority.AuthorityGroupDao;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
+import xdata.etl.web.shared.service.authority.AuthorityGroupService;
 
 /**
  * @author XuehuiHe

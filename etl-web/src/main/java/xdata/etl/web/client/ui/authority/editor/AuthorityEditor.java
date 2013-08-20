@@ -3,8 +3,8 @@
  */
 package xdata.etl.web.client.ui.authority.editor;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.shared.entity.authority.Authority;
 
 import com.google.gwt.core.shared.GWT;

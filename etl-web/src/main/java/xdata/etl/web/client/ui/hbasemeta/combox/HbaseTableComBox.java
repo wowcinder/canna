@@ -3,9 +3,9 @@
  */
 package xdata.etl.web.client.ui.hbasemeta.combox;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.combox.EtlComBox;
 import xdata.etl.web.client.property.hbasemeta.HbaseTableProperty;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableEditor;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 

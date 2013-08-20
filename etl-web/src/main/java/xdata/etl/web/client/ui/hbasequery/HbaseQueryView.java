@@ -7,11 +7,11 @@ import java.util.List;
 
 import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.service.RpcAsyncCallback;
-import xdata.etl.web.client.service.hbasequery.HbaseQueryService;
-import xdata.etl.web.client.service.hbasequery.HbaseQueryServiceAsync;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
+import xdata.etl.web.shared.service.RpcAsyncCallback;
+import xdata.etl.web.shared.service.hbasequery.HbaseQueryService;
+import xdata.etl.web.shared.service.hbasequery.HbaseQueryServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;

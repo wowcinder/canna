@@ -8,12 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
 import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.hbasemeta.HbaseTableDao;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
+import xdata.etl.web.shared.service.hbasemeta.HbaseTableService;
 
 /**
  * @author XuehuiHe

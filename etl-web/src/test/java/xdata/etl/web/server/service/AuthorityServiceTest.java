@@ -10,13 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import xdata.etl.web.client.service.authority.AuthorityGroupService;
-import xdata.etl.web.client.service.authority.AuthorityService;
 import xdata.etl.web.server.EtlSpringTestCase;
 import xdata.etl.web.server.util.AuthorityUtil;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
+import xdata.etl.web.shared.service.authority.AuthorityGroupService;
+import xdata.etl.web.shared.service.authority.AuthorityService;
 
 /**
  * @author XuehuiHe

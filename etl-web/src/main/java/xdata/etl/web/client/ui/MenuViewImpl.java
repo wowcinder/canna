@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import xdata.etl.web.client.event.CenterVievChangeEvent;
-import xdata.etl.web.client.service.RpcAsyncCallback;
-import xdata.etl.web.client.service.menu.MenuService;
-import xdata.etl.web.client.service.menu.MenuServiceAsync;
 import xdata.etl.web.shared.entity.menu.Menu;
+import xdata.etl.web.shared.service.RpcAsyncCallback;
+import xdata.etl.web.shared.service.menu.MenuService;
+import xdata.etl.web.shared.service.menu.MenuServiceAsync;
 
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.shared.GWT;

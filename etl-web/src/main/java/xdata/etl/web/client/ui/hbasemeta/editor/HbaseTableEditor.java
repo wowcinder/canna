@@ -3,8 +3,8 @@
  */
 package xdata.etl.web.client.ui.hbasemeta.editor;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 
 import com.google.gwt.core.shared.GWT;

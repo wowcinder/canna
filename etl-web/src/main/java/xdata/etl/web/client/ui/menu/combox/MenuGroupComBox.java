@@ -3,9 +3,9 @@
  */
 package xdata.etl.web.client.ui.menu.combox;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.combox.EtlComBox;
 import xdata.etl.web.client.property.menu.MenuGroupProperty;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.menu.editor.MenuGroupEditor;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 

@@ -6,11 +6,11 @@ package xdata.etl.web.client.ui.hbasemeta.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder.DeleteAction;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.hbasemeta.combox.HbaseTableComBox;
 import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableColumnGrid;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;

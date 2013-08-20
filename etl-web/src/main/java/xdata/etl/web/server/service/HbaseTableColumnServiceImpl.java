@@ -6,10 +6,10 @@ package xdata.etl.web.server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import xdata.etl.web.client.service.hbasemeta.HbaseTableColumnService;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.hbasemeta.HbaseTableColumnDao;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
+import xdata.etl.web.shared.service.hbasemeta.HbaseTableColumnService;
 
 /**
  * @author XuehuiHe

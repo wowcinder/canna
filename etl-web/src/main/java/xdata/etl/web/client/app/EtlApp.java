@@ -6,10 +6,10 @@ package xdata.etl.web.client.app;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import xdata.etl.web.client.service.LoginService;
-import xdata.etl.web.client.service.LoginServiceAsync;
 import xdata.etl.web.client.ui.LoginWindow;
 import xdata.etl.web.client.ui.LoginWindow.LoginSucessCallBack;
+import xdata.etl.web.shared.service.LoginService;
+import xdata.etl.web.shared.service.LoginServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;

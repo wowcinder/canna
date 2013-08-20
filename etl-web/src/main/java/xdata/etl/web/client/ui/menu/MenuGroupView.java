@@ -3,11 +3,11 @@
  */
 package xdata.etl.web.client.ui.menu;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.menu.editor.MenuGroupEditor;
 import xdata.etl.web.client.ui.menu.grid.MenuGroupGrid;

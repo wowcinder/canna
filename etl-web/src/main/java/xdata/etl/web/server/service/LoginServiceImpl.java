@@ -6,9 +6,9 @@ package xdata.etl.web.server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import xdata.etl.web.client.service.LoginService;
 import xdata.etl.web.server.service.open.AccountService;
 import xdata.etl.web.server.service.open.OpenService;
+import xdata.etl.web.shared.service.LoginService;
 
 /**
  * @author XuehuiHe

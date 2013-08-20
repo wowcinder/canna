@@ -21,7 +21,7 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
+import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
 

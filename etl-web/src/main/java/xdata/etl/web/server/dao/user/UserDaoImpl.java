@@ -15,9 +15,9 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.server.dao.RpcDao;
 import xdata.etl.web.server.util.PasswordUtil;
+import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.user.User;
 import xdata.etl.web.shared.entity.user.UserGroup;

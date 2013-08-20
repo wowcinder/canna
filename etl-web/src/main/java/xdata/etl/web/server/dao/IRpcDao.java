@@ -10,7 +10,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.hibernate.SessionFactory;
 
-import xdata.etl.web.client.common.paging.EtlPagingLoadConfigBean;
+import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.RpcEntity;
 import xdata.etl.web.shared.exception.SharedException;
 

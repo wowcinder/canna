@@ -3,8 +3,8 @@
  */
 package xdata.etl.web.client.ui.menu.editor;
 
+import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
-import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 
 import com.google.gwt.core.shared.GWT;
