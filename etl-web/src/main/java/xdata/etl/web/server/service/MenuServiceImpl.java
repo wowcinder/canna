@@ -13,9 +13,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import xdata.etl.web.client.service.menu.MenuService;
+import xdata.etl.web.server.annotations.AccessAuthority;
+import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.menu.MenuDao;
-import xdata.etl.web.shared.annotations.AccessAuthority;
-import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.exception.SharedException;
 

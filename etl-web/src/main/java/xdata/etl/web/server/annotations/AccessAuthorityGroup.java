@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.shared.annotations;
+package xdata.etl.web.server.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

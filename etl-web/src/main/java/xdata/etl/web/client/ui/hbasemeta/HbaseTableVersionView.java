@@ -3,6 +3,7 @@
  */
 package xdata.etl.web.client.ui.hbasemeta;
 
+import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
@@ -10,7 +11,6 @@ import xdata.etl.web.client.service.ServiceUtil;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableVersionEditor;
 import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableVersionGrid;
-import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
 /**

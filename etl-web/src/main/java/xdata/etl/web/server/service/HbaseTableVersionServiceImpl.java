@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xdata.etl.web.client.service.hbasemeta.HbaseTableVersionService;
+import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.hbasemeta.HbaseTableVersionDao;
-import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
 
 /**

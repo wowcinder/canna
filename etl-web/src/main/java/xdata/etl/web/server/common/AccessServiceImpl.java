@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import xdata.etl.web.server.annotations.AccessAuthorities;
+import xdata.etl.web.server.annotations.AccessAuthority;
+import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.service.open.AccountService;
 import xdata.etl.web.server.util.AuthorityUtil;
-import xdata.etl.web.shared.annotations.AccessAuthorities;
-import xdata.etl.web.shared.annotations.AccessAuthority;
-import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
 import xdata.etl.web.shared.exception.IllegalMethodException;
 import xdata.etl.web.shared.exception.NoLoginException;
 

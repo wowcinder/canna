@@ -13,15 +13,15 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.client.service.authority.AuthorityGroupService;
 import xdata.etl.web.client.service.authority.AuthorityService;
+import xdata.etl.web.server.annotations.AccessAuthorities;
+import xdata.etl.web.server.annotations.AccessAuthority;
+import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.menu.MenuDao;
 import xdata.etl.web.server.util.ClassScaner;
 import xdata.etl.web.server.util.ClassScaner.ClassFilter;
-import xdata.etl.web.shared.annotations.AccessAuthorities;
-import xdata.etl.web.shared.annotations.AccessAuthority;
-import xdata.etl.web.shared.annotations.AccessAuthorityGroup;
-import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 

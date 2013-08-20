@@ -5,8 +5,8 @@ package xdata.etl.web.server.dao.menu;
 
 import java.util.List;
 
+import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.server.dao.IRpcDao;
-import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.menu.Menu;
 
 /**

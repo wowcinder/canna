@@ -4,9 +4,9 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.CenterView.CenterViewConfig;
-import xdata.etl.web.shared.annotations.MenuToken;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.ext.Generator;

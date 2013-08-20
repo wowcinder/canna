@@ -13,8 +13,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.server.dao.RpcDao;
-import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.exception.SharedException;
 
