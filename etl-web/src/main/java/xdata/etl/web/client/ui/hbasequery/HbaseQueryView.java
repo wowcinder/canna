@@ -11,7 +11,7 @@ import xdata.etl.web.client.service.RpcAsyncCallback;
 import xdata.etl.web.client.service.hbasequery.HbaseQueryService;
 import xdata.etl.web.client.service.hbasequery.HbaseQueryServiceAsync;
 import xdata.etl.web.client.ui.CenterView;
-import xdata.etl.web.shared.hbasemeta.HbaseRecord;
+import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;

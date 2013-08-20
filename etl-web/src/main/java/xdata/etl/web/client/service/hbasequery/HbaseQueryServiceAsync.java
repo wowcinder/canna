@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.hibernate.validator.engine.ValidationSupport;
 
-import xdata.etl.web.shared.hbasemeta.HbaseRecord;
+import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.shared.hbasemeta;
+package xdata.etl.web.shared.hbasequery;
 
 import java.io.Serializable;
 import java.util.HashMap;

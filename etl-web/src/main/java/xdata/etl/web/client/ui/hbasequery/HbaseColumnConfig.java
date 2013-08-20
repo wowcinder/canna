@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
-import xdata.etl.web.shared.hbasemeta.HbaseRecord;
+import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtml;

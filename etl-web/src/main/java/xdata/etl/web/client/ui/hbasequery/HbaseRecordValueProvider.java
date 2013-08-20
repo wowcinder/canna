@@ -6,7 +6,7 @@ package xdata.etl.web.client.ui.hbasequery;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import xdata.etl.web.shared.hbasemeta.HbaseRecord;
+import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 import com.sencha.gxt.core.client.ValueProvider;
 

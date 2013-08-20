@@ -36,7 +36,7 @@ import xdata.etl.web.server.dao.hbasemeta.HbaseTableDao;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn.HbaseTableColumnType;
 import xdata.etl.web.shared.exception.SharedException;
-import xdata.etl.web.shared.hbasemeta.HbaseRecord;
+import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 /**
  * @author XuehuiHe

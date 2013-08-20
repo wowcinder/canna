@@ -11,7 +11,7 @@ import xdata.etl.web.client.service.RpcAsyncCallback;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableService;
 import xdata.etl.web.client.service.hbasemeta.HbaseTableServiceAsync;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
-import xdata.etl.web.shared.hbasemeta.HbaseRecord;
+import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.core.client.ValueProvider;
