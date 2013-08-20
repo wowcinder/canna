@@ -1,7 +1,7 @@
 package xdata.etl.web.client.ui;
 
-import xdata.etl.web.shared.service.LoginService;
-import xdata.etl.web.shared.service.LoginServiceAsync;
+import xdata.etl.web.shared.service.login.LoginService;
+import xdata.etl.web.shared.service.login.LoginServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

@@ -5,11 +5,11 @@ package xdata.etl.web.client.ui.hbasequery;
 
 import java.util.List;
 
+import xdata.etl.web.client.RpcAsyncCallback;
 import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
-import xdata.etl.web.shared.service.RpcAsyncCallback;
 import xdata.etl.web.shared.service.hbasequery.HbaseQueryService;
 import xdata.etl.web.shared.service.hbasequery.HbaseQueryServiceAsync;
 

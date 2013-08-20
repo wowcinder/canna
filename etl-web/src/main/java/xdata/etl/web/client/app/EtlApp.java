@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import xdata.etl.web.client.ui.LoginWindow;
 import xdata.etl.web.client.ui.LoginWindow.LoginSucessCallBack;
-import xdata.etl.web.shared.service.LoginService;
-import xdata.etl.web.shared.service.LoginServiceAsync;
+import xdata.etl.web.shared.service.login.LoginService;
+import xdata.etl.web.shared.service.login.LoginServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;

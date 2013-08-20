@@ -1,4 +1,4 @@
-package xdata.etl.web.shared.service;
+package xdata.etl.web.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

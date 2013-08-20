@@ -6,12 +6,12 @@ package xdata.etl.web.client.rpc;
 import java.io.Serializable;
 import java.util.List;
 
+import xdata.etl.web.client.RpcAsyncCallback;
 import xdata.etl.web.client.common.paging.EtlPagingLoader;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.RpcEntity;
-import xdata.etl.web.shared.service.RpcAsyncCallback;
 import xdata.etl.web.shared.service.RpcServiceAsync;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;

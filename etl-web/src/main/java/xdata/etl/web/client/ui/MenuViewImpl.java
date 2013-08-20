@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xdata.etl.web.client.RpcAsyncCallback;
 import xdata.etl.web.client.event.CenterVievChangeEvent;
 import xdata.etl.web.shared.entity.menu.Menu;
-import xdata.etl.web.shared.service.RpcAsyncCallback;
 import xdata.etl.web.shared.service.menu.MenuService;
 import xdata.etl.web.shared.service.menu.MenuServiceAsync;
 

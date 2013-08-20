@@ -5,11 +5,11 @@ package xdata.etl.web.client.ui.hbasequery;
 
 import java.util.List;
 
+import xdata.etl.web.client.RpcAsyncCallback;
 import xdata.etl.web.client.common.grid.GridBuilder;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
-import xdata.etl.web.shared.service.RpcAsyncCallback;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableService;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableServiceAsync;
 

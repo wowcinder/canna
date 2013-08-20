@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import xdata.etl.web.server.service.open.AccountService;
 import xdata.etl.web.server.service.open.OpenService;
-import xdata.etl.web.shared.service.LoginService;
+import xdata.etl.web.shared.service.login.LoginService;
 
 /**
  * @author XuehuiHe

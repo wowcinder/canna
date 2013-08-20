@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.shared.service;
+package xdata.etl.web.shared.service.login;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
