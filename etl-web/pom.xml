@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>xdata.etl</groupId>
 		<artifactId>etl-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -25,47 +25,39 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.3.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.1</version>
 		</dependency>
 		<!-- gwt -->
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>${gwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>${gwt.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -75,12 +67,10 @@
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt</artifactId>
-			<version>${gxt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt</artifactId>
-			<version>${gxt.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -88,12 +78,10 @@
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt-chart</artifactId>
-			<version>${gxt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt-chart</artifactId>
-			<version>${gxt.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -101,12 +89,10 @@
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt-legacy</artifactId>
-			<version>${gxt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt-legacy</artifactId>
-			<version>${gxt.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -114,13 +100,11 @@
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>uibinder-bridge</artifactId>
-			<version>2.4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
-			<version>2.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- /gxt -->
@@ -343,7 +327,41 @@
 					<webappDirectory>${webappDirectory}</webappDirectory>
 				</configuration>
 			</plugin>
+
 		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>
+											maven-war-plugin
+										</artifactId>
+										<versionRange>
+											[2.1.1,)
+										</versionRange>
+										<goals>
+											<goal>exploded</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 
