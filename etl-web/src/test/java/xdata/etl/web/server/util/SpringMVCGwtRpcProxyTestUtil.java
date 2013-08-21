@@ -1,5 +1,8 @@
 package xdata.etl.web.server.util;
 
+import xdata.etl.web.server.controller.rpc.SpringMVCGwtRpcProxy;
+import xdata.etl.web.server.controller.rpc.SpringMVCGwtRpcProxyUtilInterface;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 
 public class SpringMVCGwtRpcProxyTestUtil implements

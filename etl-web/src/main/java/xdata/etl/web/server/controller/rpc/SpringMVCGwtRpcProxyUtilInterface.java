@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.server.util;
+package xdata.etl.web.server.controller.rpc;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 

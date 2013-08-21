@@ -1,4 +1,4 @@
-package xdata.etl.web.server.util;
+package xdata.etl.web.server.controller.rpc;
 
 import static com.google.gwt.user.client.rpc.RpcRequestBuilder.STRONG_NAME_HEADER;
 

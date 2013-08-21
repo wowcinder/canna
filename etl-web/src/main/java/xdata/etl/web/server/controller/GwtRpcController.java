@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtilInterface;
+import xdata.etl.web.server.controller.rpc.SpringMVCGwtRpcProxyUtilInterface;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 
