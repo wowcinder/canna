@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.server.common;
+package xdata.etl.web.server.service.access;
 
 import org.aspectj.lang.JoinPoint;
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xdata.etl.web.server.rpc.open.OpenRpcService;
-import xdata.etl.web.server.service.open.AccountService;
+import xdata.etl.web.server.service.account.AccountService;
 import xdata.etl.web.shared.service.login.LoginRpcService;
 
 /**

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 BEIJING UNION VOOLE TECHNOLOGY CO., LTD
  */
-package xdata.etl.web.server.common;
+package xdata.etl.web.server.service.access;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import xdata.etl.web.server.annotations.AccessAuthorities;
 import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
-import xdata.etl.web.server.service.open.AccountService;
+import xdata.etl.web.server.service.account.AccountService;
 import xdata.etl.web.server.util.AuthorityUtil;
 import xdata.etl.web.shared.exception.IllegalMethodException;
 import xdata.etl.web.shared.exception.NoLoginException;
