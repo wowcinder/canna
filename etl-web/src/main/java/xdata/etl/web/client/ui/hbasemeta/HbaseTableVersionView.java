@@ -6,7 +6,7 @@ package xdata.etl.web.client.ui.hbasemeta;
 import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableVersionEditor;
 import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableVersionGrid;
@@ -40,7 +40,7 @@ public class HbaseTableVersionView extends
 	}
 
 	@Override
-	protected EntityRpcCaller<Integer, HbaseTableVersion> getRpcCaller() {
+	protected RpcCaller<Integer, HbaseTableVersion> getRpcCaller() {
 		return ServiceUtil.HbaseTableVersionRpcCaller;
 	}
 }

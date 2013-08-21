@@ -25,14 +25,14 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResult;
  * @date 2013年8月10日
  * 
  */
-public class EntityRpcCaller<K extends Serializable, V extends RpcEntity<K>> {
+public class RpcCaller<K extends Serializable, V extends RpcEntity<K>> {
 
 	private RpcServiceAsync<K, V> service;
 
-	public EntityRpcCaller() {
+	public RpcCaller() {
 	}
 
-	public EntityRpcCaller(RpcServiceAsync<K, V> service) {
+	public RpcCaller(RpcServiceAsync<K, V> service) {
 		this.service = service;
 
 	}

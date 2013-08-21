@@ -10,7 +10,7 @@ import java.util.List;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.gwt.GwtCallBack.DelayCallback;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.shared.entity.RpcEntity;
 
 import com.google.gwt.user.client.Window;
@@ -181,7 +181,7 @@ public class RpcEntityGridContainerBuilder<K extends Serializable, V extends Rpc
 
 	private boolean isShowDeleteBt = true;
 	private TextButton deleteBt;
-	private EntityRpcCaller<K, V> rpcCaller;
+	private RpcCaller<K, V> rpcCaller;
 	private SelectHandler deleteHandler = new SelectHandler() {
 		@Override
 		public void onSelect(SelectEvent event) {
@@ -253,11 +253,11 @@ public class RpcEntityGridContainerBuilder<K extends Serializable, V extends Rpc
 		this.isShowDeleteBt = isShowDeleteBt;
 	}
 
-	public EntityRpcCaller<K, V> getRpcCaller() {
+	public RpcCaller<K, V> getRpcCaller() {
 		return rpcCaller;
 	}
 
-	public void setRpcCaller(EntityRpcCaller<K, V> rpcCaller) {
+	public void setRpcCaller(RpcCaller<K, V> rpcCaller) {
 		this.rpcCaller = rpcCaller;
 	}
 

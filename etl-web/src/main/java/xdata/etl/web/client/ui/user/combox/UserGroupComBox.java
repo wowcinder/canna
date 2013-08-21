@@ -5,7 +5,7 @@ package xdata.etl.web.client.ui.user.combox;
 
 import xdata.etl.web.client.common.combox.EtlComBox;
 import xdata.etl.web.client.property.user.UserGroupProperty;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.user.editor.UserGroupEditor;
 import xdata.etl.web.shared.entity.user.UserGroup;
 
@@ -18,7 +18,7 @@ import com.sencha.gxt.data.shared.LabelProvider;
  */
 public class UserGroupComBox extends EtlComBox<UserGroup> {
 
-	public UserGroupComBox(final EntityRpcCaller<Integer, UserGroup> rpcCaller) {
+	public UserGroupComBox(final RpcCaller<Integer, UserGroup> rpcCaller) {
 		super(UserGroupProperty.INSTANCE.key(), new LabelProvider<UserGroup>() {
 			@Override
 			public String getLabel(UserGroup item) {

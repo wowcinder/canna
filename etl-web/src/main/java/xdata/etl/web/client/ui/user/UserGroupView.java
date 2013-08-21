@@ -6,7 +6,7 @@ package xdata.etl.web.client.ui.user;
 import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.user.editor.UserGroupEditor;
 import xdata.etl.web.client.ui.user.grid.UserGroupGrid;
@@ -39,7 +39,7 @@ public class UserGroupView extends
 	}
 
 	@Override
-	protected EntityRpcCaller<Integer, UserGroup> getRpcCaller() {
+	protected RpcCaller<Integer, UserGroup> getRpcCaller() {
 		return ServiceUtil.UserGroupRpcCaller;
 	}
 }

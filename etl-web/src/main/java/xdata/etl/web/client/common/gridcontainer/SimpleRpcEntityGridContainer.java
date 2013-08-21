@@ -6,7 +6,7 @@ package xdata.etl.web.client.common.gridcontainer;
 import java.io.Serializable;
 
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.shared.entity.RpcEntity;
 
@@ -37,7 +37,7 @@ public abstract class SimpleRpcEntityGridContainer<K extends Serializable, V ext
 
 	protected abstract RpcEntitySimpleEditor<K, V> getUpdateEditor();
 
-	protected abstract EntityRpcCaller<K, V> getRpcCaller();
+	protected abstract RpcCaller<K, V> getRpcCaller();
 
 	@Override
 	public CenterViewConfig getCenterViewConfig() {

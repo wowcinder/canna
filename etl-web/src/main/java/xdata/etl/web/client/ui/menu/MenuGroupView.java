@@ -6,7 +6,7 @@ package xdata.etl.web.client.ui.menu;
 import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.menu.editor.MenuGroupEditor;
 import xdata.etl.web.client.ui.menu.grid.MenuGroupGrid;
@@ -39,7 +39,7 @@ public class MenuGroupView extends
 	}
 
 	@Override
-	protected EntityRpcCaller<Integer, MenuGroup> getRpcCaller() {
+	protected RpcCaller<Integer, MenuGroup> getRpcCaller() {
 		return ServiceUtil.MenuGroupRpcCaller;
 	}
 }

@@ -1,6 +1,6 @@
 package xdata.etl.web.client;
 
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
@@ -32,22 +32,22 @@ import xdata.etl.web.shared.service.user.UserRpcServiceAsync;
 import com.google.gwt.core.shared.GWT;
 
 public class ServiceUtil {
-	public static final EntityRpcCaller<Integer, Menu> MenuRpcCaller = new EntityRpcCaller<Integer, Menu>(
+	public static final RpcCaller<Integer, Menu> MenuRpcCaller = new RpcCaller<Integer, Menu>(
 			GWT.<MenuRpcServiceAsync> create(MenuRpcService.class));
-	public static final EntityRpcCaller<Integer, MenuGroup> MenuGroupRpcCaller = new EntityRpcCaller<Integer, MenuGroup>(
+	public static final RpcCaller<Integer, MenuGroup> MenuGroupRpcCaller = new RpcCaller<Integer, MenuGroup>(
 			GWT.<MenuGroupRpcServiceAsync> create(MenuGroupRpcService.class));
-	public static final EntityRpcCaller<Integer, User> UserRpcCaller = new EntityRpcCaller<Integer, User>(
+	public static final RpcCaller<Integer, User> UserRpcCaller = new RpcCaller<Integer, User>(
 			GWT.<UserRpcServiceAsync> create(UserRpcService.class));
-	public static final EntityRpcCaller<Integer, UserGroup> UserGroupRpcCaller = new EntityRpcCaller<Integer, UserGroup>(
+	public static final RpcCaller<Integer, UserGroup> UserGroupRpcCaller = new RpcCaller<Integer, UserGroup>(
 			GWT.<UserGroupRpcServiceAsync> create(UserGroupRpcService.class));
-	public static final EntityRpcCaller<Integer, AuthorityGroup> AuthorityGroupRpcCaller = new EntityRpcCaller<Integer, AuthorityGroup>(
+	public static final RpcCaller<Integer, AuthorityGroup> AuthorityGroupRpcCaller = new RpcCaller<Integer, AuthorityGroup>(
 			GWT.<AuthorityGroupRpcServiceAsync> create(AuthorityGroupRpcService.class));
-	public static final EntityRpcCaller<Integer, Authority> AuthorityRpcCaller = new EntityRpcCaller<Integer, Authority>(
+	public static final RpcCaller<Integer, Authority> AuthorityRpcCaller = new RpcCaller<Integer, Authority>(
 			GWT.<AuthorityRpcServiceAsync> create(AuthorityRpcService.class));
-	public static final EntityRpcCaller<Integer, HbaseTableColumn> HbaseTableColumnRpcCaller = new EntityRpcCaller<Integer, HbaseTableColumn>(
+	public static final RpcCaller<Integer, HbaseTableColumn> HbaseTableColumnRpcCaller = new RpcCaller<Integer, HbaseTableColumn>(
 			GWT.<HbaseTableColumnRpcServiceAsync> create(HbaseTableColumnRpcService.class));
-	public static final EntityRpcCaller<Integer, HbaseTable> HbaseTableRpcCaller = new EntityRpcCaller<Integer, HbaseTable>(
+	public static final RpcCaller<Integer, HbaseTable> HbaseTableRpcCaller = new RpcCaller<Integer, HbaseTable>(
 			GWT.<HbaseTableRpcServiceAsync> create(HbaseTableRpcService.class));
-	public static final EntityRpcCaller<Integer, HbaseTableVersion> HbaseTableVersionRpcCaller = new EntityRpcCaller<Integer, HbaseTableVersion>(
+	public static final RpcCaller<Integer, HbaseTableVersion> HbaseTableVersionRpcCaller = new RpcCaller<Integer, HbaseTableVersion>(
 			GWT.<HbaseTableVersionRpcServiceAsync> create(HbaseTableVersionRpcService.class));
 }

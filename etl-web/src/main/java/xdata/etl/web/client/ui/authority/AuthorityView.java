@@ -6,7 +6,7 @@ package xdata.etl.web.client.ui.authority;
 import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.authority.editor.AuthorityEditor;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
@@ -39,7 +39,7 @@ public class AuthorityView extends
 	}
 
 	@Override
-	protected EntityRpcCaller<Integer, Authority> getRpcCaller() {
+	protected RpcCaller<Integer, Authority> getRpcCaller() {
 		return ServiceUtil.AuthorityRpcCaller;
 	}
 

@@ -6,7 +6,7 @@ package xdata.etl.web.client.ui.hbasemeta;
 import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableEditor;
 import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableGrid;
@@ -39,7 +39,7 @@ public class HbaseTableView extends
 	}
 
 	@Override
-	protected EntityRpcCaller<Integer, HbaseTable> getRpcCaller() {
+	protected RpcCaller<Integer, HbaseTable> getRpcCaller() {
 		return ServiceUtil.HbaseTableRpcCaller;
 	}
 }

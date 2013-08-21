@@ -11,7 +11,7 @@ import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder.DeleteAction;
 import xdata.etl.web.client.gwt.GwtCallBack;
-import xdata.etl.web.client.rpc.EntityRpcCaller;
+import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.authority.grid.AuthorityGrid;
 import xdata.etl.web.client.ui.user.combox.AuthoritySelector;
 import xdata.etl.web.client.ui.user.combox.UserGroupComBox;
@@ -70,7 +70,7 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 		super.initView();
 		email = new TextField();
 		userGroup = new UserGroupComBox(
-				new EntityRpcCaller<Integer, UserGroup>(GWT
+				new RpcCaller<Integer, UserGroup>(GWT
 						.<UserGroupRpcServiceAsync> create(UserGroupRpcService.class)));
 		password = new PasswordField();
 
