@@ -1,4 +1,4 @@
-package xdata.etl.web.client.annotations;
+package xdata.etl.web.shared.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

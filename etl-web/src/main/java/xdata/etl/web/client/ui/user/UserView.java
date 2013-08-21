@@ -4,13 +4,13 @@
 package xdata.etl.web.client.ui.user;
 
 import xdata.etl.web.client.ServiceUtil;
-import xdata.etl.web.client.annotations.MenuToken;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
 import xdata.etl.web.client.rpc.EntityRpcCaller;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.user.editor.UserEditor;
 import xdata.etl.web.client.ui.user.grid.UserGrid;
+import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.user.User;
 
 /**
