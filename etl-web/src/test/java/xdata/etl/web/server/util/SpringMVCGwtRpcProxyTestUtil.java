@@ -10,4 +10,9 @@ public class SpringMVCGwtRpcProxyTestUtil implements
 		return null;
 	}
 
+	@Override
+	public SpringMVCGwtRpcProxy getService(String rpcPath) {
+		return null;
+	}
+
 }

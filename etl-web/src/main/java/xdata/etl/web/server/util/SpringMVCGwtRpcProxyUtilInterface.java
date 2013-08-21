@@ -12,4 +12,6 @@ import com.google.gwt.user.client.rpc.RemoteService;
  */
 public interface SpringMVCGwtRpcProxyUtilInterface {
 	public SpringMVCGwtRpcProxy getService(Class<? extends RemoteService> clazz);
+
+	public SpringMVCGwtRpcProxy getService(String rpcPath);
 }
