@@ -11,8 +11,8 @@ import java.util.Map;
 import xdata.etl.web.client.RpcAsyncCallback;
 import xdata.etl.web.client.event.CenterVievChangeEvent;
 import xdata.etl.web.shared.entity.menu.Menu;
-import xdata.etl.web.shared.service.menu.MenuService;
-import xdata.etl.web.shared.service.menu.MenuServiceAsync;
+import xdata.etl.web.shared.service.menu.MenuRpcService;
+import xdata.etl.web.shared.service.menu.MenuRpcServiceAsync;
 
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.shared.GWT;
@@ -38,7 +38,7 @@ import com.sencha.gxt.widget.core.client.tree.Tree;
  * @date 2013年8月9日
  */
 public class MenuViewImpl extends Composite implements MenuView {
-	private static MenuServiceAsync service = GWT.create(MenuService.class);
+	private static MenuRpcServiceAsync service = GWT.create(MenuRpcService.class);
 
 	@Inject
 	private EventBus eventBus;

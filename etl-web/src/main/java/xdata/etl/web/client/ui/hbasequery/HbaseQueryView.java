@@ -10,8 +10,8 @@ import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
-import xdata.etl.web.shared.service.hbasequery.HbaseQueryService;
-import xdata.etl.web.shared.service.hbasequery.HbaseQueryServiceAsync;
+import xdata.etl.web.shared.service.hbasequery.HbaseQueryRpcService;
+import xdata.etl.web.shared.service.hbasequery.HbaseQueryRpcServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -25,8 +25,8 @@ import com.sencha.gxt.widget.core.client.grid.Grid;
 @MenuToken(name = "hbase查询", token = "hbase_query")
 public class HbaseQueryView extends VerticalLayoutContainer implements
 		CenterView {
-	private static final HbaseQueryServiceAsync servie2 = GWT
-			.<HbaseQueryServiceAsync> create(HbaseQueryService.class);
+	private static final HbaseQueryRpcServiceAsync servie2 = GWT
+			.<HbaseQueryRpcServiceAsync> create(HbaseQueryRpcService.class);
 
 	private Grid<HbaseRecord<String>> grid;
 

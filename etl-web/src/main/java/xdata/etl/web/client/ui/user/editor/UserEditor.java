@@ -18,8 +18,8 @@ import xdata.etl.web.client.ui.user.combox.UserGroupComBox;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.user.User;
 import xdata.etl.web.shared.entity.user.UserGroup;
-import xdata.etl.web.shared.service.user.UserGroupService;
-import xdata.etl.web.shared.service.user.UserGroupServiceAsync;
+import xdata.etl.web.shared.service.user.UserGroupRpcService;
+import xdata.etl.web.shared.service.user.UserGroupRpcServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -71,7 +71,7 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 		email = new TextField();
 		userGroup = new UserGroupComBox(
 				new EntityRpcCaller<Integer, UserGroup>(GWT
-						.<UserGroupServiceAsync> create(UserGroupService.class)));
+						.<UserGroupRpcServiceAsync> create(UserGroupRpcService.class)));
 		password = new PasswordField();
 
 		layoutContainer.add(new FieldLabel(email, "email"), vd);

@@ -10,8 +10,8 @@ import xdata.etl.web.client.common.grid.GridBuilder;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
-import xdata.etl.web.shared.service.hbasemeta.HbaseTableService;
-import xdata.etl.web.shared.service.hbasemeta.HbaseTableServiceAsync;
+import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcService;
+import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
 import com.sencha.gxt.core.client.ValueProvider;
@@ -24,8 +24,8 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
  * 
  */
 public class HbaseQueryGridBuild extends GridBuilder<HbaseRecord<String>> {
-	private static final HbaseTableServiceAsync servie = GWT
-			.<HbaseTableServiceAsync> create(HbaseTableService.class);
+	private static final HbaseTableRpcServiceAsync servie = GWT
+			.<HbaseTableRpcServiceAsync> create(HbaseTableRpcService.class);
 
 	private String table;
 	private String[] versions;

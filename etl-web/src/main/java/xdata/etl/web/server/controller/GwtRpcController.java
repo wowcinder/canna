@@ -11,17 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import xdata.etl.web.server.util.SpringMVCGwtRpcProxyUtilInterface;
-import xdata.etl.web.shared.service.authority.AuthorityGroupService;
-import xdata.etl.web.shared.service.authority.AuthorityService;
-import xdata.etl.web.shared.service.hbasemeta.HbaseTableColumnService;
-import xdata.etl.web.shared.service.hbasemeta.HbaseTableService;
-import xdata.etl.web.shared.service.hbasemeta.HbaseTableVersionService;
-import xdata.etl.web.shared.service.hbasequery.HbaseQueryService;
-import xdata.etl.web.shared.service.login.LoginService;
-import xdata.etl.web.shared.service.menu.MenuGroupService;
-import xdata.etl.web.shared.service.menu.MenuService;
-import xdata.etl.web.shared.service.user.UserGroupService;
-import xdata.etl.web.shared.service.user.UserService;
+import xdata.etl.web.shared.service.authority.AuthorityGroupRpcService;
+import xdata.etl.web.shared.service.authority.AuthorityRpcService;
+import xdata.etl.web.shared.service.hbasemeta.HbaseTableColumnRpcService;
+import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcService;
+import xdata.etl.web.shared.service.hbasemeta.HbaseTableVersionRpcService;
+import xdata.etl.web.shared.service.hbasequery.HbaseQueryRpcService;
+import xdata.etl.web.shared.service.login.LoginRpcService;
+import xdata.etl.web.shared.service.menu.MenuGroupRpcService;
+import xdata.etl.web.shared.service.menu.MenuRpcService;
+import xdata.etl.web.shared.service.user.UserGroupRpcService;
+import xdata.etl.web.shared.service.user.UserRpcService;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 
@@ -38,7 +38,7 @@ public class GwtRpcController {
 	public void authority(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(AuthorityService.class).processPost(request,
+		proxyUtil.getService(AuthorityRpcService.class).processPost(request,
 				response);
 	}
 
@@ -46,49 +46,49 @@ public class GwtRpcController {
 	public void authorityGroup(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(AuthorityGroupService.class).processPost(request,
+		proxyUtil.getService(AuthorityGroupRpcService.class).processPost(request,
 				response);
 	}
 
 	@RequestMapping("user")
 	public void user(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SerializationException {
-		proxyUtil.getService(UserService.class).processPost(request, response);
+		proxyUtil.getService(UserRpcService.class).processPost(request, response);
 	}
 
 	@RequestMapping("user_group")
 	public void userGroup(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(UserGroupService.class).processPost(request,
+		proxyUtil.getService(UserGroupRpcService.class).processPost(request,
 				response);
 	}
 
 	@RequestMapping("menu")
 	public void menu(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SerializationException {
-		proxyUtil.getService(MenuService.class).processPost(request, response);
+		proxyUtil.getService(MenuRpcService.class).processPost(request, response);
 	}
 
 	@RequestMapping("menu_group")
 	public void menuGroup(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(MenuGroupService.class).processPost(request,
+		proxyUtil.getService(MenuGroupRpcService.class).processPost(request,
 				response);
 	}
 
 	@RequestMapping("login")
 	public void login(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SerializationException {
-		proxyUtil.getService(LoginService.class).processPost(request, response);
+		proxyUtil.getService(LoginRpcService.class).processPost(request, response);
 	}
 
 	@RequestMapping("hbase_table")
 	public void hbaseTable(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(HbaseTableService.class).processPost(request,
+		proxyUtil.getService(HbaseTableRpcService.class).processPost(request,
 				response);
 	}
 
@@ -96,7 +96,7 @@ public class GwtRpcController {
 	public void hbaseTableVersion(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(HbaseTableVersionService.class).processPost(
+		proxyUtil.getService(HbaseTableVersionRpcService.class).processPost(
 				request, response);
 	}
 
@@ -104,7 +104,7 @@ public class GwtRpcController {
 	public void hbaseTableColumn(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(HbaseTableColumnService.class).processPost(
+		proxyUtil.getService(HbaseTableColumnRpcService.class).processPost(
 				request, response);
 	}
 
@@ -112,7 +112,7 @@ public class GwtRpcController {
 	public void hbaseQuery(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException,
 			SerializationException {
-		proxyUtil.getService(HbaseQueryService.class).processPost(
+		proxyUtil.getService(HbaseQueryRpcService.class).processPost(
 				request, response);
 	}
 }

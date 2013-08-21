@@ -22,8 +22,8 @@ import xdata.etl.web.server.util.ClassScaner.ClassFilter;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
-import xdata.etl.web.shared.service.authority.AuthorityGroupService;
-import xdata.etl.web.shared.service.authority.AuthorityService;
+import xdata.etl.web.shared.service.authority.AuthorityGroupRpcService;
+import xdata.etl.web.shared.service.authority.AuthorityRpcService;
 
 /**
  * @author XuehuiHe
@@ -33,9 +33,9 @@ import xdata.etl.web.shared.service.authority.AuthorityService;
 public class RefreshAuthority implements InitializingBean {
 	private ClassScaner scanner;
 	@Autowired
-	private AuthorityService aService;
+	private AuthorityRpcService aService;
 	@Autowired
-	private AuthorityGroupService agService;
+	private AuthorityGroupRpcService agService;
 	@Autowired
 	private MenuDao menuDao;
 

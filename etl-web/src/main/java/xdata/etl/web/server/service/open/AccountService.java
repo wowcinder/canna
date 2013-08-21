@@ -6,11 +6,13 @@ package xdata.etl.web.server.service.open;
 import java.util.Collection;
 import java.util.Set;
 
+import xdata.etl.web.server.rpc.open.OpenRpcService;
+
 /**
  * @author XuehuiHe
  * @date 2013年8月13日
  */
-public interface AccountService extends OpenService {
+public interface AccountService extends OpenRpcService {
 
 	Integer login(String username, String password);
 

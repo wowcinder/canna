@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import xdata.etl.web.client.ui.LoginWindow;
 import xdata.etl.web.client.ui.LoginWindow.LoginSucessCallBack;
-import xdata.etl.web.shared.service.login.LoginService;
-import xdata.etl.web.shared.service.login.LoginServiceAsync;
+import xdata.etl.web.shared.service.login.LoginRpcService;
+import xdata.etl.web.shared.service.login.LoginRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -23,8 +23,8 @@ import com.google.inject.Inject;
  */
 public class EtlApp {
 
-	private static final LoginServiceAsync loginService = GWT
-			.create(LoginService.class);
+	private static final LoginRpcServiceAsync loginService = GWT
+			.create(LoginRpcService.class);
 	private static final Logger log = Logger.getLogger(EtlApp.class.getName());
 	@Inject
 	private EtlShell shell;

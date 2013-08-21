@@ -15,8 +15,8 @@ import xdata.etl.web.server.util.AuthorityUtil;
 import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
-import xdata.etl.web.shared.service.authority.AuthorityGroupService;
-import xdata.etl.web.shared.service.authority.AuthorityService;
+import xdata.etl.web.shared.service.authority.AuthorityGroupRpcService;
+import xdata.etl.web.shared.service.authority.AuthorityRpcService;
 
 /**
  * @author XuehuiHe
@@ -25,10 +25,10 @@ import xdata.etl.web.shared.service.authority.AuthorityService;
  */
 public class AuthorityServiceTest extends EtlSpringTestCase {
 	@Autowired
-	private AuthorityService service;
+	private AuthorityRpcService service;
 
 	@Autowired
-	private AuthorityGroupService agService;
+	private AuthorityGroupRpcService agService;
 
 	private AuthorityGroup ag;
 	private Authority a;

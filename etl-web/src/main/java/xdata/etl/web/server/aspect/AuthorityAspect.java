@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import xdata.etl.web.server.common.AccessService;
-import xdata.etl.web.server.service.open.OpenService;
+import xdata.etl.web.server.rpc.open.OpenRpcService;
 import xdata.etl.web.server.util.HibernateBeanUtil;
 import xdata.etl.web.shared.exception.PermissionException;
 import xdata.etl.web.shared.exception.SharedException;
@@ -47,7 +47,7 @@ public class AuthorityAspect implements Ordered {
 	}
 
 	public void doAccessCheck(JoinPoint jp) {
-		if (jp.getTarget() instanceof OpenService) {
+		if (jp.getTarget() instanceof OpenRpcService) {
 			return;
 		}
 		if (!accessService.isAccess(jp)) {

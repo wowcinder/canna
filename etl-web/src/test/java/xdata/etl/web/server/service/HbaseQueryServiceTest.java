@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import xdata.etl.web.server.EtlSpringTestCase;
-import xdata.etl.web.shared.service.hbasequery.HbaseQueryService;
+import xdata.etl.web.shared.service.hbasequery.HbaseQueryRpcService;
 
 /**
  * @author XuehuiHe
@@ -15,7 +15,7 @@ import xdata.etl.web.shared.service.hbasequery.HbaseQueryService;
  */
 public class HbaseQueryServiceTest extends EtlSpringTestCase {
 	@Autowired
-	public HbaseQueryService service;
+	public HbaseQueryRpcService service;
 
 	@Test
 	public void test() {

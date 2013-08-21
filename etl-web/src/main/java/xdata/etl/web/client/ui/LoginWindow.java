@@ -1,7 +1,7 @@
 package xdata.etl.web.client.ui;
 
-import xdata.etl.web.shared.service.login.LoginService;
-import xdata.etl.web.shared.service.login.LoginServiceAsync;
+import xdata.etl.web.shared.service.login.LoginRpcService;
+import xdata.etl.web.shared.service.login.LoginRpcServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -25,8 +25,8 @@ public class LoginWindow extends Window {
 		void logined();
 	}
 
-	private static final LoginServiceAsync loginService = GWT
-			.create(LoginService.class);
+	private static final LoginRpcServiceAsync loginService = GWT
+			.create(LoginRpcService.class);
 	protected static final VerticalLayoutData vd = new VerticalLayoutData(1, -1);
 	private FormPanel fp = new FormPanel();
 	private VerticalLayoutContainer vc = new VerticalLayoutContainer();
