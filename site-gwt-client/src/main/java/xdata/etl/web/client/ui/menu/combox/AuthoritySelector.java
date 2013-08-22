@@ -12,6 +12,8 @@ import xdata.etl.web.shared.entity.authority.Authority;
 
 import com.sencha.gxt.widget.core.client.event.CellDoubleClickEvent;
 import com.sencha.gxt.widget.core.client.event.CellDoubleClickEvent.CellDoubleClickHandler;
+import com.sencha.gxt.widget.core.client.event.ShowEvent;
+import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
 
 /**
  * @author XuehuiHe
@@ -40,11 +42,20 @@ public class AuthoritySelector extends EditorWindow {
 						hide();
 					}
 				});
-		// gridContainer.setHeight(200);
-		// gridContainer.setWidth(400);
+		gridContainer.setHeight(400);
 		setWidget(gridContainer);
+		gridContainer.initView();
 		setHeadingHtml("请双击选择:");
 		setHeaderVisible(true);
+
+		this.addShowHandler(new ShowHandler() {
+
+			@Override
+			public void onShow(ShowEvent event) {
+				gridContainer.fireEvent(event);
+				;
+			}
+		});
 	}
 
 	public void setCallback(GwtCallBack<Authority> callback) {

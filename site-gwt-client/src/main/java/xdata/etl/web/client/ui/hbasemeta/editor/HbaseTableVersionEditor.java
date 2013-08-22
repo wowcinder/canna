@@ -50,7 +50,6 @@ public class HbaseTableVersionEditor extends
 			@Override
 			public void onShow(ShowEvent event) {
 				table.fireEvent(event);
-				gridContainer.fireEvent(event);
 			}
 		});
 	}
@@ -117,6 +116,7 @@ public class HbaseTableVersionEditor extends
 		gridContainerBuilder.setAddEditor(editor);
 		gridContainerBuilder.setUpdateEditor(editor);
 		gridContainer = gridContainerBuilder.create();
+		gridContainer.setHeight(300);
 
 		FieldLabel columnsLabel = new FieldLabel(gridContainer, "字段");
 		columnsLabel.setLabelAlign(LabelAlign.TOP);

@@ -68,6 +68,7 @@ public class UserGroupEditor extends RpcEntitySimpleEditor<Integer, UserGroup> {
 		getRoot().setHeight(350);
 
 		final RpcEntityGridContainerBuilder<Integer, Authority> gridContainerBuilder = new RpcEntityGridContainerBuilder<Integer, Authority>();
+		gridContainerBuilder.setGrid(authGrid);
 		gridContainerBuilder.setUpdateEnabled(false);
 		gridContainerBuilder.setAutoInitData(false);
 		gridContainerBuilder.setPaging(false);

@@ -45,7 +45,7 @@ public class HbaseTableColumnGrid
 					}
 				}));
 		ColumnConfig<HbaseTableColumn, String> descCC = new ColumnConfig<HbaseTableColumn, String>(
-				getProps().desc(), 200, "字段");
+				getProps().desc(), 200, "描述");
 
 		getColumnConfigs().add(nameCC);
 		getColumnConfigs().add(shortnameCC);

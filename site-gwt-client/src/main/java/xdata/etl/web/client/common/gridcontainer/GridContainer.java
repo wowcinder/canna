@@ -33,10 +33,7 @@ public class GridContainer<M> extends VerticalLayoutContainer {
 			@Override
 			public void onShow(ShowEvent event) {
 				initView();
-				if (!isInited || refresh) {
-					initData();
-					isInited = true;
-				}
+				initData();
 			}
 		});
 	}
@@ -49,7 +46,7 @@ public class GridContainer<M> extends VerticalLayoutContainer {
 		beforeGridWidgets.add(widget);
 	}
 
-	protected void initView() {
+	public void initView() {
 		if (isInitViewed) {
 			return;
 		}
@@ -69,6 +66,10 @@ public class GridContainer<M> extends VerticalLayoutContainer {
 	}
 
 	protected void initData() {
+		if (isInited && !refresh) {
+			return;
+		}
+		isInited = true;
 		getGrid().getStore().clear();
 		if (getGrid().getLoader() != null) {
 			getGrid().getLoader().load();

@@ -16,6 +16,8 @@ import xdata.etl.web.shared.entity.authority.Authority;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.event.ShowEvent;
+import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 /**
@@ -54,9 +56,17 @@ public class AuthoritySelector extends EditorWindow {
 					}
 				});
 
-		gridContainer.setHeight(200);
-		gridContainer.setWidth(400);
+		gridContainer.setHeight(400);
+		gridContainer.initView();
 		setWidget(gridContainer);
+		
+		this.addShowHandler(new ShowHandler() {
+			
+			@Override
+			public void onShow(ShowEvent event) {
+				gridContainer.fireEvent(event);
+			}
+		});
 
 	}
 

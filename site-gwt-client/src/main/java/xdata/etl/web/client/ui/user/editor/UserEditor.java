@@ -8,6 +8,7 @@ import java.util.List;
 
 import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainer;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder.DeleteAction;
 import xdata.etl.web.client.gwt.GwtCallBack;
@@ -70,8 +71,8 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 		super.initView();
 		email = new TextField();
 		userGroup = new UserGroupComBox(
-				new RpcCaller<Integer, UserGroup>(GWT
-						.<UserGroupRpcServiceAsync> create(UserGroupRpcService.class)));
+				new RpcCaller<Integer, UserGroup>(
+						GWT.<UserGroupRpcServiceAsync> create(UserGroupRpcService.class)));
 		password = new PasswordField();
 
 		layoutContainer.add(new FieldLabel(email, "email"), vd);
@@ -80,9 +81,8 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 
 		authGrid = new AuthorityGrid().create();
 		extraAuthorities = new ListStoreEditor<Authority>(authGrid.getStore());
-		authGrid.setHeight(150);
-		getRoot().setHeight(350);
 		final RpcEntityGridContainerBuilder<Integer, Authority> gridContainerBuilder = new RpcEntityGridContainerBuilder<Integer, Authority>();
+		gridContainerBuilder.setGrid(authGrid);
 		gridContainerBuilder.setUpdateEnabled(false);
 		gridContainerBuilder.setAutoInitData(false);
 		gridContainerBuilder.setPaging(false);
@@ -118,8 +118,11 @@ public class UserEditor extends RpcEntitySimpleEditor<Integer, User> {
 				authoritySelector.show();
 			}
 		});
-		FieldLabel authGridLabel = new FieldLabel(
-				gridContainerBuilder.create(), "额外权限");
+
+		RpcEntityGridContainer<Authority> girdContainer = gridContainerBuilder
+				.create();
+		girdContainer.setHeight(300);
+		FieldLabel authGridLabel = new FieldLabel(girdContainer, "额外权限");
 		authGridLabel.setLabelAlign(LabelAlign.TOP);
 		layoutContainer.add(authGridLabel, vd);
 

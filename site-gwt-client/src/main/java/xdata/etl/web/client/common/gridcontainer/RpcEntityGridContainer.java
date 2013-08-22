@@ -12,7 +12,7 @@ public class RpcEntityGridContainer<V> extends GridContainer<V> {
 	}
 
 	@Override
-	protected void initView() {
+	public void initView() {
 		if (this.headerBar != null) {
 			this.addToBeforeGrid(headerBar);
 		}

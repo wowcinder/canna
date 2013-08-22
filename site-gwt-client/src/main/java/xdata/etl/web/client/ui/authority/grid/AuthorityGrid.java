@@ -33,10 +33,10 @@ public class AuthorityGrid extends
 
 	@Override
 	protected void initColumnModel() {
-		ColumnConfig<Authority, String> nameCC = new ColumnConfig<Authority, String>(
-				getProps().name(), 200, "name");
 		ColumnConfig<Authority, AuthorityGroup> groupCC = new ColumnConfig<Authority, AuthorityGroup>(
 				getProps().group(), 200, "group");
+		ColumnConfig<Authority, String> nameCC = new ColumnConfig<Authority, String>(
+				getProps().name(), 200, "name");
 		groupCC.setCell(new SimpleSafeHtmlCell<AuthorityGroup>(
 				new AbstractSafeHtmlRenderer<AuthorityGroup>() {
 
@@ -52,7 +52,7 @@ public class AuthorityGrid extends
 						return SafeHtmlUtils.fromString(str);
 					}
 				}));
-		getColumnConfigs().add(nameCC);
 		getColumnConfigs().add(groupCC);
+		getColumnConfigs().add(nameCC);
 	}
 }

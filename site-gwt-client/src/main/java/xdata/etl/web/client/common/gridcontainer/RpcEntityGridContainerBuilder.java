@@ -34,6 +34,8 @@ public class RpcEntityGridContainerBuilder<K extends Serializable, V extends Rpc
 		initDeleteBt();
 		initUpdate();
 		initAutoDataConfig();
+		gridContainer.initView();
+		gridContainer.initData();
 		return gridContainer;
 	}
 
