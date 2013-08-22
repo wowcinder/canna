@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import xdata.etl.web.shared.entity.IdentityRpcEntity;
@@ -22,9 +21,7 @@ import xdata.etl.web.shared.entity.IdentityRpcEntity;
 public class MenuGroup extends IdentityRpcEntity<Integer> {
 	private static final long serialVersionUID = 2138324039371528785L;
 	private String name;
-	@OneToMany(mappedBy = "menuGroup", cascade = { CascadeType.REMOVE,
-			CascadeType.DETACH })
-	@OrderBy("pos")
+	@OneToMany(mappedBy = "menuGroup", cascade = CascadeType.ALL)
 	private List<Menu> menus;
 	private int pos;
 

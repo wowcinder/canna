@@ -280,6 +280,13 @@
 				<groupId>org.apache.hadoop</groupId>
 				<artifactId>hadoop-core</artifactId>
 				<version>${hadoop.version}</version>
+
+				<exclusions>
+					<exclusion>
+						<groupId>hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- /hadoop -->
 
@@ -455,7 +462,7 @@
 	<packaging>pom</packaging>
 	<modules>
 
-	<module>../site-service</module>
-	<module>../site-shared</module>
+		<module>../site-service</module>
+		<module>../site-shared</module>
 	</modules>
 </project>

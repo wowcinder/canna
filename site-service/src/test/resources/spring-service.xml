@@ -37,16 +37,16 @@
 	<aop:aspectj-autoproxy />
 	<context:annotation-config />
 	<context:component-scan base-package="xdata.etl.web" />
-
+	<aop:config>
+		<aop:pointcut id="serviceMethods"
+			expression="execution(* xdata.etl.web.server.dao..*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+	</aop:config>
 
 
 	<beans profile="default">
 
-		<aop:config>
-			<aop:pointcut id="serviceMethods"
-				expression="execution(* xdata.etl.web.server.service..*(..))" />
-			<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
-		</aop:config>
+
 
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -92,64 +92,11 @@
 	</beans>
 
 	<beans profile="junit">
-		<aop:config>
-			<aop:pointcut id="serviceMethods"
-				expression="execution(* xdata.etl.web.server.dao..*Dao.*(..))" />
-			<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
-		</aop:config>
-
-		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-			<property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver" />
-			<property name="url" value="jdbc:hsqldb:mem:etl" />
-			<property name="username" value="SA" />
-			<property name="password" value="" />
-		</bean>
-		<bean id="etlSessionFactory"
-			class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-			<property name="dataSource" ref="dataSource" />
-			<property name="hibernateProperties">
-				<value>
-					<!-- hibernate.connection.driver_class = com.mysql.jdbc.Driver hibernate.connection.url 
-						= jdbc:mysql://localhost:3306/etl hibernate.connection.username = root hibernate.connection.password=test -->
-					hibernate.c3p0.min_size=5
-					hibernate.c3p0.max_size=20
-					hibernate.c3p0.timeout=1800
-					hibernate.c3p0.max_statements=50
-					hibernate.dialect = org.hibernate.dialect.HSQLDialect
-					hibernate.show_sql = true
-					hibernate.max_fetch_depth = 3
-					hibernate.default_batch_fetch_size = 8
-					hibernate.id.new_generator_mappings = true
-					<!-- hibernate.current_session_context_class = thread -->
-
-					hibernate.hbm2ddl.auto = update
-
-					<!--hibernate.current_session_context_class = thread hibernate.transaction.factory_class 
-						= org.hibernate.transaction.JDBCTransactionFactory hibernate.hbm2ddl.import_files 
-						= -->
-				</value>
-			</property>
-			<property name="packagesToScan">
-				<list>
-					<value>xdata.etl.web.shared.entity</value>
-				</list>
-			</property>
-
-		</bean>
-	</beans>
-
-	<beans profile="create_schema">
-
-		<aop:config>
-			<aop:pointcut id="serviceMethods"
-				expression="execution(* xdata.etl.web.server.dao..*Dao.*(..))" />
-			<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
-		</aop:config>
 
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 			<property name="url"
-				value="jdbc:mysql://localhost:3306/etl?useUnicode=true&amp;characterEncoding=utf8" />
+				value="jdbc:mysql://localhost:3306/etl_test?useUnicode=true&amp;characterEncoding=utf8" />
 			<property name="username" value="root" />
 			<property name="password" value="test" />
 		</bean>
@@ -167,12 +114,14 @@
 					hibernate.c3p0.max_statements=50
 					hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 					hibernate.show_sql = true
-					hibernate.default_schema = etl
+					hibernate.default_schema = etl_test
 					hibernate.max_fetch_depth = 3
 					hibernate.default_batch_fetch_size = 8
 					hibernate.id.new_generator_mappings = true
 					hibernate.current_session_context_class = thread
 
+				<!-- 	hibernate.hbm2ddl.auto = create-drop  -->
+					
 					hibernate.hbm2ddl.auto = update
 
 					<!--hibernate.current_session_context_class = thread hibernate.transaction.factory_class 
@@ -188,7 +137,5 @@
 
 		</bean>
 	</beans>
-
-
 
 </beans>
