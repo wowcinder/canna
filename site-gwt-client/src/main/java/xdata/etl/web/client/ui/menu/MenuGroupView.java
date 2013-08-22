@@ -18,7 +18,7 @@ import xdata.etl.web.shared.entity.menu.MenuGroup;
  * @date 2013年8月11日
  * 
  */
-@MenuToken(name = "菜单组管理", token = "menu_group_manager")
+@MenuToken(name = "菜单组管理", token = "menu_group_manager", group = "菜单管理")
 public class MenuGroupView extends
 		SimpleRpcEntityGridContainer<Integer, MenuGroup> implements CenterView {
 

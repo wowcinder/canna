@@ -12,5 +12,7 @@ public @interface MenuToken {
 
 	String name();
 
+	String group() default "";
+
 	boolean closeAble() default true;
 }

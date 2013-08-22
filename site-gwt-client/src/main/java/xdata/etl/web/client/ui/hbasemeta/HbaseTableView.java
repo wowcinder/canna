@@ -17,7 +17,7 @@ import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
  * @author XuehuiHe
  * @date 2013年8月15日
  */
-@MenuToken(name = "表管理", token = "hbase_table")
+@MenuToken(name = "表管理", token = "hbase_table", group = "hbase_meta管理")
 public class HbaseTableView extends
 		SimpleRpcEntityGridContainer<Integer, HbaseTable> implements CenterView {
 

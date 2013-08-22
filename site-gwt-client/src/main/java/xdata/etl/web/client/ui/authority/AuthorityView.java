@@ -18,7 +18,7 @@ import xdata.etl.web.shared.entity.authority.Authority;
  * @date 2013年8月12日
  * 
  */
-@MenuToken(name = "权限管理", token = "authority_manager")
+@MenuToken(name = "权限管理", token = "authority_manager", group = "权限管理")
 public class AuthorityView extends
 		SimpleRpcEntityGridContainer<Integer, Authority> implements CenterView {
 

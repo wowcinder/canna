@@ -17,7 +17,7 @@ import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
  * @author XuehuiHe
  * @date 2013年8月15日
  */
-@MenuToken(name = "表版本管理", token = "hbase_table_version")
+@MenuToken(name = "表版本管理", token = "hbase_table_version", group = "hbase_meta管理")
 public class HbaseTableVersionView extends
 		SimpleRpcEntityGridContainer<Integer, HbaseTableVersion> implements
 		CenterView {

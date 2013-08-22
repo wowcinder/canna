@@ -22,7 +22,7 @@ import com.sencha.gxt.widget.core.client.grid.Grid;
  * @date 2013年8月15日
  * 
  */
-@MenuToken(name = "hbase查询", token = "hbase_query")
+@MenuToken(name = "hbase查询", token = "hbase_query", group = "hbase查询")
 public class HbaseQueryView extends VerticalLayoutContainer implements
 		CenterView {
 	private static final HbaseQueryRpcServiceAsync servie2 = GWT

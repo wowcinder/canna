@@ -19,7 +19,7 @@ import xdata.etl.web.shared.entity.user.User;
  * 
  */
 
-@MenuToken(name = "用户管理", token = "user_manager")
+@MenuToken(name = "用户管理", token = "user_manager", group = "用户管理")
 public class UserView extends SimpleRpcEntityGridContainer<Integer, User>
 		implements CenterView {
 

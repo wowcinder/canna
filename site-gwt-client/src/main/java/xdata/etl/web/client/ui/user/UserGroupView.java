@@ -18,7 +18,7 @@ import xdata.etl.web.shared.entity.user.UserGroup;
  * @date 2013年8月12日
  * 
  */
-@MenuToken(name = "用户组管理", token = "user_group_manager")
+@MenuToken(name = "用户组管理", token = "user_group_manager", group = "用户管理")
 public class UserGroupView extends
 		SimpleRpcEntityGridContainer<Integer, UserGroup> implements CenterView {
 
