@@ -45,10 +45,10 @@ public class Testdd extends SiteServiceTestCase {
 
 	@org.junit.Test
 	public void test() {
-		MenuGroup mg = new MenuGroup();
-		mg.setId(4);
-
-		dao.delete(mg);
+//		MenuGroup mg = new MenuGroup();
+//		mg.setId(4);
+//
+//		dao.delete(mg);
 
 		List<MenuNode> list = dao.get();
 		System.out.println(list.size());

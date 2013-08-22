@@ -461,8 +461,7 @@
 	</dependencyManagement>
 	<packaging>pom</packaging>
 	<modules>
-
-		<module>../site-service</module>
-		<module>../site-shared</module>
+	<module>../site-service</module>
+	<module>../site-shared</module>
 	</modules>
 </project>
