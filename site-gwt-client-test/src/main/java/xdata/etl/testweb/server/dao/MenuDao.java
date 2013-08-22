@@ -5,7 +5,6 @@ package xdata.etl.testweb.server.dao;
 
 import java.util.List;
 
-import xdata.etl.testweb.shared.entity.menu.MenuGroup;
 import xdata.etl.testweb.shared.entity.menu.MenuNode;
 
 /**
@@ -18,6 +17,4 @@ public interface MenuDao {
 	public List<MenuNode> get();
 
 	public void delete(MenuNode node);
-	
-	public void delete(MenuGroup node);
 }

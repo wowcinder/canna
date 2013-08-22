@@ -5,6 +5,7 @@ package xdata.etl.testweb.shared.entity.menu;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -24,7 +25,7 @@ public class MenuGroup extends MenuNode {
 	public MenuGroup() {
 	}
 
-	@OneToMany
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
 	private List<MenuNode> nodes;
 
 	public List<MenuNode> getNodes() {
