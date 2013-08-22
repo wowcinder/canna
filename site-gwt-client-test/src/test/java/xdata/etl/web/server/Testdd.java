@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import xdata.etl.testweb.server.dao.MenuDao;
+import xdata.etl.testweb.shared.entity.menu.MenuGroup;
 import xdata.etl.testweb.shared.entity.menu.MenuNode;
 
 /**
@@ -39,6 +40,11 @@ public class Testdd extends SiteServiceTestCase {
 		// menu.setName("a menu");
 		// menu.setToken("sdjsdflj");
 		// dao.insert(menu);
+		MenuGroup mg = new MenuGroup();
+		mg.setId(3);
+		
+		dao.delete(mg);
+		
 		List<MenuNode> list = dao.get();
 		System.out.println(list.size());
 

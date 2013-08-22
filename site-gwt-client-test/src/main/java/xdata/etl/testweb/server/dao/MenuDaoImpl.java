@@ -23,6 +23,42 @@ import xdata.etl.testweb.shared.entity.menu.MenuNode;
 @Repository
 public class MenuDaoImpl extends BaseDao implements MenuDao {
 
+	public void delete(MenuNode node) {
+		Session s = getSession();
+		node = (MenuNode) s.load(MenuNode.class, node.getId());
+		MenuNode parent = node.getParent();
+		Criteria c = s.createCriteria(MenuNode.class);
+		c.add(Restrictions.eq("prev", node));
+		if (parent == null) {
+			c.add(Restrictions.isNull("parent"));
+		} else {
+			c.add(Restrictions.eq("parent", parent));
+		}
+		MenuNode next = (MenuNode) c.uniqueResult();
+		s.delete(node);
+		next.setPrev(node.getPrev());
+		s.update(next);
+	}
+
+	public void delete(MenuGroup node) {
+		Session s = getSession();
+		node = (MenuGroup) s.createCriteria(MenuGroup.class)
+				.createAlias("nodes", "nodes", Criteria.LEFT_JOIN)
+				.add(Restrictions.idEq(node.getId())).uniqueResult();
+		MenuNode parent = node.getParent();
+		Criteria c = s.createCriteria(MenuNode.class);
+		c.add(Restrictions.eq("prev", node));
+		if (parent == null) {
+			c.add(Restrictions.isNull("parent"));
+		} else {
+			c.add(Restrictions.eq("parent", parent));
+		}
+		MenuNode next = (MenuNode) c.uniqueResult();
+		s.delete(node);
+		next.setPrev(node.getPrev());
+		s.update(next);
+	}
+
 	public MenuNode insert(MenuNode node) {
 		Session s = getSession();
 		MenuNode parent = node.getParent();
