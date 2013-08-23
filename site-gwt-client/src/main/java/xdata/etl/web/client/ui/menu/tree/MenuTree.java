@@ -75,6 +75,7 @@ public class MenuTree extends Tree<MenuNode, String> {
 		});
 		initDND();
 		init();
+		setContextMenu(new GxtMenu(this));
 	}
 
 	private void initDND() {

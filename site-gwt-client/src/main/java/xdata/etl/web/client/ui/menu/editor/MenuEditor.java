@@ -146,7 +146,35 @@ public class MenuEditor extends RpcEntitySimpleEditor<Integer, Menu> {
 
 	@Override
 	protected Menu newInstance() {
+		final MenuNewInstance menuNewInstance = this.menuNewInstance;
+		if (menuNewInstance != null) {
+			return menuNewInstance.get();
+		}
 		return new Menu();
+	}
+
+	public abstract class MenuNewInstance {
+		public Menu get() {
+			Menu menu = _get();
+			clean();
+			return menu;
+		}
+
+		public abstract Menu _get();
+
+		public void clean() {
+			clearMenuNewInstance();
+		}
+	}
+
+	private MenuNewInstance menuNewInstance;
+
+	public void setMenuNewInstance(MenuNewInstance menuNewInstance) {
+		this.menuNewInstance = menuNewInstance;
+	}
+
+	public void clearMenuNewInstance() {
+		menuNewInstance = null;
 	}
 
 }
