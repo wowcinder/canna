@@ -18,4 +18,12 @@ public interface MenuNodeDao extends IRpcDao<Integer, MenuNode> {
 
 	public List<MenuNode> getUserMenus();
 
+	/**
+	 * @param parentId
+	 * @param prevId
+	 * @param nodes
+	 * @return
+	 */
+	List<MenuNode> update(Integer parentId, Integer prevId, List<MenuNode> nodes);
+
 }

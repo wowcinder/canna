@@ -136,6 +136,12 @@ public class MenuViewImpl extends Composite implements MenuView {
 		if (menuNode == null) {
 			return;
 		}
+		if (menuNode instanceof MenuGroup) {
+			List<MenuNode> nodes = ((MenuGroup) menuNode).getNodes();
+			if (nodes == null || nodes.size() == 0) {
+				return;
+			}
+		}
 		if (parent == null) {
 			store.add(menuNode);
 		} else {

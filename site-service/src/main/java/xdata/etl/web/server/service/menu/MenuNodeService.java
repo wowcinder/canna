@@ -16,4 +16,12 @@ import xdata.etl.web.shared.entity.menu.MenuNode;
 public interface MenuNodeService extends RpcDelegateService<Integer, MenuNode> {
 
 	void initMenuConfig(List<MenuToken> tokens);
+
+	/**
+	 * @param parentId
+	 * @param prevId
+	 * @param nodes
+	 * @return
+	 */
+	List<MenuNode> update(Integer parentId, Integer prevId, List<MenuNode> nodes);
 }

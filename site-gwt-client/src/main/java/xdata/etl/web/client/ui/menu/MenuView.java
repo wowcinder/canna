@@ -3,42 +3,37 @@
  */
 package xdata.etl.web.client.ui.menu;
 
-import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
-import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
-import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
-import xdata.etl.web.client.ui.menu.editor.MenuEditor;
-import xdata.etl.web.client.ui.menu.grid.MenuGrid;
+import xdata.etl.web.client.ui.menu.tree.MenuTree;
 import xdata.etl.web.shared.annotations.MenuToken;
-import xdata.etl.web.shared.entity.menu.Menu;
+
+import com.google.gwt.dom.client.Style.TextAlign;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月9日
  */
 @MenuToken(name = "菜单管理", token = "menu_manager", group = "菜单管理")
-public class MenuView extends SimpleRpcEntityGridContainer<Integer, Menu>
-		implements CenterView {
-
-	private static final MenuEditor editor = new MenuEditor();
+public class MenuView extends HorizontalLayoutContainer implements CenterView {
+	private CenterViewConfig centerViewConfig;
 
 	public MenuView() {
-		super(new MenuGrid().create());
+		MenuTree tree = new MenuTree();
+		tree.getElement().getStyle().setTextAlign(TextAlign.LEFT);
+		tree.setWidth(300);
+		add(tree, new HorizontalLayoutData(-1, 1, new Margins(10)));
 	}
 
 	@Override
-	protected RpcEntitySimpleEditor<Integer, Menu> getAddEditor() {
-		return editor;
+	public CenterViewConfig getCenterViewConfig() {
+		return centerViewConfig;
 	}
 
 	@Override
-	protected RpcEntitySimpleEditor<Integer, Menu> getUpdateEditor() {
-		return editor;
-	}
-
-	@Override
-	protected RpcCaller<Integer, Menu> getRpcCaller() {
-		return null;
+	public void setCenterViewConfig(CenterViewConfig centerViewConfig) {
+		this.centerViewConfig = centerViewConfig;
 	}
 
 }

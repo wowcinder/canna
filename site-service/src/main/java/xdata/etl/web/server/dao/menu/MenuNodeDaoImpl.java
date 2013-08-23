@@ -18,6 +18,7 @@ import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 import xdata.etl.web.shared.entity.menu.MenuNode;
+import xdata.etl.web.shared.exception.SharedException;
 
 /**
  * @author XuehuiHe
@@ -40,8 +41,15 @@ public class MenuNodeDaoImpl extends RpcDao<Integer, MenuNode> implements
 		}
 		MenuNode next = (MenuNode) c.uniqueResult();
 		s.delete(node);
-		next.setPrev(node.getPrev());
-		s.update(next);
+		if (next != null) {
+			next.setPrev(node.getPrev());
+			s.update(next);
+		}
+	}
+
+	@Override
+	public MenuNode update(MenuNode v) throws SharedException {
+		return super.update(v);
 	}
 
 	@Override
@@ -229,5 +237,66 @@ public class MenuNodeDaoImpl extends RpcDao<Integer, MenuNode> implements
 				}
 			}
 		}
+	}
+
+	private MenuNode update(Integer parentId, Integer prevId, MenuNode node) {
+		Session s = getSession();
+		node = (MenuNode) s.get(MenuNode.class, node.getId());
+		MenuNode parent = node.getParent();
+		Criteria c = s.createCriteria(MenuNode.class);
+		c.add(Restrictions.eq("prev", node));
+		if (parent == null) {
+			c.add(Restrictions.isNull("parent"));
+		} else {
+			c.add(Restrictions.eq("parent", parent));
+		}
+		MenuNode next = (MenuNode) c.uniqueResult();
+		if (next != null) {
+			next.setPrev(node.getPrev());
+			s.update(next);
+		}
+
+		parent = null;
+		MenuNode prev = null;
+		if (parentId != null) {
+			parent = new MenuGroup();
+			parent.setId(parentId);
+		}
+		if (prevId != null) {
+			prev = new MenuNode();
+			prev.setId(prevId);
+		}
+		c = s.createCriteria(MenuNode.class);
+		if (parent == null) {
+			c.add(Restrictions.isNull("parent"));
+		} else {
+			c.add(Restrictions.eq("parent", parent));
+		}
+		if (prev == null) {
+			c.add(Restrictions.isNull("prev"));
+		} else {
+			c.add(Restrictions.eq("prev", prev));
+		}
+		MenuNode oldPrev = (MenuNode) c.uniqueResult();
+
+		node.setParent((MenuGroup) parent);
+		node.setPrev(prev);
+		s.update(node);
+		if (oldPrev != null) {
+			oldPrev.setPrev(node);
+			s.merge(oldPrev);
+		}
+		return node;
+	}
+
+	@Override
+	public List<MenuNode> update(Integer parentId, Integer prevId,
+			List<MenuNode> nodes) {
+		List<MenuNode> result = new ArrayList<MenuNode>();
+		for (int i = nodes.size() - 1; i >= 0; i--) {
+			MenuNode node = nodes.get(i);
+			result.add(update(parentId, prevId, node));
+		}
+		return result;
 	}
 }

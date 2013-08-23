@@ -3,12 +3,15 @@
  */
 package xdata.etl.web.server.rpc;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.service.menu.MenuNodeService;
 import xdata.etl.web.shared.entity.menu.MenuNode;
@@ -34,5 +37,12 @@ public class MenuNodeRpcServiceImpl extends
 			return attr.getRequest().getSession();
 		}
 		return null;
+	}
+
+	@Override
+	@AccessAuthority("修改")
+	public List<MenuNode> update(Integer parentId, Integer prevId,
+			List<MenuNode> nodes) {
+		return getDelegateService().update(parentId, prevId, nodes);
 	}
 }

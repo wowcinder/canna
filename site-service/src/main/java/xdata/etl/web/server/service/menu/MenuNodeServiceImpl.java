@@ -48,4 +48,10 @@ public class MenuNodeServiceImpl extends
 	public void initMenuConfig(List<MenuToken> tokens) {
 		getDao().insertMenuConfig(tokens);
 	}
+
+	@Override
+	public List<MenuNode> update(Integer parentId, Integer prevId,
+			List<MenuNode> nodes) {
+		return getDao().update(parentId, prevId, nodes);
+	}
 }
