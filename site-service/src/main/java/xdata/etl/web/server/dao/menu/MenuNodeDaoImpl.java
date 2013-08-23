@@ -120,7 +120,8 @@ public class MenuNodeDaoImpl extends RpcDao<Integer, MenuNode> implements
 		}
 
 		public List<MenuNode> getUserNodes(Set<Integer> aIds) {
-			List<MenuNode> nodes = getRootNodes();
+			List<MenuNode> nodes = new ArrayList<MenuNode>();
+			nodes.addAll(getRootNodes());
 			clear(nodes, aIds);
 			return nodes;
 		}
@@ -129,16 +130,20 @@ public class MenuNodeDaoImpl extends RpcDao<Integer, MenuNode> implements
 			if (nodes == null || nodes.size() == 0) {
 				return;
 			}
+			List<MenuNode> needDeleteMenus = new ArrayList<MenuNode>();
 			for (MenuNode menuNode : nodes) {
 				if (menuNode instanceof Menu) {
 					Integer aId = ((Menu) menuNode).getRequireAuthority()
 							.getId();
 					if (!aIds.contains(aId)) {
-						nodes.remove(menuNode);
+						needDeleteMenus.add(menuNode);
 					}
 				} else if (menuNode instanceof MenuGroup) {
 					clear(((MenuGroup) menuNode).getNodes(), aIds);
 				}
+			}
+			for (MenuNode menuNode : needDeleteMenus) {
+				nodes.remove(menuNode);
 			}
 		}
 

@@ -32,7 +32,7 @@ public abstract class RpcEntitySimpleEditor<K extends Serializable, V extends Rp
 	@Override
 	protected void update(V v, GwtCallBack<V> callback) {
 		if (rpcCaller != null) {
-			rpcCaller.saveAndReturn(v, callback);
+			rpcCaller.update(v, callback);
 		} else {
 			callback.clean();
 		}
