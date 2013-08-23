@@ -16,7 +16,7 @@ import xdata.etl.web.shared.entity.menu.MenuNode;
 public interface MenuNodeDao extends IRpcDao<Integer, MenuNode> {
 	void insertMenuConfig(List<MenuToken> tokens);
 
-	public List<MenuNode> getUserMenus();
+	public List<MenuNode> getUserMenus(Integer uid);
 
 	/**
 	 * @param parentId

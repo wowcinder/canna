@@ -31,8 +31,8 @@ public class MenuNodeServiceImpl extends
 
 	@Override
 	public List<MenuNode> get() throws SharedException {
-		// (Integer) getSession().getAttribute("userId")
-		return getDao().getUserMenus();
+		return getDao().getUserMenus(
+				(Integer) getSession().getAttribute("userId"));
 	}
 
 	protected HttpSession getSession() {

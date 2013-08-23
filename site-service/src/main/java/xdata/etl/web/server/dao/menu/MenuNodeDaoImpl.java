@@ -5,8 +5,10 @@ package xdata.etl.web.server.dao.menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import xdata.etl.web.server.dao.RpcDao;
 import xdata.etl.web.shared.annotations.MenuToken;
+import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 import xdata.etl.web.shared.entity.menu.MenuNode;
@@ -78,13 +81,31 @@ public class MenuNodeDaoImpl extends RpcDao<Integer, MenuNode> implements
 		return node;
 	}
 
-	public List<MenuNode> getUserMenus() {
+	@SuppressWarnings("unchecked")
+	public List<MenuNode> getUserMenus(Integer uid) {
 		Session s = getSession();
-		@SuppressWarnings("unchecked")
-		List<MenuNode> list = s.createCriteria(MenuNode.class).list();
+		Criteria c = s.createCriteria(MenuNode.class);
+		List<MenuNode> list = c.list();
 
 		MenuListGenerator generator = new MenuListGenerator(list);
-		return generator.getNodes();
+		if (uid == 0) {
+			return generator.getRootNodes();
+		} else {
+			Set<Integer> aIds = new HashSet<Integer>();
+			List<Authority> authorities = s.createCriteria(Authority.class)
+					.createAlias("users", "user")
+					.add(Restrictions.eq("user.id", uid)).list();
+			List<Authority> authorities2 = s.createCriteria(Authority.class)
+					.createAlias("userGroups", "ug")
+					.createAlias("ug.users", "user")
+					.add(Restrictions.eq("user.id", uid)).list();
+			authorities.addAll(authorities2);
+			for (Authority authority : authorities) {
+				aIds.add(authority.getId());
+			}
+			return generator.getUserNodes(aIds);
+		}
+
 	}
 
 	public static class MenuListGenerator {
@@ -98,7 +119,30 @@ public class MenuNodeDaoImpl extends RpcDao<Integer, MenuNode> implements
 			}
 		}
 
-		public List<MenuNode> getNodes() {
+		public List<MenuNode> getUserNodes(Set<Integer> aIds) {
+			List<MenuNode> nodes = getRootNodes();
+			clear(nodes, aIds);
+			return nodes;
+		}
+
+		private void clear(List<MenuNode> nodes, Set<Integer> aIds) {
+			if (nodes == null || nodes.size() == 0) {
+				return;
+			}
+			for (MenuNode menuNode : nodes) {
+				if (menuNode instanceof Menu) {
+					Integer aId = ((Menu) menuNode).getRequireAuthority()
+							.getId();
+					if (!aIds.contains(aId)) {
+						nodes.remove(menuNode);
+					}
+				} else if (menuNode instanceof MenuGroup) {
+					clear(((MenuGroup) menuNode).getNodes(), aIds);
+				}
+			}
+		}
+
+		public List<MenuNode> getRootNodes() {
 			return getNodes(null);
 		}
 
