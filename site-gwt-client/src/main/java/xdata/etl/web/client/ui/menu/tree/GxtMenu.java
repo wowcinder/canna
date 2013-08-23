@@ -3,24 +3,24 @@
  */
 package xdata.etl.web.client.ui.menu.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import xdata.etl.web.client.RpcAsyncCallback;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.ui.menu.editor.MenuEditor;
 import xdata.etl.web.client.ui.menu.editor.MenuGroupEditor;
+import xdata.etl.web.shared.Provider;
 import xdata.etl.web.shared.entity.menu.Menu;
+import xdata.etl.web.shared.entity.menu.MenuGroup;
 import xdata.etl.web.shared.entity.menu.MenuNode;
+import xdata.etl.web.shared.service.menu.MenuNodeRpcService;
+import xdata.etl.web.shared.service.menu.MenuNodeRpcServiceAsync;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.sencha.gxt.data.shared.TreeStore;
-import com.sencha.gxt.data.shared.TreeStore.TreeNode;
 import com.sencha.gxt.widget.core.client.event.BeforeShowEvent;
 import com.sencha.gxt.widget.core.client.event.BeforeShowEvent.BeforeShowHandler;
 import com.sencha.gxt.widget.core.client.event.HideEvent;
 import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
-import com.sencha.gxt.widget.core.client.info.Info;
 import com.sencha.gxt.widget.core.client.menu.Item;
 import com.sencha.gxt.widget.core.client.menu.MenuItem;
 import com.sencha.gxt.widget.core.client.menu.SeparatorMenuItem;
@@ -30,6 +30,9 @@ import com.sencha.gxt.widget.core.client.menu.SeparatorMenuItem;
  * @date 2013年8月23日
  */
 public class GxtMenu extends com.sencha.gxt.widget.core.client.menu.Menu {
+	private static final MenuNodeRpcServiceAsync service = GWT
+			.create(MenuNodeRpcService.class);
+
 	private MenuItem insertMenu;
 	private MenuItem insertMenuGroup;
 	private MenuItem addMenu;
@@ -63,57 +66,12 @@ public class GxtMenu extends com.sencha.gxt.widget.core.client.menu.Menu {
 		add(modify);
 		add(delete);
 
-		insertMenu.addSelectionHandler(new SelectionHandler<Item>() {
-			@Override
-			public void onSelection(SelectionEvent<Item> event) {
-				final MenuNode selectItem = tree.getSelectionModel()
-						.getSelectedItem();
-				menuEditor.setMenuNewInstance(menuEditor.new MenuNewInstance() {
-					@Override
-					public Menu _get() {
-						Menu menu = new Menu();
-						menu.setParent(selectItem.getParent());
-						menu.setPrev(selectItem);
-						return menu;
-					}
-				});
-				menuEditor.add();
-				menuEditor.setAddCallBack(new GwtCallBack<Menu>() {
-					@Override
-					protected void _call(final Menu t) {
-						MenuNode parent = selectItem.getParent();
-						int index = 0;
-						if (parent == null) {
-							index = tree.getStore().indexOf(selectItem) + 2;
-						} else {
-							index = tree.getStore()
-									.getChildren(selectItem.getParent())
-									.indexOf(selectItem) + 1;
-						}
-						List<TreeStore.TreeNode<MenuNode>> list = new ArrayList<TreeStore.TreeNode<MenuNode>>();
-						TreeStore.TreeNode<MenuNode> node = new TreeStore.TreeNode<MenuNode>() {
-
-							@Override
-							public List<? extends TreeNode<MenuNode>> getChildren() {
-								return null;
-							}
-
-							@Override
-							public MenuNode getData() {
-								return t;
-							}
-						};
-						list.add(node);
-						if (parent == null) {
-							tree.getStore().addSubTree(index, list);
-						} else {
-							tree.getStore().addSubTree(parent, index, list);
-						}
-
-					}
-				});
-			}
-		});
+		initInsertMenu();
+		initInsertMenuGroup();
+		initAddMenu();
+		initAddMenuGroup();
+		initDelete();
+		initModify();
 
 		this.addBeforeShowHandler(new BeforeShowHandler() {
 			@Override
@@ -137,6 +95,181 @@ public class GxtMenu extends com.sencha.gxt.widget.core.client.menu.Menu {
 				GxtMenu.this.enable();
 				addMenu.enable();
 				addMenuGroup.enable();
+			}
+		});
+	}
+
+	private void initModify() {
+		modify.addSelectionHandler(new SelectionHandler<Item>() {
+			@Override
+			public void onSelection(SelectionEvent<Item> event) {
+				final MenuNode node = tree.getSelectionModel()
+						.getSelectedItem();
+				if (node instanceof Menu) {
+					menuEditor.setUpdateCallBack(new GwtCallBack<Menu>() {
+						@Override
+						protected void _call(Menu t) {
+							tree.getStore().update(t);
+						}
+					});
+					menuEditor.edit((Menu) node);
+				} else {
+					menuGroupEditor
+							.setUpdateCallBack(new GwtCallBack<MenuGroup>() {
+								@Override
+								protected void _call(MenuGroup t) {
+									tree.getStore().update(t);
+								}
+							});
+					menuGroupEditor.edit((MenuGroup) node);
+				}
+			}
+		});
+	}
+
+	protected void initDelete() {
+		delete.addSelectionHandler(new SelectionHandler<Item>() {
+			@Override
+			public void onSelection(SelectionEvent<Item> event) {
+				final MenuNode node = tree.getSelectionModel()
+						.getSelectedItem();
+				service.delete(new Provider<Integer>(node.getId()),
+						new RpcAsyncCallback<Void>() {
+							@Override
+							public void _onSuccess(Void t) {
+								tree.getStore().remove(node);
+							}
+
+							@Override
+							public void _onFailure(Throwable caught) {
+								super._onFailure(caught);
+								tree.reset();
+							}
+						});
+			}
+		});
+	}
+
+	protected void initAddMenuGroup() {
+		addMenuGroup.addSelectionHandler(new SelectionHandler<Item>() {
+			@Override
+			public void onSelection(SelectionEvent<Item> event) {
+				final MenuGroup selectItem = (MenuGroup) tree
+						.getSelectionModel().getSelectedItem();
+				menuGroupEditor
+						.setMenuGroupNewInstance(menuGroupEditor.new MenuGroupNewInstance() {
+							@Override
+							public MenuGroup _get() {
+								MenuGroup mg = new MenuGroup();
+								mg.setParent(selectItem);
+								MenuNode prev = tree.getStore().getLastChild(
+										selectItem);
+								mg.setPrev(prev);
+								return mg;
+							}
+						});
+				menuGroupEditor.add();
+				menuGroupEditor.setAddCallBack(new GwtCallBack<MenuGroup>() {
+					@Override
+					protected void _call(final MenuGroup t) {
+						tree.getStore().add(selectItem, t);
+					}
+				});
+			}
+		});
+	}
+
+	protected void initAddMenu() {
+		addMenu.addSelectionHandler(new SelectionHandler<Item>() {
+			@Override
+			public void onSelection(SelectionEvent<Item> event) {
+				final MenuGroup selectItem = (MenuGroup) tree
+						.getSelectionModel().getSelectedItem();
+				menuEditor.setMenuNewInstance(menuEditor.new MenuNewInstance() {
+					@Override
+					public Menu _get() {
+						Menu menu = new Menu();
+						menu.setParent(selectItem);
+						MenuNode prev = tree.getStore()
+								.getLastChild(selectItem);
+						menu.setPrev(prev);
+						return menu;
+					}
+				});
+				menuEditor.add();
+				menuEditor.setAddCallBack(new GwtCallBack<Menu>() {
+					@Override
+					protected void _call(final Menu t) {
+						tree.getStore().add(selectItem, t);
+					}
+				});
+			}
+		});
+	}
+
+	protected void initInsertMenuGroup() {
+		insertMenuGroup.addSelectionHandler(new SelectionHandler<Item>() {
+			@Override
+			public void onSelection(SelectionEvent<Item> event) {
+				final MenuNode selectItem = tree.getSelectionModel()
+						.getSelectedItem();
+				menuGroupEditor
+						.setMenuGroupNewInstance(menuGroupEditor.new MenuGroupNewInstance() {
+							@Override
+							public MenuGroup _get() {
+								MenuGroup mg = new MenuGroup();
+								mg.setParent(selectItem.getParent());
+								mg.setPrev(selectItem);
+								return mg;
+							}
+						});
+				menuGroupEditor.add();
+				menuGroupEditor.setAddCallBack(new GwtCallBack<MenuGroup>() {
+					@Override
+					protected void _call(final MenuGroup t) {
+						MenuGroup parent = (MenuGroup) tree.getStore()
+								.findModel(selectItem.getParent());
+						int index = tree.getStore().indexOf(selectItem) + 1;
+						if (parent == null) {
+							tree.getStore().insert(index, t);
+						} else {
+							tree.getStore().insert(parent, index, t);
+						}
+					}
+				});
+			}
+		});
+	}
+
+	protected void initInsertMenu() {
+		insertMenu.addSelectionHandler(new SelectionHandler<Item>() {
+			@Override
+			public void onSelection(SelectionEvent<Item> event) {
+				final MenuNode selectItem = tree.getSelectionModel()
+						.getSelectedItem();
+				menuEditor.setMenuNewInstance(menuEditor.new MenuNewInstance() {
+					@Override
+					public Menu _get() {
+						Menu menu = new Menu();
+						menu.setParent(selectItem.getParent());
+						menu.setPrev(selectItem);
+						return menu;
+					}
+				});
+				menuEditor.add();
+				menuEditor.setAddCallBack(new GwtCallBack<Menu>() {
+					@Override
+					protected void _call(final Menu t) {
+						MenuGroup parent = (MenuGroup) tree.getStore()
+								.findModel(selectItem.getParent());
+						int index = tree.getStore().indexOf(selectItem) + 1;
+						if (parent == null) {
+							tree.getStore().insert(index, t);
+						} else {
+							tree.getStore().insert(parent, index, t);
+						}
+					}
+				});
 			}
 		});
 	}

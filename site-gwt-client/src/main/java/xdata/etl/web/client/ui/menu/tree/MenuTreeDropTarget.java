@@ -44,7 +44,7 @@ public class MenuTreeDropTarget extends TreeDropTarget<MenuNode> {
 			return;
 		@SuppressWarnings("unchecked")
 		final List<TreeStore.TreeNode<MenuNode>> nodes = (List<TreeStore.TreeNode<MenuNode>>) items;
-		List<MenuNode> menuNodes = new ArrayList<MenuNode>();
+		final List<MenuNode> menuNodes = new ArrayList<MenuNode>();
 		for (TreeStore.TreeNode<MenuNode> treeNode : nodes) {
 			menuNodes.add(treeNode.getData());
 		}

@@ -13,7 +13,6 @@ import xdata.etl.web.shared.entity.menu.MenuNode;
 import com.google.gwt.resources.client.ImageResource;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.IconProvider;
-import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.TreeStore;
 import com.sencha.gxt.dnd.core.client.DND.Feedback;
 import com.sencha.gxt.dnd.core.client.TreeDragSource;
@@ -26,13 +25,8 @@ import com.sencha.gxt.widget.core.client.tree.TreeStyle;
  * @date 2013年8月23日
  */
 public class MenuTree extends Tree<MenuNode, String> {
-	public MenuTree() {
-		super(new TreeStore<MenuNode>(new ModelKeyProvider<MenuNode>() {
-			@Override
-			public String getKey(MenuNode item) {
-				return item.getId() + "";
-			}
-		}), new ValueProvider<MenuNode, String>() {
+	public MenuTree(TreeStore<MenuNode> store) {
+		super(store, new ValueProvider<MenuNode, String>() {
 
 			@Override
 			public String getValue(MenuNode object) {
@@ -74,7 +68,6 @@ public class MenuTree extends Tree<MenuNode, String> {
 			}
 		});
 		initDND();
-		init();
 		setContextMenu(new GxtMenu(this));
 	}
 
@@ -86,17 +79,8 @@ public class MenuTree extends Tree<MenuNode, String> {
 		target.setFeedback(Feedback.BOTH);
 	}
 
-	private void init() {
-		ServiceUtil.MenuNodeRpcCaller.get(new GwtCallBack<List<MenuNode>>() {
-
-			@Override
-			protected void _call(List<MenuNode> t) {
-				initData(t);
-			}
-		});
-	}
-
-	protected void initData(List<MenuNode> result) {
+	public void initData(List<MenuNode> result) {
+		store.clear();
 		for (MenuNode menuNode : result) {
 			initData(null, menuNode);
 		}
@@ -104,9 +88,13 @@ public class MenuTree extends Tree<MenuNode, String> {
 	}
 
 	public void reset() {
-		List<MenuNode> list = store.getRootItems();
-		store.clear();
-		initData(list);
+		ServiceUtil.MenuNodeRpcCaller.get(new GwtCallBack<List<MenuNode>>() {
+
+			@Override
+			protected void _call(List<MenuNode> t) {
+				initData(t);
+			}
+		});
 	}
 
 	protected void initData(MenuNode parent, MenuNode menuNode) {
