@@ -3,20 +3,16 @@
  */
 package xdata.etl.web.server.rpc;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
-import xdata.etl.web.server.service.menu.MenuService;
-import xdata.etl.web.shared.entity.menu.Menu;
-import xdata.etl.web.shared.exception.SharedException;
-import xdata.etl.web.shared.service.menu.MenuRpcService;
+import xdata.etl.web.server.service.menu.MenuNodeService;
+import xdata.etl.web.shared.entity.menu.MenuNode;
+import xdata.etl.web.shared.service.menu.MenuNodeRpcService;
 
 /**
  * @author XuehuiHe
@@ -24,17 +20,11 @@ import xdata.etl.web.shared.service.menu.MenuRpcService;
  */
 @Service
 @AccessAuthorityGroup("菜单")
-public class MenuRpcServiceImpl extends
-		RpcServiceImpl<Integer, Menu, MenuService> implements MenuRpcService {
+public class MenuNodeRpcServiceImpl extends
+		RpcServiceImpl<Integer, MenuNode, MenuNodeService> implements
+		MenuNodeRpcService {
 
-	public MenuRpcServiceImpl() {
-	}
-
-	@Override
-	@AccessAuthority(value = "查询", isOpen = true)
-	public List<Menu> get() throws SharedException {
-		return getDelegateService().getUserMenu(
-				(Integer) getSession().getAttribute("userId"));
+	public MenuNodeRpcServiceImpl() {
 	}
 
 	protected HttpSession getSession() {

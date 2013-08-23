@@ -8,9 +8,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import xdata.etl.web.shared.entity.IdentityRpcEntity;
 
 /**
  * @author XuehuiHe
@@ -18,35 +17,18 @@ import xdata.etl.web.shared.entity.IdentityRpcEntity;
  */
 @Entity
 @Table(name = "menu_group")
-public class MenuGroup extends IdentityRpcEntity<Integer> {
+@PrimaryKeyJoinColumn(name = "id")
+public class MenuGroup extends MenuNode {
 	private static final long serialVersionUID = 2138324039371528785L;
-	private String name;
-	@OneToMany(mappedBy = "menuGroup", cascade = CascadeType.ALL)
-	private List<Menu> menus;
-	private int pos;
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
+	private List<MenuNode> nodes;
 
-	public String getName() {
-		return name;
+	public List<MenuNode> getNodes() {
+		return nodes;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<Menu> getMenus() {
-		return menus;
-	}
-
-	public void setMenus(List<Menu> menus) {
-		this.menus = menus;
-	}
-
-	public int getPos() {
-		return pos;
-	}
-
-	public void setPos(int pos) {
-		this.pos = pos;
+	public void setNodes(List<MenuNode> nodes) {
+		this.nodes = nodes;
 	}
 
 }

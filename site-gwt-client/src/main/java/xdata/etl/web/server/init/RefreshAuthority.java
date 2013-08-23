@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import xdata.etl.web.server.annotations.AccessAuthorities;
 import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
-import xdata.etl.web.server.dao.menu.MenuDao;
+import xdata.etl.web.server.dao.menu.MenuNodeDao;
 import xdata.etl.web.server.service.authority.AuthorityGroupService;
 import xdata.etl.web.server.service.authority.AuthorityService;
 import xdata.etl.web.server.util.ClassScaner;
@@ -38,7 +38,7 @@ public class RefreshAuthority implements InitializingBean {
 	@Autowired
 	private AuthorityGroupService agService;
 	@Autowired
-	private MenuDao menuDao;
+	private MenuNodeDao menuDao;
 
 	public static class ScanedAccessAuthority {
 		private String group;
@@ -213,7 +213,7 @@ public class RefreshAuthority implements InitializingBean {
 			tokens.add(mt);
 
 		}
-		menuDao.initMenuConfig(tokens);
+		menuDao.insertMenuConfig(tokens);
 
 	}
 

@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import xdata.etl.web.server.dao.menu.MenuDao;
+import xdata.etl.web.server.dao.menu.MenuNodeDao;
 import xdata.etl.web.server.service.RpcDelegateServiceImpl;
-import xdata.etl.web.shared.entity.menu.Menu;
+import xdata.etl.web.shared.annotations.MenuToken;
+import xdata.etl.web.shared.entity.menu.MenuNode;
 import xdata.etl.web.shared.exception.SharedException;
 
 /**
@@ -21,16 +22,17 @@ import xdata.etl.web.shared.exception.SharedException;
  * @date 2013年8月8日
  */
 @Service
-public class MenuServiceImpl extends
-		RpcDelegateServiceImpl<Integer, Menu, MenuDao> implements MenuService {
+public class MenuNodeServiceImpl extends
+		RpcDelegateServiceImpl<Integer, MenuNode, MenuNodeDao> implements
+		MenuNodeService {
 
-	public MenuServiceImpl() {
+	public MenuNodeServiceImpl() {
 	}
 
 	@Override
-	public List<Menu> get() throws SharedException {
-		return getDao().getUserMenu(
-				(Integer) getSession().getAttribute("userId"));
+	public List<MenuNode> get() throws SharedException {
+		// (Integer) getSession().getAttribute("userId")
+		return getDao().getUserMenus();
 	}
 
 	protected HttpSession getSession() {
@@ -43,7 +45,7 @@ public class MenuServiceImpl extends
 	}
 
 	@Override
-	public List<Menu> getUserMenu(Integer userId) {
-		return getDao().getUserMenu(userId);
+	public void initMenuConfig(List<MenuToken> tokens) {
+		getDao().insertMenuConfig(tokens);
 	}
 }

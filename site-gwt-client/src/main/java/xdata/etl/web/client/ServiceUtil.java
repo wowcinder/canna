@@ -6,8 +6,7 @@ import xdata.etl.web.shared.entity.authority.AuthorityGroup;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
-import xdata.etl.web.shared.entity.menu.Menu;
-import xdata.etl.web.shared.entity.menu.MenuGroup;
+import xdata.etl.web.shared.entity.menu.MenuNode;
 import xdata.etl.web.shared.entity.user.User;
 import xdata.etl.web.shared.entity.user.UserGroup;
 import xdata.etl.web.shared.service.authority.AuthorityGroupRpcService;
@@ -20,10 +19,8 @@ import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcService;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcServiceAsync;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableVersionRpcService;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableVersionRpcServiceAsync;
-import xdata.etl.web.shared.service.menu.MenuGroupRpcService;
-import xdata.etl.web.shared.service.menu.MenuGroupRpcServiceAsync;
-import xdata.etl.web.shared.service.menu.MenuRpcService;
-import xdata.etl.web.shared.service.menu.MenuRpcServiceAsync;
+import xdata.etl.web.shared.service.menu.MenuNodeRpcService;
+import xdata.etl.web.shared.service.menu.MenuNodeRpcServiceAsync;
 import xdata.etl.web.shared.service.user.UserGroupRpcService;
 import xdata.etl.web.shared.service.user.UserGroupRpcServiceAsync;
 import xdata.etl.web.shared.service.user.UserRpcService;
@@ -32,10 +29,8 @@ import xdata.etl.web.shared.service.user.UserRpcServiceAsync;
 import com.google.gwt.core.shared.GWT;
 
 public class ServiceUtil {
-	public static final RpcCaller<Integer, Menu> MenuRpcCaller = new RpcCaller<Integer, Menu>(
-			GWT.<MenuRpcServiceAsync> create(MenuRpcService.class));
-	public static final RpcCaller<Integer, MenuGroup> MenuGroupRpcCaller = new RpcCaller<Integer, MenuGroup>(
-			GWT.<MenuGroupRpcServiceAsync> create(MenuGroupRpcService.class));
+	public static final RpcCaller<Integer, MenuNode> MenuNodeRpcCaller = new RpcCaller<Integer, MenuNode>(
+			GWT.<MenuNodeRpcServiceAsync> create(MenuNodeRpcService.class));
 	public static final RpcCaller<Integer, User> UserRpcCaller = new RpcCaller<Integer, User>(
 			GWT.<UserRpcServiceAsync> create(UserRpcService.class));
 	public static final RpcCaller<Integer, UserGroup> UserGroupRpcCaller = new RpcCaller<Integer, UserGroup>(

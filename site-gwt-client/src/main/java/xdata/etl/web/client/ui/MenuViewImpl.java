@@ -3,16 +3,15 @@
  */
 package xdata.etl.web.client.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import xdata.etl.web.client.RpcAsyncCallback;
 import xdata.etl.web.client.event.CenterVievChangeEvent;
 import xdata.etl.web.shared.entity.menu.Menu;
-import xdata.etl.web.shared.service.menu.MenuRpcService;
-import xdata.etl.web.shared.service.menu.MenuRpcServiceAsync;
+import xdata.etl.web.shared.entity.menu.MenuGroup;
+import xdata.etl.web.shared.entity.menu.MenuNode;
+import xdata.etl.web.shared.service.menu.MenuNodeRpcService;
+import xdata.etl.web.shared.service.menu.MenuNodeRpcServiceAsync;
 
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.shared.GWT;
@@ -38,17 +37,20 @@ import com.sencha.gxt.widget.core.client.tree.Tree;
  * @date 2013年8月9日
  */
 public class MenuViewImpl extends Composite implements MenuView {
-	private static MenuRpcServiceAsync service = GWT.create(MenuRpcService.class);
+	private static MenuNodeRpcServiceAsync service = GWT
+			.create(MenuNodeRpcService.class);
 
 	@Inject
 	private EventBus eventBus;
 
 	private Tree<MenuNode, MenuNode> tree;
 
+	private TreeStore<MenuNode> store;
+
 	class KeyProvider implements ModelKeyProvider<MenuNode> {
 		@Override
 		public String getKey(MenuNode item) {
-			return item.getToken();
+			return item.getId() + "";
 		}
 	}
 
@@ -61,9 +63,8 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	@Override
 	public void init() {
-		TreeStore<MenuNode> store = new TreeStore<MenuViewImpl.MenuNode>(
-				new KeyProvider());
-		tree = new Tree<MenuViewImpl.MenuNode, MenuNode>(store,
+		store = new TreeStore<MenuNode>(new KeyProvider());
+		tree = new Tree<MenuNode, MenuNode>(store,
 				new ValueProvider<MenuNode, MenuNode>() {
 
 					@Override
@@ -73,6 +74,7 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 					@Override
 					public void setValue(MenuNode object, MenuNode value) {
+						object = value;
 					}
 
 					@Override
@@ -80,8 +82,8 @@ public class MenuViewImpl extends Composite implements MenuView {
 						return "name";
 					}
 				});
-		SimpleSafeHtmlCell<MenuNode> cell = new SimpleSafeHtmlCell<MenuViewImpl.MenuNode>(
-				new SafeHtmlRenderer<MenuViewImpl.MenuNode>() {
+		SimpleSafeHtmlCell<MenuNode> cell = new SimpleSafeHtmlCell<MenuNode>(
+				new SafeHtmlRenderer<MenuNode>() {
 
 					@Override
 					public SafeHtml render(MenuNode object) {
@@ -103,9 +105,13 @@ public class MenuViewImpl extends Composite implements MenuView {
 					ValueUpdater<MenuNode> valueUpdater) {
 				super.onBrowserEvent(context, parent, value, event,
 						valueUpdater);
-				if ("click".equals(event.getType()) && !value.isFolder()) {
-					eventBus.fireEvent(new CenterVievChangeEvent(
-							CenterVievChangeEvent.From.LEFT, value.getToken()));
+				if ("click".equals(event.getType())) {
+					if (value instanceof Menu) {
+
+						eventBus.fireEvent(new CenterVievChangeEvent(
+								CenterVievChangeEvent.From.LEFT, ((Menu) value)
+										.getToken()));
+					}
 				}
 			}
 
@@ -117,6 +123,33 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 		getData();
 
+	}
+
+	protected void initData(List<MenuNode> result) {
+		for (MenuNode menuNode : result) {
+			initData(null, menuNode);
+		}
+
+	}
+
+	protected void initData(MenuNode parent, MenuNode menuNode) {
+		if (menuNode == null) {
+			return;
+		}
+		if (parent == null) {
+			store.add(menuNode);
+		} else {
+			store.add(parent, menuNode);
+		}
+		if (menuNode instanceof MenuGroup) {
+			List<MenuNode> nodes = ((MenuGroup) menuNode).getNodes();
+			if (nodes == null || nodes.size() == 0) {
+				return;
+			}
+			for (MenuNode node : nodes) {
+				initData(menuNode, node);
+			}
+		}
 	}
 
 	@Override
@@ -136,84 +169,13 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	}
 
-	private void setToStore(List<Menu> list) {
-		Map<String, List<Menu>> map = new HashMap<String, List<Menu>>();
-		for (Menu menu : list) {
-			String mgName = null;
-			if (menu.getMenuGroup() != null) {
-				mgName = menu.getMenuGroup().getName();
-			} else {
-				mgName = "none";
-			}
-			if (!map.containsKey(mgName)) {
-				map.put(mgName, new ArrayList<Menu>());
-			}
-			map.get(mgName).add(menu);
-		}
-
-		TreeStore<MenuNode> store = tree.getStore();
-		for (String mgName : map.keySet()) {
-			if (mgName.equals("none")) {
-				continue;
-			}
-			MenuNode group = new MenuNode();
-			group.setName(mgName);
-			group.setToken(mgName + "_group");
-			group.setFolder(true);
-			store.add(group);
-			for (Menu menu : map.get(mgName)) {
-				MenuNode mn = new MenuNode();
-				mn.setName(menu.getName());
-				mn.setToken(menu.getToken());
-				store.add(group, mn);
-			}
-		}
-		if (map.get("none") != null) {
-			for (Menu menu : map.get("none")) {
-				MenuNode mn = new MenuNode();
-				mn.setName(menu.getName());
-				mn.setToken(menu.getToken());
-				store.add(mn);
-			}
-		}
-	}
-
 	private void getData() {
-		service.get(new RpcAsyncCallback<List<Menu>>() {
+		service.get(new RpcAsyncCallback<List<MenuNode>>() {
 			@Override
-			public void _onSuccess(List<Menu> t) {
-				setToStore(t);
+			public void _onSuccess(List<MenuNode> t) {
+				initData(t);
 			}
 		});
 	}
 
-	public static class MenuNode {
-		private boolean isFolder = false;
-		private String name;
-		private String token;
-
-		public boolean isFolder() {
-			return isFolder;
-		}
-
-		public void setFolder(boolean isFolder) {
-			this.isFolder = isFolder;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getToken() {
-			return token;
-		}
-
-		public void setToken(String token) {
-			this.token = token;
-		}
-	}
 }

@@ -7,10 +7,9 @@ import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.ui.menu.combox.AuthoritySelector;
-import xdata.etl.web.client.ui.menu.combox.MenuGroupComBox;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.menu.Menu;
-import xdata.etl.web.shared.entity.menu.MenuGroup;
+import xdata.etl.web.shared.entity.menu.MenuNode;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -23,9 +22,6 @@ import com.sencha.gxt.cell.core.client.form.ValueBaseInputCell;
 import com.sencha.gxt.cell.core.client.form.ViewData;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
-import com.sencha.gxt.widget.core.client.event.ShowEvent;
-import com.sencha.gxt.widget.core.client.event.ShowEvent.ShowHandler;
-import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.TextField;
 import com.sencha.gxt.widget.core.client.form.ValueBaseField;
@@ -45,16 +41,40 @@ public class MenuEditor extends RpcEntitySimpleEditor<Integer, Menu> {
 	TextField name;
 	TextField token;
 	ValueBaseField<Authority> requireAuthority;
-	ComboBox<MenuGroup> menuGroup;
 	@Ignore
 	TextButton modifyAuthority;
 
 	public MenuEditor() {
-		super(menuDriver, "菜单", ServiceUtil.MenuRpcCaller);
-		getRoot().addShowHandler(new ShowHandler() {
+		super(menuDriver, "菜单", null);
+	}
+
+	@Override
+	protected void save(Menu v, final GwtCallBack<Menu> callback) {
+		ServiceUtil.MenuNodeRpcCaller.saveAndReturn(v,
+				new GwtCallBack<MenuNode>() {
+					@Override
+					protected void _call(MenuNode t) {
+						callback.call((Menu) t);
+					}
+
+					@Override
+					public void clean() {
+						callback.clean();
+					}
+				});
+	}
+
+	@Override
+	protected void update(Menu v, final GwtCallBack<Menu> callback) {
+		ServiceUtil.MenuNodeRpcCaller.update(v, new GwtCallBack<MenuNode>() {
 			@Override
-			public void onShow(ShowEvent event) {
-				menuGroup.fireEvent(event);
+			protected void _call(MenuNode t) {
+				callback.call((Menu) t);
+			}
+
+			@Override
+			public void clean() {
+				callback.clean();
 			}
 		});
 	}
@@ -93,10 +113,8 @@ public class MenuEditor extends RpcEntitySimpleEditor<Integer, Menu> {
 		};
 
 		requireAuthority.setReadOnly(true);
-		menuGroup = new MenuGroupComBox();
 		layoutContainer.add(new FieldLabel(name, "name"), vd);
 		layoutContainer.add(new FieldLabel(token, "token"), vd);
-		layoutContainer.add(new FieldLabel(menuGroup, "菜单组"), vd);
 
 		modifyAuthority = new TextButton("修改权限");
 

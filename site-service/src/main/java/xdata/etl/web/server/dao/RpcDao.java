@@ -8,7 +8,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
@@ -16,10 +15,8 @@ import org.hibernate.Criteria;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.entity.RpcEntity;
@@ -116,11 +113,6 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 
 	protected Criteria findGetCriteria() {
 		return getSession().createCriteria(clazz);
-	}
-
-	@Resource
-	public void setSessionFactory2(SessionFactory sf) {
-		super.setSessionFactory(sf);
 	}
 
 	@Override

@@ -5,7 +5,9 @@ package xdata.etl.web.client.ui.menu.editor;
 
 import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
+import xdata.etl.web.shared.entity.menu.MenuNode;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -27,7 +29,38 @@ public class MenuGroupEditor extends RpcEntitySimpleEditor<Integer, MenuGroup> {
 	TextField name;
 
 	public MenuGroupEditor() {
-		super(menuGroupDriver, "菜单组", ServiceUtil.MenuGroupRpcCaller);
+		super(menuGroupDriver, "菜单组", null);
+	}
+
+	@Override
+	protected void save(MenuGroup v, final GwtCallBack<MenuGroup> callback) {
+		ServiceUtil.MenuNodeRpcCaller.saveAndReturn(v,
+				new GwtCallBack<MenuNode>() {
+					@Override
+					protected void _call(MenuNode t) {
+						callback.call((MenuGroup) t);
+					}
+
+					@Override
+					public void clean() {
+						callback.clean();
+					}
+				});
+	}
+
+	@Override
+	protected void update(MenuGroup v, final GwtCallBack<MenuGroup> callback) {
+		ServiceUtil.MenuNodeRpcCaller.update(v, new GwtCallBack<MenuNode>() {
+			@Override
+			protected void _call(MenuNode t) {
+				callback.call((MenuGroup) t);
+			}
+
+			@Override
+			public void clean() {
+				callback.clean();
+			}
+		});
 	}
 
 	@Override

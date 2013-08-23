@@ -3,14 +3,13 @@
  */
 package xdata.etl.web.shared.service.menu;
 
-import xdata.etl.web.shared.entity.menu.MenuGroup;
+import xdata.etl.web.shared.entity.menu.MenuNode;
 import xdata.etl.web.shared.service.RpcServiceAsync;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月8日
  */
-public interface MenuGroupRpcServiceAsync extends
-		RpcServiceAsync<Integer, MenuGroup> {
+public interface MenuNodeRpcServiceAsync extends RpcServiceAsync<Integer, MenuNode> {
 
 }

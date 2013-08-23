@@ -6,12 +6,12 @@ package xdata.etl.web.shared.entity.menu;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import xdata.etl.web.shared.entity.IdentityRpcEntity;
 import xdata.etl.web.shared.entity.authority.Authority;
 
 /**
@@ -20,43 +20,17 @@ import xdata.etl.web.shared.entity.authority.Authority;
  */
 @Entity
 @Table(name = "menu")
-public class Menu extends IdentityRpcEntity<Integer> {
+@PrimaryKeyJoinColumn(name = "id")
+public class Menu extends MenuNode {
 	private static final long serialVersionUID = -7971390347504825311L;
-	@Column(length = 20, nullable = false)
-	@NotNull
-	@Length(min = 1, max = 20)
-	private String name;
-	@Column(length = 20, nullable = false, unique = true)
+	@Column(length = 50, nullable = false, unique = true)
 	@NotNull
 	@Length(min = 1, max = 50)
 	private String token;
 	@ManyToOne
-	private MenuGroup menuGroup;
-	@ManyToOne
 	private Authority requireAuthority;
-	private Integer pos;
 
-	/**
-	 * 
-	 */
 	public Menu() {
-	}
-
-	public Menu(String name, String token, String mgName) {
-		this.name = name;
-		this.token = token;
-		if (mgName != null) {
-			this.menuGroup = new MenuGroup();
-			this.menuGroup.setName(mgName);
-		}
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getToken() {
@@ -67,28 +41,12 @@ public class Menu extends IdentityRpcEntity<Integer> {
 		this.token = token;
 	}
 
-	public MenuGroup getMenuGroup() {
-		return menuGroup;
-	}
-
-	public void setMenuGroup(MenuGroup menuGroup) {
-		this.menuGroup = menuGroup;
-	}
-
 	public Authority getRequireAuthority() {
 		return requireAuthority;
 	}
 
 	public void setRequireAuthority(Authority requireAuthority) {
 		this.requireAuthority = requireAuthority;
-	}
-
-	public Integer getPos() {
-		return pos;
-	}
-
-	public void setPos(Integer pos) {
-		this.pos = pos;
 	}
 
 }

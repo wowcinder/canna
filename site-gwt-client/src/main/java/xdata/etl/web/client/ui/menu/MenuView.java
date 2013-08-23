@@ -3,7 +3,6 @@
  */
 package xdata.etl.web.client.ui.menu;
 
-import xdata.etl.web.client.ServiceUtil;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
 import xdata.etl.web.client.rpc.RpcCaller;
@@ -39,7 +38,7 @@ public class MenuView extends SimpleRpcEntityGridContainer<Integer, Menu>
 
 	@Override
 	protected RpcCaller<Integer, Menu> getRpcCaller() {
-		return ServiceUtil.MenuRpcCaller;
+		return null;
 	}
 
 }
