@@ -10,6 +10,8 @@ import xdata.etl.web.client.event.CenterVievChangeEvent;
 import xdata.etl.web.shared.entity.menu.Menu;
 import xdata.etl.web.shared.entity.menu.MenuGroup;
 import xdata.etl.web.shared.entity.menu.MenuNode;
+import xdata.etl.web.shared.service.login.LoginRpcService;
+import xdata.etl.web.shared.service.login.LoginRpcServiceAsync;
 import xdata.etl.web.shared.service.menu.MenuNodeRpcService;
 import xdata.etl.web.shared.service.menu.MenuNodeRpcServiceAsync;
 
@@ -21,6 +23,8 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.sencha.gxt.cell.core.client.SimpleSafeHtmlCell;
@@ -37,8 +41,10 @@ import com.sencha.gxt.widget.core.client.tree.Tree;
  * @date 2013年8月9日
  */
 public class MenuViewImpl extends Composite implements MenuView {
-	private static MenuNodeRpcServiceAsync service = GWT
+	private static final MenuNodeRpcServiceAsync service = GWT
 			.create(MenuNodeRpcService.class);
+	private static final LoginRpcServiceAsync loginService = GWT
+			.create(LoginRpcService.class);
 
 	@Inject
 	private EventBus eventBus;
@@ -111,6 +117,19 @@ public class MenuViewImpl extends Composite implements MenuView {
 						eventBus.fireEvent(new CenterVievChangeEvent(
 								CenterVievChangeEvent.From.LEFT, ((Menu) value)
 										.getToken()));
+					} else if (value instanceof LogoutMenu) {
+						loginService.logout(new AsyncCallback<Void>() {
+
+							@Override
+							public void onSuccess(Void result) {
+								Window.Location.reload();
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+
+							}
+						});
 					}
 				}
 			}
@@ -126,10 +145,11 @@ public class MenuViewImpl extends Composite implements MenuView {
 	}
 
 	protected void initData(List<MenuNode> result) {
+		store.clear();
 		for (MenuNode menuNode : result) {
 			initData(null, menuNode);
 		}
-
+		store.add(new LogoutMenu());
 	}
 
 	protected void initData(MenuNode parent, MenuNode menuNode) {
@@ -182,6 +202,15 @@ public class MenuViewImpl extends Composite implements MenuView {
 				initData(t);
 			}
 		});
+	}
+
+	public class LogoutMenu extends MenuNode {
+		private static final long serialVersionUID = 6258185941078205551L;
+
+		public LogoutMenu() {
+			setName("登出");
+			setId(-1);
+		}
 	}
 
 }

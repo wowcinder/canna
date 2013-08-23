@@ -4,6 +4,9 @@ import xdata.etl.web.shared.service.login.LoginRpcService;
 import xdata.etl.web.shared.service.login.LoginRpcServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.core.client.util.Padding;
 import com.sencha.gxt.widget.core.client.Window;
@@ -30,15 +33,24 @@ public class LoginWindow extends Window {
 	protected static final VerticalLayoutData vd = new VerticalLayoutData(1, -1);
 	private FormPanel fp = new FormPanel();
 	private VerticalLayoutContainer vc = new VerticalLayoutContainer();
-	private TextField email = new TextField();
-	private PasswordField password = new PasswordField();
-	private TextButton loginBt = new TextButton("Login");
+	private TextField email;
+	private PasswordField password;
+	private TextButton loginBt;
 
 	private LoginSucessCallBack callback;
+	private boolean isLoginIng = false;
 
 	public LoginWindow() {
 		setModal(true);
 		setHeadingText("登录");
+
+		email = new TextField();
+		password = new PasswordField();
+		loginBt = new TextButton("Login");
+
+		// TODO 测试用
+		email.setValue("admin");
+		password.setValue("admin");
 
 		fp.getElement().setPadding(new Padding(10));
 		fp.setBorders(true);
@@ -50,6 +62,24 @@ public class LoginWindow extends Window {
 
 		setButtonAlign(BoxLayoutPack.CENTER);
 		addButton(loginBt);
+
+		email.addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					login();
+				}
+			}
+		});
+
+		password.addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					login();
+				}
+			}
+		});
 
 		loginBt.addSelectHandler(new SelectHandler() {
 			@Override
@@ -66,6 +96,10 @@ public class LoginWindow extends Window {
 	}
 
 	private void login() {
+		if (isLoginIng) {
+			return;
+		}
+		isLoginIng = true;
 		String emailV = email.getCurrentValue();
 		String passwordV = password.getCurrentValue();
 		loginService.login(emailV, passwordV, new AsyncCallback<Integer>() {
@@ -80,11 +114,12 @@ public class LoginWindow extends Window {
 					AlertMessageBox d = new AlertMessageBox("失败", "邮箱或密码错误!");
 					d.show();
 				}
+				isLoginIng = false;
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-
+				isLoginIng = false;
 			}
 		});
 	}
