@@ -18,17 +18,15 @@
 		<dependency>
 			<groupId>xdata.etl</groupId>
 			<artifactId>site-service</artifactId>
+			<version>${etl.site.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>xdata.etl</groupId>
 			<artifactId>site-shared</artifactId>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
+			<version>${etl.site.version}</version>
 		</dependency>
-
-
-
-
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>

@@ -15,8 +15,8 @@
 		<dependency>
 			<groupId>xdata.etl</groupId>
 			<artifactId>site-service</artifactId>
+			<version>${etl.site.version}</version>
 		</dependency>
-
 	</dependencies>
 	<build>
 		<finalName>site-test-web</finalName>

@@ -4,8 +4,9 @@
 	<artifactId>site-shared</artifactId>
 	<parent>
 		<groupId>xdata.etl</groupId>
-		<artifactId>etl-parent</artifactId>
+		<artifactId>site-etl-models</artifactId>
 		<version>1.0-SNAPSHOT</version>
+		<relativePath>../../../svn/site-etl-models</relativePath>
 	</parent>
 	<dependencies>
 
