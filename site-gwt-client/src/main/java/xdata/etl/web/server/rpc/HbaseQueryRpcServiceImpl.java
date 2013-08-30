@@ -31,11 +31,17 @@ import org.springframework.stereotype.Service;
 import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.hbasemeta.HbaseTableDao;
+import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
+import xdata.etl.web.shared.common.paging.HbaseQueryPagingCondition;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn.HbaseTableColumnType;
 import xdata.etl.web.shared.exception.SharedException;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
 import xdata.etl.web.shared.service.hbasequery.HbaseQueryRpcService;
+
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 
 /**
  * @author XuehuiHe
@@ -45,7 +51,7 @@ import xdata.etl.web.shared.service.hbasequery.HbaseQueryRpcService;
 @AccessAuthorityGroup("hbase_query")
 public class HbaseQueryRpcServiceImpl implements HbaseQueryRpcService {
 
-	public static final int DEFAULT_ITEMS_PER_PAGE = 200;
+	public static int DEFAULT_ITEMS_PER_PAGE = 20;
 
 	public static final Configuration config = HBaseConfiguration.create();
 	@Autowired
@@ -244,5 +250,43 @@ public class HbaseQueryRpcServiceImpl implements HbaseQueryRpcService {
 	@Override
 	public ValidationSupport dummy() {
 		return null;
+	}
+
+	@Override
+	@AccessAuthority("查询")
+	public PagingLoadResult<HbaseRecord<String>> get(
+			EtlPagingLoadConfigBean config) throws SharedException {
+		DEFAULT_ITEMS_PER_PAGE = config.getLimit();
+		PagingLoadResultBean<HbaseRecord<String>> pr = new PagingLoadResultBean<HbaseRecord<String>>();
+
+		pr.setOffset(config.getOffset());
+		pr.setTotalLength(1000);
+//
+//		HbaseQueryPagingCondition condition = (HbaseQueryPagingCondition) config
+//				.getCondition();
+		pr.setData(getData("msg_v3a_user_auth", null));
+
+		System.out.println(pr.getData().size());
+		return pr;
+	}
+
+	@Override
+	@AccessAuthority("查询")
+	public PagingLoadResult<HbaseRecord<String>> getRecords(
+			PagingLoadConfig loadConfig) {
+		PagingLoadResultBean<HbaseRecord<String>> pr = new PagingLoadResultBean<HbaseRecord<String>>();
+		pr.setOffset(loadConfig.getOffset());
+		pr.setTotalLength(1000);
+		List<HbaseRecord<String>> list = new ArrayList<HbaseRecord<String>>();
+		int id = loadConfig.getOffset();
+		for (int i = 0; i < loadConfig.getLimit(); i++, id++) {
+			HbaseRecord<String> m = new HbaseRecord<String>();
+			m.setKey("key" + id);
+			list.add(m);
+		}
+		pr.setData(list);
+		System.out.println(loadConfig.getLimit());
+		System.out.println(list.size());
+		return pr;
 	}
 }

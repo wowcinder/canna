@@ -4,7 +4,7 @@
 package xdata.etl.web.client.ui.hbasequery;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;

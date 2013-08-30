@@ -8,9 +8,12 @@ import java.util.List;
 
 import org.hibernate.validator.engine.ValidationSupport;
 
+import xdata.etl.web.shared.common.paging.EtlPagingLoadConfigBean;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 /**
  * @author XuehuiHe
@@ -34,5 +37,15 @@ public interface HbaseQueryRpcServiceAsync {
 	void dummyDate(AsyncCallback<Date> callback);
 
 	void dummyCharacter(AsyncCallback<Character> callback);
+
+	void get(EtlPagingLoadConfigBean config,
+			AsyncCallback<PagingLoadResult<HbaseRecord<String>>> callback);
+
+	/**
+	 * @param loadConfig
+	 * @param callback
+	 */
+	void getRecords(PagingLoadConfig loadConfig,
+			AsyncCallback<PagingLoadResult<HbaseRecord<String>>> callback);
 
 }

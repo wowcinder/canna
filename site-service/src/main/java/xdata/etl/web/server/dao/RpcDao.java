@@ -124,7 +124,7 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 	}
 
 	protected void criteriaLimit(Criteria criteria) {
-
+		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -140,7 +140,6 @@ public class RpcDao<K extends Serializable, V extends RpcEntity<K>> extends
 		pr.setTotalLength((int) rowCount);
 		addPagingConfig(config, criteria);
 		criteriaLimit(criteria);
-		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 		pr.setData((List<V>) criteria.list());
 		return pr;
 	}

@@ -5,6 +5,8 @@ import java.util.List;
 import xdata.etl.testweb.shared.entity.menu.MenuNode;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 public interface MenuServiceAsync {
 
@@ -13,5 +15,8 @@ public interface MenuServiceAsync {
 	void get(AsyncCallback<List<MenuNode>> callback);
 
 	void insert(MenuNode node, AsyncCallback<MenuNode> callback);
+
+	void getMenuNodes(PagingLoadConfig loadConfig,
+			AsyncCallback<PagingLoadResult<MenuNode>> callback);
 
 }

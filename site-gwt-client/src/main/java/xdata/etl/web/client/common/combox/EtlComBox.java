@@ -72,9 +72,6 @@ public class EtlComBox<V> extends ComboBox<V> {
 		if (!isInited && dataInitor != null) {
 			dataInitor.run();
 			isInited = true;
-		} else {
-			setValue(null);
-			lastSelected = null;
 		}
 	}
 

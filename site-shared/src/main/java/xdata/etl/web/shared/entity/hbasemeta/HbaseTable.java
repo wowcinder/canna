@@ -29,13 +29,13 @@ import xdata.etl.web.shared.entity.IdentityRpcEntity;
 @org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 public class HbaseTable extends IdentityRpcEntity<Integer> {
 	private static final long serialVersionUID = -5625914468739750008L;
-	@Column(length = 40, unique = true)
+	@Column(length = 60, unique = true)
 	@NotNull
-	@Length(min = 1, max = 40)
+	@Length(min = 1, max = 60)
 	private String name;
-	@Column(length = 20)
+	@Column(length = 60)
 	@NotNull
-	@Length(min = 1, max = 20)
+	@Length(min = 1, max = 60)
 	private String shortname;
 
 	@Temporal(TemporalType.TIMESTAMP)
