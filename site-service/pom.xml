@@ -207,7 +207,7 @@
 		<groupId>xdata.etl</groupId>
 		<artifactId>site-etl-models</artifactId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath>../../../svn/site-etl-models</relativePath>
+		<relativePath>../site-etl-models</relativePath>
 	</parent>
 
 	<build>
