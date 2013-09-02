@@ -14,9 +14,11 @@ import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcService;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcServiceAsync;
 
 import com.google.gwt.core.shared.GWT;
+import com.sencha.gxt.core.client.IdentityValueProvider;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
+import com.sencha.gxt.widget.core.client.grid.RowNumberer;
 
 /**
  * @author XuehuiHe
@@ -47,6 +49,10 @@ public class HbaseQueryGridBuild extends GridBuilder<HbaseRecord<String>> {
 	}
 
 	protected void initColumnModel() {
+		RowNumberer<HbaseRecord<String>> rowNumberer = new RowNumberer<HbaseRecord<String>>(new IdentityValueProvider<HbaseRecord<String>>());
+		rowNumberer.setResizable(true);
+		rowNumberer.setFixed(false);
+		getColumnConfigs().add(rowNumberer);
 		getColumnConfigs().add(
 				new ColumnConfig<HbaseRecord<String>, String>(
 						new ValueProvider<HbaseRecord<String>, String>() {

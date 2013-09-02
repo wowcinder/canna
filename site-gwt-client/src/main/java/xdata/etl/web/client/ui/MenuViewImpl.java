@@ -32,15 +32,13 @@ import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.TreeStore;
-import com.sencha.gxt.widget.core.client.Composite;
-import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.sencha.gxt.widget.core.client.tree.Tree;
 
 /**
  * @author XuehuiHe
  * @date 2013年8月9日
  */
-public class MenuViewImpl extends Composite implements MenuView {
+public class MenuViewImpl extends Tree<MenuNode, MenuNode> implements MenuView {
 	private static final MenuNodeRpcServiceAsync service = GWT
 			.create(MenuNodeRpcService.class);
 	private static final LoginRpcServiceAsync loginService = GWT
@@ -49,28 +47,15 @@ public class MenuViewImpl extends Composite implements MenuView {
 	@Inject
 	private EventBus eventBus;
 
-	private Tree<MenuNode, MenuNode> tree;
-
-	private TreeStore<MenuNode> store;
-
-	class KeyProvider implements ModelKeyProvider<MenuNode> {
+	public static class KeyProvider implements ModelKeyProvider<MenuNode> {
 		@Override
 		public String getKey(MenuNode item) {
 			return item.getId() + "";
 		}
 	}
 
-	private Viewport c;
-
 	public MenuViewImpl() {
-		c = new Viewport();
-		initWidget(c);
-	}
-
-	@Override
-	public void init() {
-		store = new TreeStore<MenuNode>(new KeyProvider());
-		tree = new Tree<MenuNode, MenuNode>(store,
+		super(new TreeStore<MenuNode>(new KeyProvider()),
 				new ValueProvider<MenuNode, MenuNode>() {
 
 					@Override
@@ -135,13 +120,16 @@ public class MenuViewImpl extends Composite implements MenuView {
 			}
 
 		};
-		tree.setCell(cell);
-		tree.setWidth(300);
-		tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		c.setWidget(tree);
+		setCell(cell);
+		setWidth(300);
+		getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
+		init();
+	}
+
+	@Override
+	public void init() {
 		getData();
-
 	}
 
 	protected void initData(List<MenuNode> result) {
@@ -180,17 +168,17 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	@Override
 	public void showMenu(String token) {
-		MenuNode mn = tree.getStore().findModelWithKey(token);
+		MenuNode mn = getStore().findModelWithKey(token);
 		if (mn != null) {
-			MenuNode parent = tree.getStore().getParent(mn);
+			MenuNode parent = getStore().getParent(mn);
 			if (parent != null) {
-				tree.setExpanded(parent, true);
+				setExpanded(parent, true);
 			}
 			// tree.scrollIntoView(mn);
 			// TODO
-			tree.getSelectionModel().select(mn, true);
+			getSelectionModel().select(mn, true);
 		} else {
-			tree.getSelectionModel().deselectAll();
+			getSelectionModel().deselectAll();
 		}
 
 	}
