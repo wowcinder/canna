@@ -4,7 +4,6 @@
 package xdata.etl.web.shared.service.hbasequery;
 
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.validator.engine.ValidationSupport;
 
@@ -14,7 +13,6 @@ import xdata.etl.web.shared.hbasequery.HbaseRecord;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 /**
@@ -23,13 +21,14 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResult;
  */
 @RemoteServiceRelativePath("rpc/hbase_query.rpc")
 public interface HbaseQueryRpcService extends RemoteService {
-	List<HbaseRecord<String>> getData(String table, String[] versions);
 
 	PagingLoadResult<HbaseRecord<String>> get(EtlPagingLoadConfigBean config)
 			throws SharedException;
 
 	Short dummyShort();
 
+	Double dummyDouble();
+	
 	Integer dummyInteger();
 
 	Long dummyLong();
@@ -41,6 +40,4 @@ public interface HbaseQueryRpcService extends RemoteService {
 	Character dummyCharacter();
 
 	ValidationSupport dummy();
-
-	PagingLoadResult<HbaseRecord<String>> getRecords(PagingLoadConfig loadConfig);
 }

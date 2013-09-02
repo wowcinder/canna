@@ -28,6 +28,7 @@ import org.hibernate.validator.engine.ValidationSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import xdata.etl.web.client.ui.hbasequery.HbaseQueryPagingLoadResultBean;
 import xdata.etl.web.server.annotations.AccessAuthority;
 import xdata.etl.web.server.annotations.AccessAuthorityGroup;
 import xdata.etl.web.server.dao.hbasemeta.HbaseTableDao;
@@ -39,9 +40,7 @@ import xdata.etl.web.shared.exception.SharedException;
 import xdata.etl.web.shared.hbasequery.HbaseRecord;
 import xdata.etl.web.shared.service.hbasequery.HbaseQueryRpcService;
 
-import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
-import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 
 /**
  * @author XuehuiHe
@@ -50,66 +49,11 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 @Service
 @AccessAuthorityGroup("hbase_query")
 public class HbaseQueryRpcServiceImpl implements HbaseQueryRpcService {
-
-	public static int DEFAULT_ITEMS_PER_PAGE = 20;
+	private static final int TOTAL_ITEMS = 5000;
 
 	public static final Configuration config = HBaseConfiguration.create();
 	@Autowired
 	private HbaseTableDao metaDao;
-
-	@Override
-	@AccessAuthority("查询")
-	public List<HbaseRecord<String>> getData(String tableName, String[] versions) {
-
-		Map<String, Set<HbaseTableColumn>> versionToColumnMeta = metaDao
-				.getMetaForQuery(tableName, versions);
-		Set<String> allColumns = getAllColumns(versionToColumnMeta);
-		List<HbaseRecord<String>> list = new ArrayList<HbaseRecord<String>>();
-		HTable table = null;
-		try {
-			table = new HTable(config, tableName);
-
-			Scan scan = new Scan();
-			scan.setCaching(DEFAULT_ITEMS_PER_PAGE);
-			scan.setBatch(allColumns.size());
-			for (String column : allColumns) {
-				scan.addColumn(Bytes.toBytes("d"), Bytes.toBytes(column));
-			}
-			if (versions != null && versions.length > 0) {
-				VersionComparatorHelper helper = new VersionComparatorHelper(
-						versions);
-				scan.setFilter(helper.getFilters());
-			}
-
-			ResultScanner rs = table.getScanner(scan);
-
-			int i = 1;
-			for (Result result : rs) {
-				HbaseRecord<String> record = getRecord(versionToColumnMeta,
-						result);
-				if (record != null) {
-					list.add(record);
-				}
-				if (i >= DEFAULT_ITEMS_PER_PAGE) {
-					break;
-				}
-				i++;
-			}
-		} catch (IOException e) {
-			throw new SharedException("hbase query error", e);
-		} finally {
-			if (table != null) {
-				try {
-					table.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return list;
-	}
 
 	protected Set<String> getAllColumns(
 			Map<String, Set<HbaseTableColumn>> versionToColumnMeta) {
@@ -256,37 +200,92 @@ public class HbaseQueryRpcServiceImpl implements HbaseQueryRpcService {
 	@AccessAuthority("查询")
 	public PagingLoadResult<HbaseRecord<String>> get(
 			EtlPagingLoadConfigBean config) throws SharedException {
-		DEFAULT_ITEMS_PER_PAGE = config.getLimit();
-		PagingLoadResultBean<HbaseRecord<String>> pr = new PagingLoadResultBean<HbaseRecord<String>>();
+		HbaseQueryPagingLoadResultBean<HbaseRecord<String>> pr = new HbaseQueryPagingLoadResultBean<HbaseRecord<String>>();
 
 		pr.setOffset(config.getOffset());
-		pr.setTotalLength(1000);
-//
-//		HbaseQueryPagingCondition condition = (HbaseQueryPagingCondition) config
-//				.getCondition();
-		pr.setData(getData("msg_v3a_user_auth", null));
+		pr.setTotalLength(TOTAL_ITEMS);
 
-		System.out.println(pr.getData().size());
+		HbaseQueryPagingCondition condition = (HbaseQueryPagingCondition) config
+				.getCondition();
+		queryData(condition, pr, config);
 		return pr;
 	}
 
-	@Override
-	@AccessAuthority("查询")
-	public PagingLoadResult<HbaseRecord<String>> getRecords(
-			PagingLoadConfig loadConfig) {
-		PagingLoadResultBean<HbaseRecord<String>> pr = new PagingLoadResultBean<HbaseRecord<String>>();
-		pr.setOffset(loadConfig.getOffset());
-		pr.setTotalLength(1000);
+	/**
+	 * @param condition
+	 * @param pr
+	 */
+	private void queryData(HbaseQueryPagingCondition condition,
+			HbaseQueryPagingLoadResultBean<HbaseRecord<String>> pr,
+			EtlPagingLoadConfigBean loadConfig) {
+		int limit = loadConfig.getLimit();
+		String tableName = condition.getTableName();
+		String[] versions = condition.getVersions();
+
+		Map<String, Set<HbaseTableColumn>> versionToColumnMeta = metaDao
+				.getMetaForQuery(tableName, versions);
+		Set<String> allColumns = getAllColumns(versionToColumnMeta);
 		List<HbaseRecord<String>> list = new ArrayList<HbaseRecord<String>>();
-		int id = loadConfig.getOffset();
-		for (int i = 0; i < loadConfig.getLimit(); i++, id++) {
-			HbaseRecord<String> m = new HbaseRecord<String>();
-			m.setKey("key" + id);
-			list.add(m);
+		HTable table = null;
+		try {
+			table = new HTable(config, tableName);
+
+			Scan scan = new Scan();
+			scan.setCaching(limit);
+			scan.setBatch(allColumns.size());
+			for (String column : allColumns) {
+				scan.addColumn(Bytes.toBytes("d"), Bytes.toBytes(column));
+			}
+			if (versions != null && versions.length > 0) {
+				VersionComparatorHelper helper = new VersionComparatorHelper(
+						versions);
+				scan.setFilter(helper.getFilters());
+			}
+			if (condition.getLastRow() != null) {
+				System.out.println("start row :" + condition.getLastRow());
+				scan.setStartRow(Bytes.toBytes(condition.getLastRow() + "a"));
+			} else {
+				System.out.println("empty start row");
+			}
+
+			ResultScanner rs = table.getScanner(scan);
+
+			int i = 1;
+			for (Result result : rs) {
+				HbaseRecord<String> record = getRecord(versionToColumnMeta,
+						result);
+				if (record != null) {
+					list.add(record);
+				}
+				if (i >= limit) {
+					break;
+				}
+				i++;
+			}
+			if (i < limit) {
+				pr.setTotalLength(loadConfig.getOffset() + i - 1);
+			}
+		} catch (IOException e) {
+			throw new SharedException("hbase query error", e);
+		} finally {
+			if (table != null) {
+				try {
+					table.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+		if (list.size() > 0) {
+			pr.setLastRow(list.get(list.size() - 1).getKey());
 		}
 		pr.setData(list);
-		System.out.println(loadConfig.getLimit());
-		System.out.println(list.size());
-		return pr;
+	}
+
+	@Override
+	public Double dummyDouble() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
