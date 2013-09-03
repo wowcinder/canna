@@ -8,8 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import xdata.etl.web.shared.entity.businessmeta.BusinessToHbaseTableMapping;
-
 /**
  * @author XuehuiHe
  * @date 2013年9月3日
@@ -20,13 +18,13 @@ public class SubMappingJsonBusinessColumn extends JsonBusinessColumn {
 	private static final long serialVersionUID = -1420027564993173337L;
 	@ManyToOne
 	@JoinColumn(name = "sub_mapping_id")
-	private BusinessToHbaseTableMapping subMapping;
+	private JsonBusinessToHbaseTableMapping subMapping;
 
-	public BusinessToHbaseTableMapping getSubMapping() {
+	public JsonBusinessToHbaseTableMapping getSubMapping() {
 		return subMapping;
 	}
 
-	public void setSubMapping(BusinessToHbaseTableMapping subMapping) {
+	public void setSubMapping(JsonBusinessToHbaseTableMapping subMapping) {
 		this.subMapping = subMapping;
 	}
 

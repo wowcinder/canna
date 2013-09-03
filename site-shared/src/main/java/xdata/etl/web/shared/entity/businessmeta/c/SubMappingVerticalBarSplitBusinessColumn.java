@@ -8,8 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import xdata.etl.web.shared.entity.businessmeta.BusinessToHbaseTableMapping;
-
 /**
  * @author XuehuiHe
  * @date 2013年9月3日
@@ -21,13 +19,13 @@ public class SubMappingVerticalBarSplitBusinessColumn extends
 	private static final long serialVersionUID = -627511858919210694L;
 	@ManyToOne
 	@JoinColumn(name = "sub_mapping_id")
-	private BusinessToHbaseTableMapping subMapping;
+	private VerticalBarSplitBusinessToHbaseTableMapping subMapping;
 
-	public BusinessToHbaseTableMapping getSubMapping() {
+	public VerticalBarSplitBusinessToHbaseTableMapping getSubMapping() {
 		return subMapping;
 	}
 
-	public void setSubMapping(BusinessToHbaseTableMapping subMapping) {
+	public void setSubMapping(VerticalBarSplitBusinessToHbaseTableMapping subMapping) {
 		this.subMapping = subMapping;
 	}
 }
