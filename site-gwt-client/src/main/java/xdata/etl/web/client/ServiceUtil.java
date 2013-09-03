@@ -3,6 +3,7 @@ package xdata.etl.web.client;
 import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.shared.entity.authority.Authority;
 import xdata.etl.web.shared.entity.authority.AuthorityGroup;
+import xdata.etl.web.shared.entity.businessmeta.Business;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTable;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableVersion;
@@ -13,6 +14,8 @@ import xdata.etl.web.shared.service.authority.AuthorityGroupRpcService;
 import xdata.etl.web.shared.service.authority.AuthorityGroupRpcServiceAsync;
 import xdata.etl.web.shared.service.authority.AuthorityRpcService;
 import xdata.etl.web.shared.service.authority.AuthorityRpcServiceAsync;
+import xdata.etl.web.shared.service.businessmeta.BusinessRpcService;
+import xdata.etl.web.shared.service.businessmeta.BusinessRpcServiceAsync;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableColumnRpcService;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableColumnRpcServiceAsync;
 import xdata.etl.web.shared.service.hbasemeta.HbaseTableRpcService;
@@ -45,4 +48,6 @@ public class ServiceUtil {
 			GWT.<HbaseTableRpcServiceAsync> create(HbaseTableRpcService.class));
 	public static final RpcCaller<Integer, HbaseTableVersion> HbaseTableVersionRpcCaller = new RpcCaller<Integer, HbaseTableVersion>(
 			GWT.<HbaseTableVersionRpcServiceAsync> create(HbaseTableVersionRpcService.class));
+	public static final RpcCaller<Integer, Business> BusinessRpcCaller = new RpcCaller<Integer, Business>(
+			GWT.<BusinessRpcServiceAsync> create(BusinessRpcService.class));
 }
