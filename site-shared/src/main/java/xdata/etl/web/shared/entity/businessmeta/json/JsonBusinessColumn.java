@@ -42,4 +42,7 @@ public abstract class JsonBusinessColumn extends BusinessColumn {
 		return BusinessType.JSON_TYPE;
 	}
 
+	public JsonBusinessColumn getSelf() {
+		return this;
+	}
 }

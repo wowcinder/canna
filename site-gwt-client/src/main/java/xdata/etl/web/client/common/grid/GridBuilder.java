@@ -14,8 +14,8 @@ import com.sencha.gxt.widget.core.client.grid.Grid;
 
 public class GridBuilder<M> {
 	protected boolean isMultiSelect;
-	private ModelKeyProvider<M> keyProvider;
-	private List<ColumnConfig<M, ?>> columnConfigs;
+	protected ModelKeyProvider<M> keyProvider;
+	protected List<ColumnConfig<M, ?>> columnConfigs;
 
 	public GridBuilder() {
 		this(true);
@@ -35,13 +35,17 @@ public class GridBuilder<M> {
 			columnConfigs.add(0, sm.getColumn());
 		}
 		initColumnModel();
-		Grid<M> grid = new Grid<M>(new ListStore<M>(keyProvider),
-				new ColumnModel<M>(columnConfigs));
+		Grid<M> grid = newGrid();
 		if (isMultiSelect) {
 			grid.setSelectionModel(sm);
 		}
 		grid.setLoadMask(true);
 		return grid;
+	}
+
+	protected Grid<M> newGrid() {
+		return new Grid<M>(new ListStore<M>(keyProvider), new ColumnModel<M>(
+				columnConfigs));
 	}
 
 	protected void initColumnModel() {

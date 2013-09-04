@@ -37,4 +37,7 @@ public abstract class CTypeBusinessColumn extends BusinessColumn {
 		return BusinessType.C_TYPE;
 	}
 
+	public CTypeBusinessColumn getSelf() {
+		return this;
+	}
 }

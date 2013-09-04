@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import xdata.etl.web.shared.BusinessType.BusinessColumnType;
+import xdata.etl.web.shared.entity.businessmeta.SimpleBusinessColumn;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 
 /**
@@ -17,7 +18,8 @@ import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
  */
 @Entity
 @Table(name = "business_column_json_simple")
-public class SimpleJsonBusinessColumn extends JsonBusinessColumn {
+public class SimpleJsonBusinessColumn extends JsonBusinessColumn implements
+		SimpleBusinessColumn {
 	private static final long serialVersionUID = 8055080683307270027L;
 	@ManyToOne
 	@JoinColumn(name = "hbase_table_column_id")

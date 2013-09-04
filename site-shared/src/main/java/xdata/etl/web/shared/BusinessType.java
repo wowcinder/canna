@@ -4,8 +4,11 @@
 package xdata.etl.web.shared;
 
 import xdata.etl.web.shared.entity.businessmeta.Business;
+import xdata.etl.web.shared.entity.businessmeta.BusinessToHbaseTableMapping;
 import xdata.etl.web.shared.entity.businessmeta.c.CTypeBusiness;
+import xdata.etl.web.shared.entity.businessmeta.c.CTypeBusinessToHbaseTableMapping;
 import xdata.etl.web.shared.entity.businessmeta.json.JsonBusiness;
+import xdata.etl.web.shared.entity.businessmeta.json.JsonBusinessToHbaseTableMapping;
 
 /**
  * @author XuehuiHe
@@ -18,6 +21,11 @@ public enum BusinessType {
 			return new CTypeBusiness();
 		}
 
+		@Override
+		public BusinessToHbaseTableMapping createBusinessToHbaseTableMapping() {
+			return new CTypeBusinessToHbaseTableMapping();
+		}
+
 	},
 	JSON_TYPE() {
 		@Override
@@ -25,9 +33,16 @@ public enum BusinessType {
 			return new JsonBusiness();
 		}
 
+		@Override
+		public BusinessToHbaseTableMapping createBusinessToHbaseTableMapping() {
+			return new JsonBusinessToHbaseTableMapping();
+		}
+
 	};
 
 	public abstract Business createBusiness();
+
+	public abstract BusinessToHbaseTableMapping createBusinessToHbaseTableMapping();
 
 	public static class Names {
 		public static final String C_TYPE = "C_TYPE";

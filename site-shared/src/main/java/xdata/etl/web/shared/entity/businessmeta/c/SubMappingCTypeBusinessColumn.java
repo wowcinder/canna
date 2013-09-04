@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import xdata.etl.web.shared.BusinessType.BusinessColumnType;
+import xdata.etl.web.shared.entity.businessmeta.SubMappingBusinessColumn;
 
 /**
  * @author XuehuiHe
@@ -16,8 +17,8 @@ import xdata.etl.web.shared.BusinessType.BusinessColumnType;
  */
 @Entity
 @Table(name = "business_column_c_sub_mapping")
-public class SubMappingCTypeBusinessColumn extends
-		CTypeBusinessColumn {
+public class SubMappingCTypeBusinessColumn extends CTypeBusinessColumn
+		implements SubMappingBusinessColumn<CTypeBusinessToHbaseTableMapping> {
 	private static final long serialVersionUID = -627511858919210694L;
 	@ManyToOne
 	@JoinColumn(name = "sub_mapping_id")
@@ -27,10 +28,10 @@ public class SubMappingCTypeBusinessColumn extends
 		return subMapping;
 	}
 
-	public void setSubMapping(
-			CTypeBusinessToHbaseTableMapping subMapping) {
+	public void setSubMapping(CTypeBusinessToHbaseTableMapping subMapping) {
 		this.subMapping = subMapping;
 	}
+
 	@Override
 	public BusinessColumnType getColumnType() {
 		return BusinessColumnType.SUB_MAPPING;
