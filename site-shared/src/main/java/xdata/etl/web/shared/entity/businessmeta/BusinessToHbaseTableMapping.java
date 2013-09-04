@@ -43,6 +43,9 @@ public abstract class BusinessToHbaseTableMapping extends
 	@Column(name = "btype", insertable = false, updatable = false)
 	private BusinessType type;
 
+	@Column(name = "description", columnDefinition = "text")
+	private String desc;
+
 	public BusinessToHbaseTableMapping() {
 	}
 
@@ -68,6 +71,14 @@ public abstract class BusinessToHbaseTableMapping extends
 
 	public void setType(BusinessType type) {
 		this.type = type;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 }

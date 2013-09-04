@@ -3,6 +3,7 @@
  */
 package xdata.etl.web.shared.entity.businessmeta;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -28,6 +29,9 @@ public abstract class BusinessColumn extends IdentityRpcEntity<Integer> {
 	@JoinColumn(name = "mapping_id")
 	private BusinessToHbaseTableMapping mapping;
 
+	@Column(name = "description", columnDefinition = "text")
+	private String desc;
+
 	public BusinessColumn() {
 	}
 
@@ -39,7 +43,16 @@ public abstract class BusinessColumn extends IdentityRpcEntity<Integer> {
 		this.mapping = mapping;
 	}
 
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
 	public abstract BusinessColumnType getColumnType();
+
 	public abstract BusinessType getBusinessType();
 
 }

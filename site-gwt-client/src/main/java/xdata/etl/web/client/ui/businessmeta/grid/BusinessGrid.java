@@ -28,7 +28,10 @@ public class BusinessGrid extends
 		super.initColumnModel();
 		ColumnConfig<Business, String> nameCC = new ColumnConfig<Business, String>(
 				getProps().name(), 200, "name");
+		ColumnConfig<Business, String> descCC = new ColumnConfig<Business, String>(
+				getProps().desc(), 200, "desc");
 		getColumnConfigs().add(nameCC);
+		getColumnConfigs().add(descCC);
 	}
 
 }

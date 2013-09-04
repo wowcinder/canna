@@ -20,4 +20,5 @@ public interface BusinessProperty extends
 
 	ValueProvider<Business, String> name();
 
+	ValueProvider<Business, String> desc();
 }

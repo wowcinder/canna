@@ -43,6 +43,9 @@ public abstract class Business extends IdentityRpcEntity<Integer> {
 	@OneToMany(mappedBy = "business")
 	private List<BusinessVersion> versions;
 
+	@Column(name = "description", columnDefinition = "text")
+	private String desc;
+
 	public String getName() {
 		return name;
 	}
@@ -65,6 +68,14 @@ public abstract class Business extends IdentityRpcEntity<Integer> {
 
 	public void setType(BusinessType type) {
 		this.type = type;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 }

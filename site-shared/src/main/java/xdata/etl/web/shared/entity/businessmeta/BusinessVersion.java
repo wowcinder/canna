@@ -45,6 +45,9 @@ public abstract class BusinessVersion extends IdentityRpcEntity<Integer> {
 	@Column(name = "btype", insertable = false, updatable = false)
 	private BusinessType type;
 
+	@Column(name = "description", columnDefinition = "text")
+	private String desc;
+
 	public Business getBusiness() {
 		return business;
 	}
@@ -75,6 +78,14 @@ public abstract class BusinessVersion extends IdentityRpcEntity<Integer> {
 
 	public void setType(BusinessType type) {
 		this.type = type;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 }
