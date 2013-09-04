@@ -16,12 +16,12 @@ import xdata.etl.web.shared.entity.businessmeta.BusinessColumn;
  */
 @Entity
 @Table(name = "business_column_c")
-public abstract class VerticalBarSplitBusinessColumn extends BusinessColumn {
+public abstract class CTypeBusinessColumn extends BusinessColumn {
 	private static final long serialVersionUID = -8540826006059877751L;
 	@Column(nullable = false)
 	private int pos;
 
-	public VerticalBarSplitBusinessColumn() {
+	public CTypeBusinessColumn() {
 	}
 
 	public int getPos() {

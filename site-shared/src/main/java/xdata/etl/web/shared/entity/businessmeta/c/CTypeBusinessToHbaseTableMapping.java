@@ -17,13 +17,13 @@ import xdata.etl.web.shared.entity.businessmeta.BusinessToHbaseTableMapping;
  */
 @Entity
 @DiscriminatorValue(BusinessType.Names.C_TYPE)
-public class VerticalBarSplitBusinessToHbaseTableMapping extends
+public class CTypeBusinessToHbaseTableMapping extends
 		BusinessToHbaseTableMapping {
 
 	private static final long serialVersionUID = 3254709662221405450L;
 
 	@SuppressWarnings("unchecked")
-	public List<VerticalBarSplitBusinessColumn> getColumns() {
-		return (List<VerticalBarSplitBusinessColumn>) super.getColumns();
+	public List<CTypeBusinessColumn> getColumns() {
+		return (List<CTypeBusinessColumn>) super.getColumns();
 	}
 }

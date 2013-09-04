@@ -17,8 +17,8 @@ import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
  */
 @Entity
 @Table(name = "business_column_c_simple")
-public class SimpleVerticalBarSplitBusinessColumn extends
-		VerticalBarSplitBusinessColumn {
+public class SimpleCTypeBusinessColumn extends
+		CTypeBusinessColumn {
 	private static final long serialVersionUID = 4577673684471512216L;
 	@ManyToOne
 	@JoinColumn(name = "hbase_table_column_id")

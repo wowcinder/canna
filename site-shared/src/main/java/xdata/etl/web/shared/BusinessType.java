@@ -4,7 +4,7 @@
 package xdata.etl.web.shared;
 
 import xdata.etl.web.shared.entity.businessmeta.Business;
-import xdata.etl.web.shared.entity.businessmeta.c.VerticalBarSplitBusiness;
+import xdata.etl.web.shared.entity.businessmeta.c.CTypeBusiness;
 import xdata.etl.web.shared.entity.businessmeta.json.JsonBusiness;
 
 /**
@@ -15,7 +15,7 @@ public enum BusinessType {
 	C_TYPE() {
 		@Override
 		public Business createBusiness() {
-			return new VerticalBarSplitBusiness();
+			return new CTypeBusiness();
 		}
 
 	},

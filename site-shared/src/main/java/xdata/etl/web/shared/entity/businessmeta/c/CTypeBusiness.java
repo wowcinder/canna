@@ -17,11 +17,11 @@ import xdata.etl.web.shared.entity.businessmeta.Business;
  */
 @Entity
 @DiscriminatorValue(BusinessType.Names.C_TYPE)
-public class VerticalBarSplitBusiness extends Business {
+public class CTypeBusiness extends Business {
 	private static final long serialVersionUID = 6485751341866927907L;
 
 	@SuppressWarnings("unchecked")
-	public List<VerticalBarSplitBusinessVersion> getVersions() {
-		return (List<VerticalBarSplitBusinessVersion>) super.getVersions();
+	public List<CTypeBusinessVersion> getVersions() {
+		return (List<CTypeBusinessVersion>) super.getVersions();
 	}
 }

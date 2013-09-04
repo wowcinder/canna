@@ -16,19 +16,19 @@ import xdata.etl.web.shared.BusinessType.BusinessColumnType;
  */
 @Entity
 @Table(name = "business_column_c_sub_mapping")
-public class SubMappingVerticalBarSplitBusinessColumn extends
-		VerticalBarSplitBusinessColumn {
+public class SubMappingCTypeBusinessColumn extends
+		CTypeBusinessColumn {
 	private static final long serialVersionUID = -627511858919210694L;
 	@ManyToOne
 	@JoinColumn(name = "sub_mapping_id")
-	private VerticalBarSplitBusinessToHbaseTableMapping subMapping;
+	private CTypeBusinessToHbaseTableMapping subMapping;
 
-	public VerticalBarSplitBusinessToHbaseTableMapping getSubMapping() {
+	public CTypeBusinessToHbaseTableMapping getSubMapping() {
 		return subMapping;
 	}
 
 	public void setSubMapping(
-			VerticalBarSplitBusinessToHbaseTableMapping subMapping) {
+			CTypeBusinessToHbaseTableMapping subMapping) {
 		this.subMapping = subMapping;
 	}
 	@Override
