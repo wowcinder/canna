@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import xdata.etl.web.shared.BusinessType;
 import xdata.etl.web.shared.entity.businessmeta.Business;
 
 /**
@@ -15,7 +16,7 @@ import xdata.etl.web.shared.entity.businessmeta.Business;
  * @date 2013年9月3日
  */
 @Entity
-@DiscriminatorValue("vertical_bar_split")
+@DiscriminatorValue(BusinessType.Names.C_TYPE)
 public class VerticalBarSplitBusiness extends Business {
 	private static final long serialVersionUID = 6485751341866927907L;
 

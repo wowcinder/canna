@@ -4,15 +4,29 @@
 package xdata.etl.web.client.ui.businessmeta;
 
 import xdata.etl.web.client.ServiceUtil;
+import xdata.etl.web.client.common.combox.EnumComboBox;
+import xdata.etl.web.client.common.editer.EditorWindow;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
 import xdata.etl.web.client.common.gridcontainer.SimpleRpcEntityGridContainer;
+import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.RpcCaller;
 import xdata.etl.web.client.ui.CenterView;
-import xdata.etl.web.client.ui.businessmeta.editor.BusinessAddEditor;
-import xdata.etl.web.client.ui.businessmeta.editor.BusinessUpdateEditor;
+import xdata.etl.web.client.ui.businessmeta.editor.BusinessEditor;
 import xdata.etl.web.client.ui.businessmeta.grid.BusinessGrid;
+import xdata.etl.web.shared.BusinessType;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.businessmeta.Business;
+
+import com.sencha.gxt.core.client.util.Padding;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutPack;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.form.ComboBox;
+import com.sencha.gxt.widget.core.client.form.FieldLabel;
+import com.sencha.gxt.widget.core.client.form.FormPanel;
 
 /**
  * @author XuehuiHe
@@ -22,8 +36,30 @@ import xdata.etl.web.shared.entity.businessmeta.Business;
 public class BusinessView extends
 		SimpleRpcEntityGridContainer<Integer, Business> implements CenterView {
 
-	private static final BusinessUpdateEditor updateEditor = new BusinessUpdateEditor();
-	private static final BusinessAddEditor addEditor = new BusinessAddEditor();
+	private static final BusinessEditor editor = new BusinessEditor();
+
+	@Override
+	protected RpcEntityGridContainerBuilder<Integer, Business> createBuilder() {
+		final RpcEntityGridContainerBuilder<Integer, Business> builder = super
+				.createBuilder();
+		builder.setAddBtHandler(new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				BusinessTypeSelectWindow selectWindow = new BusinessTypeSelectWindow();
+				selectWindow.setCallBack(new GwtCallBack<BusinessType>() {
+					@Override
+					protected void _call(BusinessType t) {
+						BusinessEditor editor = (BusinessEditor) builder
+								.getAddEditor();
+						editor.setType(t);
+						editor.add();
+					}
+				});
+				selectWindow.show();
+			}
+		});
+		return builder;
+	}
 
 	/**
 	 * @param grid
@@ -34,12 +70,12 @@ public class BusinessView extends
 
 	@Override
 	protected RpcEntitySimpleEditor<Integer, Business> getAddEditor() {
-		return addEditor;
+		return editor;
 	}
 
 	@Override
 	protected RpcEntitySimpleEditor<Integer, Business> getUpdateEditor() {
-		return updateEditor;
+		return editor;
 	}
 
 	@Override
@@ -47,4 +83,56 @@ public class BusinessView extends
 		return ServiceUtil.BusinessRpcCaller;
 	}
 
+	public static class BusinessTypeSelectWindow extends EditorWindow {
+		private VerticalLayoutContainer layoutContainer;
+		private ComboBox<BusinessType> types;
+		private GwtCallBack<BusinessType> callBack;
+
+		public BusinessTypeSelectWindow() {
+			setHeadingText("选择类型:");
+			TextButton saveOrUpdateBt = new TextButton("确定");
+			setButtonAlign(BoxLayoutPack.END);
+			setModal(true);
+			addButton(saveOrUpdateBt);
+
+			saveOrUpdateBt.addSelectHandler(new SelectHandler() {
+				@Override
+				public void onSelect(SelectEvent event) {
+					if (types.getValue() == null) {
+						return;
+					}
+					callBack.call(types.getValue());
+					hide();
+				}
+			});
+			
+			FormPanel formPanel = new FormPanel();
+			formPanel.getElement().setPadding(new Padding(10));
+			formPanel.setBorders(true);
+
+			layoutContainer = new VerticalLayoutContainer();
+
+			types = new EnumComboBox<BusinessType>(BusinessType.values());
+			layoutContainer.add(new FieldLabel(types, "类型"));
+			formPanel.setWidget(layoutContainer);
+			setWidget(formPanel);
+		}
+
+		public ComboBox<BusinessType> getTypes() {
+			return types;
+		}
+
+		public void setTypes(ComboBox<BusinessType> types) {
+			this.types = types;
+		}
+
+		public GwtCallBack<BusinessType> getCallBack() {
+			return callBack;
+		}
+
+		public void setCallBack(GwtCallBack<BusinessType> callBack) {
+			this.callBack = callBack;
+		}
+
+	}
 }

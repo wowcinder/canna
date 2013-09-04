@@ -4,8 +4,8 @@
 package xdata.etl.web.client.ui.businessmeta.editor;
 
 import xdata.etl.web.client.ServiceUtil;
-import xdata.etl.web.client.common.editer.EtlEditor;
 import xdata.etl.web.client.common.editer.RpcEntitySimpleEditor;
+import xdata.etl.web.shared.BusinessType;
 import xdata.etl.web.shared.entity.businessmeta.Business;
 
 import com.google.gwt.core.shared.GWT;
@@ -17,23 +17,20 @@ import com.sencha.gxt.widget.core.client.form.TextField;
  * @author XuehuiHe
  * @date 2013年9月3日
  */
-public class BusinessUpdateEditor extends
+public class BusinessEditor extends
 		RpcEntitySimpleEditor<Integer, Business> {
 	private static final BusinessDriver driver = GWT
 			.create(BusinessDriver.class);
 
 	interface BusinessDriver extends
-			SimpleBeanEditorDriver<Business, BusinessUpdateEditor> {
+			SimpleBeanEditorDriver<Business, BusinessEditor> {
 	}
+	@Ignore
+	private BusinessType type;
 
 	TextField name;
 
-	public BusinessUpdateEditor() {
-		super(driver, "业务模型", ServiceUtil.BusinessRpcCaller);
-	}
-
-	public BusinessUpdateEditor(
-			SimpleBeanEditorDriver<Business, ? extends EtlEditor<Business>> driver) {
+	public BusinessEditor() {
 		super(driver, "业务模型", ServiceUtil.BusinessRpcCaller);
 	}
 
@@ -46,7 +43,13 @@ public class BusinessUpdateEditor extends
 
 	@Override
 	protected Business newInstance() {
-		return new Business();
+		Business b = type.createBusiness();
+		type = null;
+		return b;
+	}
+
+	public void setType(BusinessType type) {
+		this.type = type;
 	}
 
 }

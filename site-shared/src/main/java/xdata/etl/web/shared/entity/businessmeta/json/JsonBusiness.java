@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import xdata.etl.web.shared.BusinessType;
 import xdata.etl.web.shared.entity.businessmeta.Business;
 
 /**
@@ -15,7 +16,7 @@ import xdata.etl.web.shared.entity.businessmeta.Business;
  * @date 2013年9月3日
  */
 @Entity
-@DiscriminatorValue("json")
+@DiscriminatorValue(BusinessType.Names.JSON_TYPE)
 public class JsonBusiness extends Business {
 	private static final long serialVersionUID = 2418545369320700277L;
 
