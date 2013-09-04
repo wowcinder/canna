@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import xdata.etl.web.shared.BusinessType.BusinessColumnType;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 
 /**
@@ -15,7 +16,7 @@ import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
  * @date 2013年9月3日
  */
 @Entity
-@Table(name = "business_column_vertical_bar_split_simple")
+@Table(name = "business_column_c_simple")
 public class SimpleVerticalBarSplitBusinessColumn extends
 		VerticalBarSplitBusinessColumn {
 	private static final long serialVersionUID = 4577673684471512216L;
@@ -29,5 +30,10 @@ public class SimpleVerticalBarSplitBusinessColumn extends
 
 	public void setHbaseTableColumn(HbaseTableColumn hbaseTableColumn) {
 		this.hbaseTableColumn = hbaseTableColumn;
+	}
+
+	@Override
+	public BusinessColumnType getColumnType() {
+		return BusinessColumnType.SIMPLE;
 	}
 }

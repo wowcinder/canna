@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import xdata.etl.web.shared.BusinessType.BusinessColumnType;
+
 /**
  * @author XuehuiHe
  * @date 2013年9月3日
@@ -26,6 +28,11 @@ public class SubMappingJsonBusinessColumn extends JsonBusinessColumn {
 
 	public void setSubMapping(JsonBusinessToHbaseTableMapping subMapping) {
 		this.subMapping = subMapping;
+	}
+
+	@Override
+	public BusinessColumnType getColumnType() {
+		return BusinessColumnType.SUB_MAPPING;
 	}
 
 }

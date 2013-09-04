@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import xdata.etl.web.shared.BusinessType.BusinessColumnType;
 import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 
 /**
@@ -28,6 +29,11 @@ public class SimpleJsonBusinessColumn extends JsonBusinessColumn {
 
 	public void setHbaseTableColumn(HbaseTableColumn hbaseTableColumn) {
 		this.hbaseTableColumn = hbaseTableColumn;
+	}
+
+	@Override
+	public BusinessColumnType getColumnType() {
+		return BusinessColumnType.SIMPLE;
 	}
 
 }

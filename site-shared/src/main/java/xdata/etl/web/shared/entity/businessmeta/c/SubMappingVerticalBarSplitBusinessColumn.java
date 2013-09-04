@@ -8,12 +8,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import xdata.etl.web.shared.BusinessType.BusinessColumnType;
+
 /**
  * @author XuehuiHe
  * @date 2013年9月3日
  */
 @Entity
-@Table(name = "business_column_vertical_bar_split_sub_mapping")
+@Table(name = "business_column_c_sub_mapping")
 public class SubMappingVerticalBarSplitBusinessColumn extends
 		VerticalBarSplitBusinessColumn {
 	private static final long serialVersionUID = -627511858919210694L;
@@ -25,7 +27,12 @@ public class SubMappingVerticalBarSplitBusinessColumn extends
 		return subMapping;
 	}
 
-	public void setSubMapping(VerticalBarSplitBusinessToHbaseTableMapping subMapping) {
+	public void setSubMapping(
+			VerticalBarSplitBusinessToHbaseTableMapping subMapping) {
 		this.subMapping = subMapping;
+	}
+	@Override
+	public BusinessColumnType getColumnType() {
+		return BusinessColumnType.SUB_MAPPING;
 	}
 }

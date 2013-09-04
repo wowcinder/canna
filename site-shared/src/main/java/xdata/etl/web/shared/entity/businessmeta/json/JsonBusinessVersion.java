@@ -6,6 +6,7 @@ package xdata.etl.web.shared.entity.businessmeta.json;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import xdata.etl.web.shared.BusinessType;
 import xdata.etl.web.shared.entity.businessmeta.BusinessVersion;
 
 /**
@@ -13,12 +14,11 @@ import xdata.etl.web.shared.entity.businessmeta.BusinessVersion;
  * @date 2013年9月3日
  */
 @Entity
-@DiscriminatorValue("json")
+@DiscriminatorValue(BusinessType.Names.JSON_TYPE)
 public class JsonBusinessVersion extends BusinessVersion {
 	private static final long serialVersionUID = 7191018783459845393L;
 
 	public JsonBusiness getBusiness() {
 		return (JsonBusiness) business;
 	}
-
 }

@@ -33,4 +33,13 @@ public enum BusinessType {
 		public static final String C_TYPE = "C_TYPE";
 		public static final String JSON_TYPE = "JSON_TYPE";
 	}
+
+	public static enum BusinessColumnType {
+		SIMPLE, SUB_MAPPING;
+
+		public static class Names {
+			public static final String SIMPLE = "SIMPLE";
+			public static final String SUB_MAPPING = "SUB_MAPPING";
+		}
+	}
 }

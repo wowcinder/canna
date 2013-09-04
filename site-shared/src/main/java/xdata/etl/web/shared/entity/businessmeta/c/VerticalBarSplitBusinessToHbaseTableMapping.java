@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import xdata.etl.web.shared.BusinessType;
 import xdata.etl.web.shared.entity.businessmeta.BusinessToHbaseTableMapping;
 
 /**
@@ -15,7 +16,7 @@ import xdata.etl.web.shared.entity.businessmeta.BusinessToHbaseTableMapping;
  * @date 2013年9月3日
  */
 @Entity
-@DiscriminatorValue("vertical_bar_split")
+@DiscriminatorValue(BusinessType.Names.C_TYPE)
 public class VerticalBarSplitBusinessToHbaseTableMapping extends
 		BusinessToHbaseTableMapping {
 

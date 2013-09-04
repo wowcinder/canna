@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import xdata.etl.web.shared.BusinessType;
 import xdata.etl.web.shared.entity.businessmeta.BusinessColumn;
 
 /**
@@ -18,11 +19,11 @@ import xdata.etl.web.shared.entity.businessmeta.BusinessColumn;
  */
 @Entity
 @Table(name = "business_column_json")
-public class JsonBusinessColumn extends BusinessColumn {
+public abstract class JsonBusinessColumn extends BusinessColumn {
 	private static final long serialVersionUID = -3446438138303892156L;
-	@Column(length = 40, nullable = false)
+	@Column(length = 200, nullable = false)
 	@NotNull
-	@Length(min = 1, max = 40)
+	@Length(min = 1, max = 200)
 	private String path;
 
 	public JsonBusinessColumn() {
@@ -34,6 +35,11 @@ public class JsonBusinessColumn extends BusinessColumn {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	@Override
+	public BusinessType getBusinessType() {
+		return BusinessType.JSON_TYPE;
 	}
 
 }

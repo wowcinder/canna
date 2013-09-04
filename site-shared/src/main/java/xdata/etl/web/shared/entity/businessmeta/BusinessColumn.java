@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import xdata.etl.web.shared.BusinessType;
+import xdata.etl.web.shared.BusinessType.BusinessColumnType;
 import xdata.etl.web.shared.entity.IdentityRpcEntity;
 
 /**
@@ -19,7 +21,7 @@ import xdata.etl.web.shared.entity.IdentityRpcEntity;
 @Entity
 @Table(name = "business_column")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class BusinessColumn extends IdentityRpcEntity<Integer> {
+public abstract class BusinessColumn extends IdentityRpcEntity<Integer> {
 	private static final long serialVersionUID = 1930104423164074284L;
 
 	@ManyToOne
@@ -36,5 +38,8 @@ public class BusinessColumn extends IdentityRpcEntity<Integer> {
 	public void setMapping(BusinessToHbaseTableMapping mapping) {
 		this.mapping = mapping;
 	}
+
+	public abstract BusinessColumnType getColumnType();
+	public abstract BusinessType getBusinessType();
 
 }
