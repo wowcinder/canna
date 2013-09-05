@@ -11,6 +11,10 @@ import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 public abstract class RpcEntitySimpleEditor<K extends Serializable, V extends RpcEntity<K>>
 		extends EtlSimpleEditor<V> {
 	private final RpcCaller<K, V> rpcCaller;
+	
+	public RpcEntitySimpleEditor() {
+		rpcCaller = null;
+	}
 
 	public RpcEntitySimpleEditor(
 			SimpleBeanEditorDriver<V, ? extends EtlEditor<V>> driver,

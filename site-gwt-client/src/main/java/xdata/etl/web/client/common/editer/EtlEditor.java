@@ -41,6 +41,12 @@ public abstract class EtlEditor<V> implements Editor<V> {
 	@Ignore
 	private HandlerRegistration saveOrUpdateBtHandlerHr;
 
+	public EtlEditor() {
+		root = null;
+		saveOrUpdateBt = null;
+		cancelBt = null;
+	}
+
 	public EtlEditor(SimpleBeanEditorDriver<V, ? extends EtlEditor<V>> driver,
 			String baseHeadingText) {
 		this.driver = driver;

@@ -10,21 +10,19 @@ import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder;
 import xdata.etl.web.client.common.gridcontainer.RpcEntityGridContainerBuilder.DeleteAction;
 import xdata.etl.web.client.gwt.GwtCallBack;
 import xdata.etl.web.client.rpc.RpcCaller;
-import xdata.etl.web.client.ui.businessmeta.combox.HbaseTableVersionCombox;
+import xdata.etl.web.client.ui.businessmeta.BusinessView.BusinessColumnTypeSelectWindow;
 import xdata.etl.web.client.ui.businessmeta.editor.BusinessToHbaseTableMappingEditor;
 import xdata.etl.web.client.ui.businessmeta.grid.BusinessColumnGrid.BusinessColGird;
 import xdata.etl.web.client.ui.businessmeta.grid.CTypeBusinessColumnGrid;
-import xdata.etl.web.client.ui.hbasemeta.editor.HbaseTableColumnEditor;
-import xdata.etl.web.client.ui.hbasemeta.grid.HbaseTableColumnGrid;
+import xdata.etl.web.shared.BusinessType.BusinessColumnType;
+import xdata.etl.web.shared.entity.businessmeta.c.CTypeBusinessColumn;
 import xdata.etl.web.shared.entity.businessmeta.c.CTypeBusinessToHbaseTableMapping;
-import xdata.etl.web.shared.entity.hbasemeta.HbaseTableColumn;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
-import com.google.gwt.editor.client.Editor.Ignore;
-import com.sencha.gxt.data.client.editor.ListStoreEditor;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
-import com.sencha.gxt.widget.core.client.form.TextArea;
 import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
 
 /**
@@ -47,7 +45,7 @@ public class CTypeBusinessToHbaseTableMappingEditor extends
 	BusinessColGird grid;
 
 	@Ignore
-	RpcEntityGridContainer<HbaseTableColumn> gridContainer;
+	RpcEntityGridContainer<CTypeBusinessColumn> gridContainer;
 
 	public CTypeBusinessToHbaseTableMappingEditor(
 			RpcCaller<Integer, CTypeBusinessToHbaseTableMapping> rpcCaller) {
@@ -69,37 +67,36 @@ public class CTypeBusinessToHbaseTableMappingEditor extends
 	@SuppressWarnings("rawtypes")
 	private void initGrid() {
 		grid = (BusinessColGird) new CTypeBusinessColumnGrid().create();
-
-		HbaseTableColumnEditor editor = new HbaseTableColumnEditor() {
-			@Override
-			protected void update(HbaseTableColumn v,
-					GwtCallBack<HbaseTableColumn> callback) {
-				callback.call(v);
-			}
-
-			@Override
-			protected void save(HbaseTableColumn v,
-					GwtCallBack<HbaseTableColumn> callback) {
-				v.setVersion(getSelf());
-				callback.call(v);
-			}
-		};
-
-		RpcEntityGridContainerBuilder<Integer, HbaseTableColumn> gridContainerBuilder = new RpcEntityGridContainerBuilder<Integer, HbaseTableColumn>();
+		final CTypeBusinessColumnAdapterEditor editor = new CTypeBusinessColumnAdapterEditor();
+		RpcEntityGridContainerBuilder<Integer, CTypeBusinessColumn> gridContainerBuilder = new RpcEntityGridContainerBuilder<Integer, CTypeBusinessColumn>();
 		gridContainerBuilder.setGrid(grid);
 		gridContainerBuilder.setPaging(false);
 		gridContainerBuilder.setAutoInitData(false);
 		gridContainerBuilder
-				.setDeleteAction(new DeleteAction<HbaseTableColumn>() {
+				.setDeleteAction(new DeleteAction<CTypeBusinessColumn>() {
 
 					@Override
-					protected void doDelete(List<HbaseTableColumn> list,
+					protected void doDelete(List<CTypeBusinessColumn> list,
 							GwtCallBack<Void> deleteCallback) {
 						deleteCallback.call(null);
 					}
 				});
 		gridContainerBuilder.setAddEditor(editor);
 		gridContainerBuilder.setUpdateEditor(editor);
+		gridContainerBuilder.setAddBtHandler(new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				BusinessColumnTypeSelectWindow selectWindow = new BusinessColumnTypeSelectWindow();
+				selectWindow.setCallBack(new GwtCallBack<BusinessColumnType>() {
+					@Override
+					protected void _call(BusinessColumnType t) {
+						editor.setType(t);
+						editor.add();
+					}
+				});
+				selectWindow.show();
+			}
+		});
 		gridContainer = gridContainerBuilder.create();
 		gridContainer.setHeight(300);
 

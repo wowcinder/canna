@@ -15,6 +15,7 @@ import xdata.etl.web.client.ui.CenterView;
 import xdata.etl.web.client.ui.businessmeta.editor.BusinessEditor;
 import xdata.etl.web.client.ui.businessmeta.grid.BusinessGrid;
 import xdata.etl.web.shared.BusinessType;
+import xdata.etl.web.shared.BusinessType.BusinessColumnType;
 import xdata.etl.web.shared.annotations.MenuToken;
 import xdata.etl.web.shared.entity.businessmeta.Business;
 
@@ -131,6 +132,59 @@ public class BusinessView extends
 		}
 
 		public void setCallBack(GwtCallBack<BusinessType> callBack) {
+			this.callBack = callBack;
+		}
+
+	}
+	
+	public static class BusinessColumnTypeSelectWindow extends EditorWindow {
+		private VerticalLayoutContainer layoutContainer;
+		private ComboBox<BusinessColumnType> types;
+		private GwtCallBack<BusinessColumnType> callBack;
+
+		public BusinessColumnTypeSelectWindow() {
+			setHeadingText("选择类型:");
+			TextButton saveOrUpdateBt = new TextButton("确定");
+			setButtonAlign(BoxLayoutPack.END);
+			setModal(true);
+			addButton(saveOrUpdateBt);
+
+			saveOrUpdateBt.addSelectHandler(new SelectHandler() {
+				@Override
+				public void onSelect(SelectEvent event) {
+					if (types.getValue() == null) {
+						return;
+					}
+					callBack.call(types.getValue());
+					hide();
+				}
+			});
+			
+			FormPanel formPanel = new FormPanel();
+			formPanel.getElement().setPadding(new Padding(10));
+			formPanel.setBorders(true);
+
+			layoutContainer = new VerticalLayoutContainer();
+
+			types = new EnumComboBox<BusinessColumnType>(BusinessColumnType.values());
+			layoutContainer.add(new FieldLabel(types, "类型"));
+			formPanel.setWidget(layoutContainer);
+			setWidget(formPanel);
+		}
+
+		public ComboBox<BusinessColumnType> getTypes() {
+			return types;
+		}
+
+		public void setTypes(ComboBox<BusinessColumnType> types) {
+			this.types = types;
+		}
+
+		public GwtCallBack<BusinessColumnType> getCallBack() {
+			return callBack;
+		}
+
+		public void setCallBack(GwtCallBack<BusinessColumnType> callBack) {
 			this.callBack = callBack;
 		}
 

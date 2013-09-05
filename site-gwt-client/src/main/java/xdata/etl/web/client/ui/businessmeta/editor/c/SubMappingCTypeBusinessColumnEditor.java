@@ -30,8 +30,7 @@ public class SubMappingCTypeBusinessColumnEditor extends
 	BusinessToHbaseTableMappingComBox mappingCombox;
 
 	public SubMappingCTypeBusinessColumnEditor(
-			RpcCaller<Integer, SubMappingCTypeBusinessColumn> rpcCaller,
-			BusinessType type) {
+			RpcCaller<Integer, SubMappingCTypeBusinessColumn> rpcCaller) {
 		super(driver, rpcCaller);
 	}
 

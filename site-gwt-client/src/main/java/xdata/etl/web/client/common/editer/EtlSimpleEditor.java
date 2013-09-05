@@ -20,6 +20,9 @@ public abstract class EtlSimpleEditor<V> extends EtlEditor<V> {
 	protected FormPanel formPanel;
 	@Ignore
 	protected VerticalLayoutContainer layoutContainer;
+	
+	public EtlSimpleEditor() {
+	}
 
 	public EtlSimpleEditor(
 			SimpleBeanEditorDriver<V, ? extends EtlEditor<V>> driver,
