@@ -23,8 +23,11 @@
 		<gxt.version>3.0.1</gxt.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<etl.site.version>1.0-SNAPSHOT</etl.site.version>
+		<cinder.version>1.0-SNAPSHOT</cinder.version>
+<!-- 3.9.0.M1 -->
+		<atomikos.version>3.8.0</atomikos.version>
 	</properties>
 
 	<repositories>
@@ -54,26 +57,14 @@
 	</repositories>
 	<dependencyManagement>
 		<dependencies>
-			<!-- <dependency>
-				<groupId>xdata.etl</groupId>
-				<artifactId>site-shared</artifactId>
-				<classifier>sources</classifier>
-				<scope>provided</scope>
-				<version>${etl.site.version}</version>
-			</dependency>
 
+			<!-- atomikos -->
 			<dependency>
-				<groupId>xdata.etl</groupId>
-				<artifactId>site-shared</artifactId>
-				<version>${etl.site.version}</version>
+				<groupId>com.atomikos</groupId>
+				<artifactId>transactions-hibernate3</artifactId>
+				<version>${atomikos.version}</version>
 			</dependency>
-
-			<dependency>
-				<groupId>xdata.etl</groupId>
-				<artifactId>site-service</artifactId>
-				<version>${etl.site.version}</version>
-			</dependency> -->
-			<!-- gwt -->
+			<!-- atomikos -->
 
 			<dependency>
 				<groupId>com.google.gwt</groupId>
