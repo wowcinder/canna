@@ -1,7 +1,7 @@
 package org.hibernate.test.annotations.test;
 
 import org.hibernate.test.annotations.TestCase;
-import org.hibernate.test.annotations.test.t1.LogModel;
+import org.hibernate.test.annotations.test.t1.CTypeLogModel;
 import org.hibernate.test.annotations.test.t1.LogModelColumn;
 import org.hibernate.test.annotations.test.t1.LogModelColumnContent;
 import org.hibernate.test.annotations.test.t1.LogModelPackageColumn;
@@ -28,7 +28,7 @@ public class Test extends TestCase {
 	}
 
 	protected Class[] getAnnotatedClasses() {
-		return new Class[] { LogModel.class, LogModelColumn.class,
+		return new Class[] { CTypeLogModel.class, LogModelColumn.class,
 				LogModelSuperColumn.class, LogModelColumnContent.class,
 				LogModelVersion.class, LogModelPackageColumn.class,
 				LogModelSubColumn.class, LogModelCType.class,

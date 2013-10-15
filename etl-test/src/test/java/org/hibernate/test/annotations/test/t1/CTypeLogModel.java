@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class LogModel<Version extends LogModelVersion> {
+public class CTypeLogModel<Version extends LogModelVersion> {
 	private Integer id;
 	private LogModelType mtype;
 	private String name;

@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class LogModelVersion<Model extends LogModel, Column extends LogModelColumn> {
+public class LogModelVersion<Model extends CTypeLogModel, Column extends LogModelColumn> {
 	private Integer id;
 	private String name;
 	private Model model;
@@ -33,7 +33,7 @@ public class LogModelVersion<Model extends LogModel, Column extends LogModelColu
 		return name;
 	}
 
-	@ManyToOne(targetEntity = LogModel.class)
+	@ManyToOne(targetEntity = CTypeLogModel.class)
 	@JoinColumns({ @JoinColumn(referencedColumnName = "id"),
 			@JoinColumn(name = "mtype", referencedColumnName = "mtype") })
 	public Model getModel() {
