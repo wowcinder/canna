@@ -28,7 +28,23 @@ public class GetGson {
 
 		List<Object> list = new ArrayList<Object>();
 
-		ClassScaner cs = new ClassScaner("xdata.etl.entity");
+		ClassScaner cs = new ClassScaner("xdata.etl.entity.assist");
+		for (Class<?> clazz : cs.getClazzes()) {
+			if (clazz.isAnnotationPresent(Kafka.class)) {
+				list.add(getSimpleJsonMap(clazz));
+			}
+		}
+		String json = gb.create().toJson(list);
+		System.out.println(json);
+	}
+
+	public static void main2(String[] args) throws Exception {
+		GsonBuilder gb = new GsonBuilder();
+		gb.setPrettyPrinting();
+
+		List<Object> list = new ArrayList<Object>();
+
+		ClassScaner cs = new ClassScaner("xdata.etl.entity.v3a");
 		for (Class<?> clazz : cs.getClazzes()) {
 			if (clazz.isAnnotationPresent(Kafka.class)) {
 				list.add(getSimpleJsonMap(clazz));
